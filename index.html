@@ -180,8 +180,10 @@ body::before {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 80px 16px 40px;
+  padding: 80px 20px 40px;
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
   position: relative;
   overflow: hidden;
 }
@@ -225,7 +227,9 @@ body::before {
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 10vw, 5rem);
+  font-size: clamp(2rem, 9vw, 4.5rem);
+  word-break: break-word;
+  overflow-wrap: break-word;
   line-height: 0.95;
   letter-spacing: 4px;
   color: var(--white);
@@ -234,17 +238,17 @@ body::before {
 }
 
 .hero-title .accent {
-  color: transparent;
-  -webkit-text-stroke: 1px var(--red);
-  text-shadow: none;
+  color: var(--red);
+  -webkit-text-stroke: 0;
 }
 
 .hero-sub {
-  font-size: 1rem;
+  font-size: .95rem;
   color: var(--gray2);
-  max-width: 380px;
+  max-width: 340px;
   line-height: 1.7;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
+  padding: 0 8px;
 }
 
 .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
@@ -1250,14 +1254,10 @@ body::before {
 
 /* Light mode specific overrides */
 body:not([data-theme="dark"]) .hero-bg {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,25,44,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(212,168,0,0.06) 0%, transparent 50%);
+  background: radial-gradient(ellipse 100% 50% at 50% 0%, rgba(232,25,44,0.06) 0%, transparent 70%);
 }
 body:not([data-theme="dark"]) .hero-grid {
-  background-image:
-    linear-gradient(rgba(0,0,0,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px);
+  display: none;
 }
 body:not([data-theme="dark"]) .topnav {
   background: rgba(255,255,255,0.95);
