@@ -1,0 +1,325 @@
+// ============================================
+// KREVIO — app.js
+// Auth, navigation, modals, core logic
+// Supabase: ucsogdvswugpynaqymtg.supabase.co
+// ============================================
+
+var SUPABASE_URL  = "https://ucsogdvswugpynaqymtg.supabase.co";
+var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc29nZHZzd3VncHluYXF5bXRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NzM2NTEsImV4cCI6MjA5MjM0OTY1MX0.pGjks7ghLR6tDyK0RlIPP57xIvbDomx-jelXHO8fEKI";
+
+var currentUser = null;
+var currentPage = "home";
+var sb = null;
+
+// ===== INIT SUPABASE =====
+function initSupabase() {
+  if (typeof supabase !== "undefined") {
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    checkSession();
+  }
+}
+
+// ===== CHECK SESSION =====
+async function checkSession() {
+  if (!sb) return;
+  try {
+    var result = await sb.auth.getSession();
+    if (result.data && result.data.session) {
+      var user = result.data.session.user;
+      currentUser = { 
+        id: user.id,
+        email: user.email, 
+        name: user.user_metadata.name || user.email.split("@")[0] 
+      };
+      updateNav(currentUser);
+    }
+  } catch(e) {
+    console.log("Session check error:", e);
+  }
+}
+
+// ===== NAVIGATION =====
+function showPage(page) {
+  document.querySelectorAll(".page").forEach(function(p) {
+    p.classList.remove("active");
+  });
+  document.querySelectorAll(".bn-item").forEach(function(b) {
+    b.classList.remove("active");
+  });
+
+  var el = document.getElementById("page-" + page);
+  if (el) el.classList.add("active");
+
+  var bn = document.getElementById("bn-" + page);
+  if (bn) bn.classList.add("active");
+
+  window.scrollTo(0, 0);
+  currentPage = page;
+
+  if (page === "home")      renderFeed();
+  if (page === "explore")   { renderGrid("explore-grid", CREATORS); filterCreators(); }
+  if (page === "dashboard") { renderActivity(); loadDashboardStats(); }
+}
+
+// ===== LOAD DASHBOARD STATS FROM SUPABASE =====
+async function loadDashboardStats() {
+  if (!sb || !currentUser) return;
+  try {
+    var result = await sb.from("videos")
+      .select("id, views, earnings")
+      .eq("user_id", currentUser.id);
+    
+    if (result.data && result.data.length > 0) {
+      var totalEarnings = result.data.reduce(function(sum, v) { return sum + (v.earnings || 0); }, 0);
+      var totalViews    = result.data.reduce(function(sum, v) { return sum + (v.views || 0); }, 0);
+      
+      var earnEl = document.getElementById("stat-earnings");
+      if (earnEl) earnEl.textContent = totalEarnings.toFixed(2) + "\u20ac";
+      
+      var viewEl = document.getElementById("stat-views");
+      if (viewEl) viewEl.textContent = totalViews > 1000 ? (totalViews/1000).toFixed(1)+"K" : totalViews;
+      
+      var vidEl = document.getElementById("stat-videos");
+      if (vidEl) vidEl.textContent = result.data.length;
+    }
+  } catch(e) {
+    console.log("Stats error:", e);
+  }
+}
+
+// ===== AUTH MODAL =====
+function openModal(type) {
+  var modal = document.getElementById("auth-modal");
+  var title = document.getElementById("auth-title");
+  var body  = document.getElementById("auth-body");
+  if (!modal || !title || !body) return;
+
+  modal.classList.add("open");
+  title.textContent = type === "login" ? "\u0412\u043b\u0435\u0437 \u0432 \u0430\u043a\u0430\u0443\u043d\u0442\u0430" : "\u0421\u044a\u0437\u0434\u0430\u0439 \u043f\u0440\u043e\u0444\u0438\u043b";
+  body.innerHTML = "";
+
+  if (type === "register") {
+    body.appendChild(makeField("\u041f\u044a\u043b\u043d\u043e \u0418\u043c\u0435", "an", "text", "\u0412\u0438\u043a\u0442\u043e\u0440 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432"));
+  }
+  body.appendChild(makeField("\u0418\u043c\u0435\u0439\u043b", "ae", "email", "viktor@example.com"));
+  body.appendChild(makeField("\u041f\u0430\u0440\u043e\u043b\u0430", "ap", "password", type === "login" ? "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" : "\u041c\u0438\u043d. 8 \u0441\u0438\u043c\u0432\u043e\u043b\u0430"));
+
+  var err = document.createElement("div");
+  err.className = "ferr"; err.id = "auth-err";
+  body.appendChild(err);
+
+  var btn = document.createElement("button");
+  btn.className = "btn btn-red btn-lg btn-full";
+  btn.id = "auth-btn";
+  btn.style.marginTop = "8px";
+  btn.textContent = type === "login" ? "\u0412\u0445\u043e\u0434 \u2192" : "\u0421\u044a\u0437\u0434\u0430\u0439 \u0430\u043a\u0430\u0443\u043d\u0442 \u2192";
+  btn.onclick = type === "login" ? doLogin : doRegister;
+  body.appendChild(btn);
+
+  var tog = document.createElement("div");
+  tog.className = "ftog";
+  var lnk = document.createElement("a");
+  if (type === "login") {
+    tog.textContent = "\u041d\u044f\u043c\u0430\u0448 \u0430\u043a\u0430\u0443\u043d\u0442? ";
+    lnk.textContent = "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u0430\u0439 \u0441\u0435";
+    lnk.onclick = function() { openModal("register"); };
+  } else {
+    tog.textContent = "\u0412\u0435\u0447\u0435 \u0438\u043c\u0430\u0448 \u0430\u043a\u0430\u0443\u043d\u0442? ";
+    lnk.textContent = "\u0412\u043b\u0435\u0437";
+    lnk.onclick = function() { openModal("login"); };
+  }
+  tog.appendChild(lnk);
+  body.appendChild(tog);
+}
+
+function closeModal() {
+  var m = document.getElementById("auth-modal");
+  if (m) m.classList.remove("open");
+}
+
+function makeField(label, id, type, placeholder) {
+  var wrap = document.createElement("div");
+  wrap.className = "fg";
+  wrap.innerHTML =
+    "<label class='fl'>" + label + "</label>" +
+    "<input id='" + id + "' type='" + type + "' class='fi' placeholder='" + placeholder + "'>";
+  return wrap;
+}
+
+function showAuthErr(msg) {
+  var el = document.getElementById("auth-err");
+  if (el) { el.textContent = msg; el.style.display = "block"; }
+}
+
+// ===== LOGIN =====
+async function doLogin() {
+  var email = document.getElementById("ae") ? document.getElementById("ae").value.trim() : "";
+  var pass  = document.getElementById("ap") ? document.getElementById("ap").value : "";
+  var btn   = document.getElementById("auth-btn");
+
+  if (!email || !pass) { showAuthErr("\u041f\u043e\u043f\u044a\u043b\u043d\u0438 \u0438\u043c\u0435\u0439\u043b \u0438 \u043f\u0430\u0440\u043e\u043b\u0430."); return; }
+  if (btn) { btn.textContent = "\u0412\u043b\u0438\u0437\u0430\u043d\u0435..."; btn.disabled = true; }
+
+  if (sb) {
+    try {
+      var result = await sb.auth.signInWithPassword({ email: email, password: pass });
+      if (result.error) {
+        showAuthErr("\u0413\u0440\u0435\u0448\u043d\u0438 \u0438\u043c\u0435\u0439\u043b \u0438\u043b\u0438 \u043f\u0430\u0440\u043e\u043b\u0430.");
+        if (btn) { btn.textContent = "\u0412\u0445\u043e\u0434 \u2192"; btn.disabled = false; }
+        return;
+      }
+      var user = result.data.user;
+      currentUser = { id: user.id, email: user.email, name: user.user_metadata.name || user.email.split("@")[0] };
+      closeModal();
+      updateNav(currentUser);
+      showPage("dashboard");
+      showToast("\ud83d\udc4b \u0414\u043e\u0431\u0440\u0435 \u0434\u043e\u0448\u044a\u043b \u0432 Krevio!");
+    } catch(e) {
+      showAuthErr("\u0413\u0440\u0435\u0448\u043a\u0430 \u043f\u0440\u0438 \u0432\u0445\u043e\u0434.");
+      if (btn) { btn.textContent = "\u0412\u0445\u043e\u0434 \u2192"; btn.disabled = false; }
+    }
+  } else {
+    // Demo mode
+    currentUser = { email: email, name: email.split("@")[0] };
+    closeModal();
+    updateNav(currentUser);
+    showPage("dashboard");
+    showToast("\ud83d\udc4b \u0414\u043e\u0431\u0440\u0435 \u0434\u043e\u0448\u044a\u043b!");
+  }
+}
+
+// ===== REGISTER =====
+async function doRegister() {
+  var name  = document.getElementById("an") ? document.getElementById("an").value.trim() : "";
+  var email = document.getElementById("ae") ? document.getElementById("ae").value.trim() : "";
+  var pass  = document.getElementById("ap") ? document.getElementById("ap").value : "";
+  var btn   = document.getElementById("auth-btn");
+
+  if (!name || !email || !pass) { showAuthErr("\u041f\u043e\u043f\u044a\u043b\u043d\u0438 \u0432\u0441\u0438\u0447\u043a\u0438 \u043f\u043e\u043b\u0435\u0442\u0430."); return; }
+  if (pass.length < 8) { showAuthErr("\u041f\u0430\u0440\u043e\u043b\u0430\u0442\u0430 \u0442\u0440\u044f\u0431\u0432\u0430 \u0434\u0430 \u0435 \u043f\u043e\u043d\u0435 8 \u0441\u0438\u043c\u0432\u043e\u043b\u0430."); return; }
+  if (btn) { btn.textContent = "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f..."; btn.disabled = true; }
+
+  if (sb) {
+    try {
+      var result = await sb.auth.signUp({
+        email: email,
+        password: pass,
+        options: { data: { name: name } }
+      });
+      if (result.error) {
+        showAuthErr(result.error.message);
+        if (btn) { btn.textContent = "\u0421\u044a\u0437\u0434\u0430\u0439 \u0430\u043a\u0430\u0443\u043d\u0442 \u2192"; btn.disabled = false; }
+        return;
+      }
+      currentUser = { email: email, name: name };
+      closeModal();
+      updateNav(currentUser);
+      showPage("dashboard");
+      showToast("\ud83c\udf89 \u0410\u043a\u0430\u0443\u043d\u0442\u044a\u0442 \u0435 \u0441\u044a\u0437\u0434\u0430\u0434\u0435\u043d!");
+    } catch(e) {
+      showAuthErr("\u0413\u0440\u0435\u0448\u043a\u0430 \u043f\u0440\u0438 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f.");
+      if (btn) { btn.textContent = "\u0421\u044a\u0437\u0434\u0430\u0439 \u0430\u043a\u0430\u0443\u043d\u0442 \u2192"; btn.disabled = false; }
+    }
+  } else {
+    currentUser = { email: email, name: name };
+    closeModal();
+    updateNav(currentUser);
+    showPage("dashboard");
+    showToast("\ud83c\udf89 \u0410\u043a\u0430\u0443\u043d\u0442\u044a\u0442 \u0435 \u0441\u044a\u0437\u0434\u0430\u0434\u0435\u043d!");
+  }
+}
+
+// ===== LOGOUT =====
+async function doLogout() {
+  if (sb) await sb.auth.signOut();
+  currentUser = null;
+  updateNav(null);
+  showPage("home");
+  showToast("\ud83d\udc4b \u0418\u0437\u043b\u044f\u0437\u043e\u0445\u0442\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e.");
+}
+
+// ===== UPDATE NAV =====
+function updateNav(user) {
+  var nav = document.getElementById("nav-actions");
+  if (!nav) return;
+  nav.innerHTML = "";
+
+  if (user) {
+    var name = user.name || user.email.split("@")[0];
+    var ini  = name.split(" ").map(function(w) { return w[0]; }).join("").toUpperCase().slice(0, 2);
+
+    var wrap = document.createElement("div");
+    wrap.style.cssText = "display:flex;align-items:center;gap:10px;";
+
+    var av = document.createElement("div");
+    av.style.cssText = "width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--red),#7b2ea7);display:flex;align-items:center;justify-content:center;font-size:.73rem;font-weight:700;color:#fff;cursor:pointer;flex-shrink:0;";
+    av.textContent = ini;
+    av.onclick = function() { showPage("dashboard"); };
+
+    var nm = document.createElement("span");
+    nm.style.cssText = "font-size:.82rem;font-weight:600;cursor:pointer;color:var(--gray1);";
+    nm.textContent = name;
+    nm.onclick = function() { showPage("dashboard"); };
+
+    var bout = document.createElement("button");
+    bout.className = "btn btn-ghost btn-sm";
+    bout.textContent = "\u0418\u0437\u0445\u043e\u0434";
+    bout.onclick = doLogout;
+
+    wrap.appendChild(av);
+    wrap.appendChild(nm);
+    wrap.appendChild(bout);
+    nav.appendChild(wrap);
+
+    var gr = document.getElementById("dash-greeting");
+    if (gr) gr.textContent = "\u0417\u0414\u0420\u0410\u0412\u0415\u0419, " + name.toUpperCase() + "!";
+
+  } else {
+    var bl = document.createElement("button");
+    bl.className = "btn btn-ghost btn-sm";
+    bl.textContent = "\u0412\u0445\u043e\u0434";
+    bl.onclick = function() { openModal("login"); };
+
+    var br = document.createElement("button");
+    br.className = "btn btn-red btn-sm";
+    br.textContent = "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f";
+    br.onclick = function() { openModal("register"); };
+
+    nav.appendChild(bl);
+    nav.appendChild(br);
+  }
+}
+
+// ===== STRIPE PLANS =====
+function buyPlan(plan) {
+  if (!currentUser) { openModal("login"); return; }
+  if (plan === "fan")    window.location.href = "https://buy.stripe.com/6oU14p8PmdndeGKbQ1cAo01";
+  if (plan === "studio") window.location.href = "https://buy.stripe.com/5kQ28t7Li5ULgOScU5cAo00";
+  if (plan === "pro")    window.location.href = "https://buy.stripe.com/8x2aEZ8Pm96XcyC2frcAo02";
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() { t.classList.remove("show"); }, 3000);
+}
+
+// ===== PROFILE TABS =====
+function showPTab(tab, el) {
+  ["posts", "about", "community"].forEach(function(t) {
+    var d = document.getElementById("ptab-" + t);
+    if (d) d.style.display = t === tab ? "" : "none";
+  });
+  document.querySelectorAll(".ptab").forEach(function(t) { t.classList.remove("active"); });
+  if (el) el.classList.add("active");
+}
+
+// ===== INIT =====
+window.addEventListener("load", function() {
+  initSupabase();
+  showPage("home");
+});
