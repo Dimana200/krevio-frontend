@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>За нас — Krevio</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8fa;color:#111;line-height:1.7}
+.header{background:#fff;border-bottom:1px solid #eee;padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.back{color:#e8192c;text-decoration:none;font-weight:600;font-size:.9rem}
+.header h1{font-size:1rem;font-weight:700}
+.container{max-width:680px;margin:0 auto;padding:0 0 80px}
+
+.hero{background:#e8192c;padding:48px 24px;text-align:center;color:#fff}
+.hero h2{font-size:2rem;font-weight:900;letter-spacing:-1px;margin-bottom:8px}
+.hero p{font-size:.95rem;color:rgba(255,255,255,.8);max-width:400px;margin:0 auto}
+
+.section{padding:32px 24px;border-bottom:1px solid #eee;background:#fff}
+.section:last-child{border-bottom:none}
+.section h3{font-size:1.1rem;font-weight:800;margin-bottom:12px;color:#111}
+.section p{font-size:.9rem;color:#555;line-height:1.8;margin-bottom:10px}
+.section p:last-child{margin-bottom:0}
+
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.mission-card{background:#f8f8fa;border-radius:12px;padding:16px;text-align:center}
+.mission-card .ico{font-size:1.8rem;margin-bottom:8px}
+.mission-card h4{font-size:.88rem;font-weight:700;margin-bottom:4px;color:#111}
+.mission-card p{font-size:.78rem;color:#888;margin:0;line-height:1.5}
+
+.values{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.value-item{display:flex;align-items:flex-start;gap:14px;background:#f8f8fa;border-radius:12px;padding:16px}
+.value-ico{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.value-title{font-weight:700;font-size:.9rem;margin-bottom:3px;color:#111}
+.value-text{font-size:.82rem;color:#777;line-height:1.6}
+
+.company-box{background:#111;border-radius:14px;padding:24px;color:#fff;margin-top:16px}
+.company-name{font-size:1.1rem;font-weight:800;margin-bottom:4px}
+.company-sub{font-size:.82rem;color:#888;margin-bottom:16px}
+.company-detail{display:flex;align-items:center;gap:10px;font-size:.84rem;color:#ccc;margin-bottom:8px}
+.company-detail:last-child{margin-bottom:0}
+.company-detail a{color:#e8192c;text-decoration:none}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#eee;border-radius:12px;overflow:hidden;margin-top:16px}
+.stat{background:#fff;padding:20px 12px;text-align:center}
+.stat-n{font-size:1.6rem;font-weight:900;color:#e8192c;line-height:1}
+.stat-l{font-size:.7rem;color:#999;margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html" class="back">← Назад</a>
+  <h1>За нас</h1>
+</div>
+
+<div class="hero">
+  <h2>Krevio</h2>
+  <p>Първата българска платформа за видео творци, която плаща реални пари за реално съдържание.</p>
+</div>
+
+<div class="section">
+  <h3>🎯 Нашата мисия</h3>
+  <p>Вярваме, че всеки творец заслужава да бъде възнаграден за своя труд. Krevio е създадена с една цел — да даде на българските творци платформа, където могат да споделят таланта си и да печелят реални пари от него.</p>
+  <p>Между всяко видео се показват реклами на български фирми. 70% от приходите отиват директно при творците. Ние вземаме само 30% комисиона.</p>
+  <div class="mission-grid">
+    <div class="mission-card">
+      <div class="ico">🎬</div>
+      <h4>За творците</h4>
+      <p>Качвай, расти и печели от това което обичаш</p>
+    </div>
+    <div class="mission-card">
+      <div class="ico">👥</div>
+      <h4>За зрителите</h4>
+      <p>Открий уникално българско съдържание</p>
+    </div>
+    <div class="mission-card">
+      <div class="ico">🏢</div>
+      <h4>За бизнеса</h4>
+      <p>Рекламирай пред ангажирана аудитория</p>
+    </div>
+    <div class="mission-card">
+      <div class="ico">🇧🇬</div>
+      <h4>За България</h4>
+      <p>Подкрепяме местните таланти и творци</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>💎 Нашите ценности</h3>
+  <div class="values">
+    <div class="value-item">
+      <div class="value-ico">🔒</div>
+      <div>
+        <div class="value-title">Сигурност на първо място</div>
+        <div class="value-text">Защитаваме данните на потребителите с най-високи стандарти. GDPR съвместими и прозрачни.</div>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-ico">⚖️</div>
+      <div>
+        <div class="value-title">Честност и прозрачност</div>
+        <div class="value-text">70% за творците, 30% за нас. Никакви скрити такси или изненади.</div>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-ico">🚀</div>
+      <div>
+        <div class="value-title">Иновации</div>
+        <div class="value-text">Постоянно подобряваме платформата на база обратна връзка от общността.</div>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-ico">🤝</div>
+      <div>
+        <div class="value-title">Общност</div>
+        <div class="value-text">Изграждаме силна общност от български творци, зрители и бизнеси.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>📊 Krevio в числа</h3>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n">70%</div><div class="stat-l">Към творците</div></div>
+    <div class="stat"><div class="stat-n">4GB</div><div class="stat-l">Макс. видео</div></div>
+    <div class="stat"><div class="stat-n">24ч</div><div class="stat-l">Поддръжка</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🏢 За компанията</h3>
+  <p>Krevio е продукт на Multi Services Halle — компания регистрирана в Германия с фокус върху дигитални услуги и технологии.</p>
+  <div class="company-box">
+    <div class="company-name">Multi Services Halle</div>
+    <div class="company-sub">Deutschland · 2026</div>
+    <div class="company-detail">📧 <a href="mailto:obqvilook@gmail.com">obqvilook@gmail.com</a></div>
+    <div class="company-detail">🌐 krevio-app.netlify.app</div>
+    <div class="company-detail">📍 Deutschland, EU</div>
+  </div>
+</div>
+
+<div class="section" style="text-align:center">
+  <h3>Готов да започнеш?</h3>
+  <p style="margin-bottom:20px">Присъедини се към хилядите творци които вече печелят с Krevio.</p>
+  <a href="index.html" style="display:inline-block;background:#e8192c;color:#fff;text-decoration:none;font-weight:700;padding:14px 32px;border-radius:10px;font-size:.95rem">🎬 Започни сега</a>
+</div>
+
+</body>
+</html>
