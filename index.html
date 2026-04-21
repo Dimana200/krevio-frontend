@@ -30,6 +30,18 @@ body{background:var(--bg);color:var(--text)}
 .page{display:none;position:fixed;inset:0;z-index:1;background:var(--bg)}
 .page.active{display:block}
 
+
+/* VIDEO PLAYER */
+.v-player{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;cursor:pointer}
+.v-play-overlay{position:absolute;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .3s}
+.v-play-overlay.show{opacity:1}
+.v-play-circle{width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.3)}
+.v-play-circle svg{width:28px;height:28px;stroke:#fff;stroke-width:1.5;fill:none;margin-left:4px}
+.v-progress{position:absolute;bottom:68px;left:0;right:0;height:3px;background:rgba(255,255,255,.2);z-index:16;cursor:pointer}
+.v-progress-fill{height:100%;background:#e8192c;border-radius:2px;transition:width .1s linear;pointer-events:none}
+.v-loading{position:absolute;inset:0;z-index:14;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3)}
+.v-spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+
 /* ===== FEED ===== */
 #page-feed{background:#000}
 .feed-wrap{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch}
@@ -73,15 +85,16 @@ body{background:var(--bg);color:var(--text)}
 .v-act-btn span{font-size:.68rem;color:#fff;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.5)}
 .v-act-btn.liked svg{fill:#e8192c;stroke:#e8192c}
 .v-act-avatar{width:44px;height:44px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;position:relative;background:#222}
-.v-follow-plus{position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);width:18px;height:18px;border-radius:50%;background:#e8192c;border:2px solid #000;display:flex;align-items:center;justify-content:center}
+.v-follow-plus{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:#e8192c;border:none;border-radius:100px;padding:2px 7px;font-size:.58rem;font-weight:700;color:#fff;white-space:nowrap;cursor:pointer}
 .v-follow-plus svg{width:9px;height:9px;stroke:#fff;stroke-width:3;fill:none}
 
 /* Music ticker */
 .v-music{position:absolute;bottom:84px;left:14px;display:flex;align-items:center;gap:7px;z-index:10}
-.v-disc{width:28px;height:28px;border-radius:50%;background:#222;border:1.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;animation:spin 4s linear infinite}
+.v-disc{display:none}
 .v-disc svg{width:12px;height:12px;stroke:#fff;stroke-width:1.5;fill:none}
 @keyframes spin{to{transform:rotate(360deg)}}
-.v-music-title{font-size:.72rem;color:rgba(255,255,255,.75);max-width:150px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.v-music{display:none}
 
 /* Ad card on feed */
 .v-ad{position:absolute;bottom:88px;left:14px;right:72px;z-index:10}
@@ -113,7 +126,7 @@ body{background:var(--bg);color:var(--text)}
 .bn.active span{color:var(--text)}
 .bn-badge{position:absolute;top:0;right:4px;min-width:15px;height:15px;background:#e8192c;border-radius:100px;font-size:.52rem;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid var(--bg);color:#fff}
 .bn-plus-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
-.bn-plus{width:44px;height:30px;background:linear-gradient(135deg,#69C9D0,#EE1D52);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.bn-plus{width:44px;height:30px;background:#e8192c;border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(232,25,44,.4)}
 .bn-plus svg{width:20px;height:20px;stroke:#fff;stroke-width:2.5;fill:none}
 .bn-plus-wrap span{font-size:.56rem;color:var(--text2);font-weight:500;text-transform:uppercase;letter-spacing:.3px}
 
@@ -569,11 +582,38 @@ function bindModals(){
 }
 
 // ====== FEED ======
-function renderFeed(){
+async function renderFeed(){
   var wrap = el("feed-wrap"); if(!wrap) return;
   wrap.innerHTML = "";
+
+  var videos = VIDEOS; // fallback to demo
+
+  // Try to load real videos from Supabase
+  if(sb){
+    try{
+      var r = await sb.from("videos").select("*").eq("access_level","free").order("created_at",{ascending:false}).limit(20);
+      if(r.data && r.data.length > 0){
+        videos = r.data.map(function(v){
+          return {
+            user: v.title || "Krevio Creator",
+            handle: "@creator",
+            ico: "🎬",
+            title: v.title || "",
+            likes: v.views || 0,
+            comments: 0,
+            saves: 0,
+            access: v.access_level || "free",
+            bg: "linear-gradient(160deg,#1a0a2e,#2e0a1a,#000)",
+            file_url: v.file_url,
+            thumbnail_url: v.thumbnail_url || ""
+          };
+        });
+      }
+    } catch(e){ console.log("Feed error:", e); }
+  }
+
   var adIdx = 0;
-  VIDEOS.forEach(function(v,i){
+  videos.forEach(function(v,i){
     wrap.appendChild(buildVideo(v,i));
     if((i+1)%2===0 && adIdx < ADS.length){
       wrap.appendChild(buildAd(ADS[adIdx++], i));
@@ -585,10 +625,67 @@ function renderFeed(){
 function buildVideo(v,i){
   var item = mk("div","video-item");
 
-  // BG
-  var bg = mk("div","v-bg"); bg.style.background = v.bg;
-  var bgIco = mk("div","v-bg-ico"); bgIco.textContent = v.ico;
-  bg.appendChild(bgIco); item.appendChild(bg);
+  if(v.file_url){
+    // REAL VIDEO
+    var vid = document.createElement("video");
+    vid.className = "v-player";
+    vid.src = v.file_url;
+    vid.loop = true;
+    vid.muted = false;
+    vid.playsInline = true;
+    vid.preload = "metadata";
+    vid.poster = v.thumbnail_url || "";
+    item.appendChild(vid);
+
+    // Loading spinner
+    var loading = mk("div","v-loading"); loading.id="loading-"+i;
+    var spinner = mk("div","v-spinner");
+    loading.appendChild(spinner); item.appendChild(loading);
+
+    // Play/pause overlay
+    var playOv = mk("div","v-play-overlay"); playOv.id="playov-"+i;
+    var circle = mk("div","v-play-circle");
+    circle.innerHTML="<svg viewBox='0 0 24 24'><polygon points='6,3 20,12 6,21' fill='white'/></svg>";
+    playOv.appendChild(circle); item.appendChild(playOv);
+
+    // Progress bar
+    var prog = mk("div","v-progress");
+    var fill = mk("div","v-progress-fill"); fill.id="prog-"+i;
+    prog.appendChild(fill); item.appendChild(prog);
+
+    // Video events
+    vid.addEventListener("loadeddata", function(){
+      var l = document.getElementById("loading-"+i);
+      if(l) l.style.display="none";
+    });
+    vid.addEventListener("timeupdate", function(){
+      var f = document.getElementById("prog-"+i);
+      if(f && vid.duration) f.style.width = (vid.currentTime/vid.duration*100)+"%";
+    });
+    vid.addEventListener("click", function(){
+      if(vid.paused){ vid.play(); var po=document.getElementById("playov-"+i); if(po){ po.classList.add("show"); setTimeout(function(){ po.classList.remove("show"); },600); } }
+      else { vid.pause(); var po=document.getElementById("playov-"+i); if(po) po.classList.add("show"); }
+    });
+    prog.addEventListener("click", function(e){
+      var rect=prog.getBoundingClientRect();
+      vid.currentTime = ((e.clientX-rect.left)/rect.width)*vid.duration;
+    });
+
+    // Intersection observer for autoplay
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ vid.play().catch(function(){}); }
+        else { vid.pause(); }
+      });
+    }, {threshold: 0.7});
+    obs.observe(item);
+
+  } else {
+    // DEMO placeholder
+    var bg = mk("div","v-bg"); bg.style.background = v.bg;
+    var bgIco = mk("div","v-bg-ico"); bgIco.textContent = v.ico;
+    bg.appendChild(bgIco); item.appendChild(bg);
+  }
   item.appendChild(mk("div","v-gradient"));
 
   // Locked overlay
@@ -610,8 +707,9 @@ function buildVideo(v,i){
   var avDiv = mk("div","v-act-avatar");
   avDiv.textContent = v.ico;
   var plusDiv = mk("div","v-follow-plus");
-  var plusIco = icon("plus", 9); plusIco.style.cssText="width:9px;height:9px;stroke:#fff;stroke-width:3";
-  plusDiv.appendChild(plusIco); avDiv.appendChild(plusDiv);
+  plusDiv.textContent = "Следвай";
+  plusDiv.onclick = function(e){ e.stopPropagation(); showToast("Следваш!"); };
+  avDiv.appendChild(plusDiv);
   avDiv.onclick = function(){ showPage("profile"); };
   acts.appendChild(avDiv);
 
@@ -680,13 +778,10 @@ function buildVideo(v,i){
   info.appendChild(tags);
   item.appendChild(info);
 
-  // Music
-  var music = mk("div","v-music");
-  var disc = mk("div","v-disc");
-  var discIco = icon("music",12); discIco.style.cssText="width:12px;height:12px;stroke:#fff;stroke-width:1.5";
-  disc.appendChild(discIco);
-  var mTitle = mk("div","v-music-title"); mTitle.textContent = "🎵 "+v.music;
-  music.appendChild(disc); music.appendChild(mTitle);
+  // Music - show as simple text only
+  var music = mk("div");
+  music.style.cssText="position:absolute;bottom:88px;left:14px;z-index:10;font-size:.72rem;color:rgba(255,255,255,.7)";
+  music.textContent = "♪ "+v.music;
   item.appendChild(music);
 
   return item;
