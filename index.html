@@ -1877,7 +1877,20 @@ function startUpload() {
   fd.append("access", access ? access.value : "studio");
 
   uplXhr = new XMLHttpRequest();
+  // Get auth token from Supabase
+  var token = "";
+  if (typeof sb !== "undefined" && sb) {
+    try {
+      var sess = await sb.auth.getSession();
+      if (sess.data && sess.data.session) {
+        token = sess.data.session.access_token;
+      }
+    } catch(e) {}
+  }
+  if (!token) { showToast("Трябва да влезеш в акаунта!"); return; }
+
   uplXhr.open("POST", RAILWAY_URL, true);
+  uplXhr.setRequestHeader("Authorization", "Bearer " + token);
 
   uplXhr.upload.onprogress = function(e) {
     if (!e.lengthComputable) return;
