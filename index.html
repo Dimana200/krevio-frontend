@@ -16,8 +16,6 @@ body{background:var(--bg);color:var(--text)}
 .page{display:none;position:fixed;inset:0;z-index:1;background:var(--bg)}
 .page.active{display:block}
 .logo-k{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#e8192c;letter-spacing:2px;line-height:1;text-shadow:0 0 20px rgba(232,25,44,.4)}
-.logo-full{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#fff;letter-spacing:4px;line-height:1}
-body.light .logo-full{color:#111}
 .page-header{position:fixed;top:0;left:0;right:0;z-index:50;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--nav-border)}
 .page-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text);letter-spacing:3px}
 .v-player{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;cursor:pointer}
@@ -52,7 +50,7 @@ body.light .logo-full{color:#111}
 .v-plan-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(232,25,44,.8);backdrop-filter:blur(6px);border-radius:100px;padding:3px 9px;font-size:.7rem;font-weight:700;margin-bottom:7px;color:#fff}
 .v-actions{position:absolute;right:10px;bottom:88px;display:flex;flex-direction:column;align-items:center;gap:18px;z-index:10}
 .v-act-btn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;background:none;border:none;padding:0}
-.v-act-btn svg{width:28px;height:28px;stroke:#fff;stroke-width:1.5;fill:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
+.v-act-btn svg{width:28px;height:28px;stroke:#fff;stroke-width:1.5;fill:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5));transition:all .2s}
 .v-act-btn span{font-size:.68rem;color:#fff;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.5)}
 .v-act-btn.liked svg{fill:#e8192c!important;stroke:#e8192c!important}
 .v-act-btn.saved svg{fill:#fff!important;stroke:#fff!important}
@@ -67,7 +65,6 @@ body.light .logo-full{color:#111}
 .bn span{font-size:.56rem;color:var(--text2);font-weight:500;letter-spacing:.3px;transition:color .2s;text-transform:uppercase}
 .bn.active svg{stroke:var(--text)}
 .bn.active span{color:var(--text)}
-.bn-badge{position:absolute;top:0;right:4px;min-width:15px;height:15px;background:#e8192c;border-radius:100px;font-size:.52rem;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid var(--bg);color:#fff}
 .bn-plus-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
 .bn-plus{width:44px;height:30px;background:#e8192c;border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(232,25,44,.4)}
 .bn-plus svg{width:20px;height:20px;stroke:#fff;stroke-width:2.5;fill:none}
@@ -87,7 +84,6 @@ body.light .logo-full{color:#111}
 .cr-name{font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:2px}
 .cr-handle{font-size:.75rem;color:var(--text2)}
 .cr-fans{font-size:.72rem;color:var(--text2);margin-left:auto;white-space:nowrap}
-.msg-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer}
 .notif-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border)}
 .notif-av{width:40px;height:40px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
 .notif-txt{font-size:.82rem;color:var(--text);flex:1;line-height:1.4}
@@ -123,7 +119,8 @@ body.light .logo-full{color:#111}
 .mtitle{font-size:1rem;font-weight:800;color:var(--text);text-align:center;margin-bottom:18px}
 .cmt-list{display:flex;flex-direction:column;gap:12px;max-height:45vh;overflow-y:auto;margin-bottom:14px}
 .cmt-item{display:flex;gap:9px}
-.cmt-av{width:32px;height:32px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;border:1px solid var(--border)}
+.cmt-av{width:32px;height:32px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;border:1px solid var(--border);overflow:hidden}
+.cmt-av img{width:100%;height:100%;object-fit:cover}
 .cmt-name{font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:2px}
 .cmt-text{font-size:.82rem;color:var(--text2);line-height:1.5}
 .cmt-time{font-size:.65rem;color:var(--text3);margin-top:2px}
@@ -172,7 +169,6 @@ textarea.fi{resize:vertical}
 </head>
 <body>
 
-<!-- FEED -->
 <div id="page-feed" class="page active">
   <div class="feed-top">
     <div class="logo-k">K</div>
@@ -184,28 +180,17 @@ textarea.fi{resize:vertical}
   <div class="feed-wrap" id="feed-wrap"></div>
 </div>
 
-<!-- SEARCH -->
 <div id="page-search" class="page">
-  <div class="page-header">
-    <div class="page-title">ТЪРСИ</div>
-  </div>
-  <div class="search-box">
-    <i data-lucide="search"></i>
-    <input type="text" id="search-inp" placeholder="Търси творец или видео...">
-  </div>
-  <div class="sec-label">Творци</div>
+  <div class="page-header"><div class="page-title">ТЪРСИ</div></div>
+  <div class="search-box"><i data-lucide="search"></i><input type="text" id="search-inp" placeholder="Търси творец или видео..."></div>
   <div id="search-list"></div>
 </div>
 
-<!-- INBOX / ИЗВЕСТИЯ -->
 <div id="page-inbox" class="page">
-  <div class="page-header">
-    <div class="page-title">ИЗВЕСТИЯ</div>
-  </div>
+  <div class="page-header"><div class="page-title">ИЗВЕСТИЯ</div></div>
   <div id="inbox-list"></div>
 </div>
 
-<!-- PROFILE -->
 <div id="page-profile" class="page">
   <div class="page-header">
     <div class="page-title">ПРОФИЛ</div>
@@ -214,7 +199,6 @@ textarea.fi{resize:vertical}
   <div id="profile-body"></div>
 </div>
 
-<!-- BOTTOM NAV -->
 <nav class="botnav">
   <button class="bn active" id="bn-feed"><i data-lucide="house"></i><span>Начало</span></button>
   <button class="bn" id="bn-search"><i data-lucide="search"></i><span>Търси</span></button>
@@ -223,7 +207,6 @@ textarea.fi{resize:vertical}
   <button class="bn" id="bn-profile"><i data-lucide="user"></i><span>Профил</span></button>
 </nav>
 
-<!-- COMMENTS MODAL -->
 <div class="modal" id="m-comments">
   <div class="mbox">
     <div class="mhandle"></div>
@@ -236,7 +219,6 @@ textarea.fi{resize:vertical}
   </div>
 </div>
 
-<!-- UPLOAD MODAL -->
 <div class="modal" id="m-upload">
   <div class="mbox">
     <div class="mhandle"></div>
@@ -281,7 +263,6 @@ textarea.fi{resize:vertical}
   </div>
 </div>
 
-<!-- AUTH MODAL -->
 <div class="modal" id="m-auth">
   <div class="mbox">
     <div class="mhandle"></div>
@@ -305,7 +286,6 @@ textarea.fi{resize:vertical}
   </div>
 </div>
 
-<!-- EDIT PROFILE MODAL -->
 <div class="modal" id="m-edit-profile">
   <div class="mbox">
     <div class="mhandle"></div>
@@ -317,7 +297,6 @@ textarea.fi{resize:vertical}
   </div>
 </div>
 
-<!-- MENU MODAL -->
 <div class="modal" id="m-menu">
   <div class="mbox">
     <div class="mhandle"></div>
@@ -336,18 +315,7 @@ textarea.fi{resize:vertical}
 var SB_URL="https://ucsogdvswugpynaqymtg.supabase.co";
 var SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc29nZHZzd3VncHluYXF5bXRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NzM2NTEsImV4cCI6MjA5MjM0OTY1MX0.pGjks7ghLR6tDyK0RlIPP57xIvbDomx-jelXHO8fEKI";
 var BACKEND="https://krevio-backend-production.up.railway.app";
-var sb=null,ME=null,uplFile=null,uplXhr=null,isDark=true;
-var audioUnlocked=false;
-var currentVideoId=null;
-var likedVideos={};
-var savedVideos={};
-
-var ADS=[
-  {company:"Техномаркет",text:"Лаптопи от 599 лв!"},
-  {company:"Kaufland BG",text:"Промоции тази седмица!"},
-  {company:"Виваком",text:"Интернет 1Gbps — 25 лв/мес"},
-  {company:"Банка ДСК",text:"Кредит до 50,000 лв онлайн"}
-];
+var sb=null,ME=null,uplFile=null,uplXhr=null,isDark=true,audioUnlocked=false,currentVideoId=null;
 
 function fmt(n){if(n>=1000000)return(n/1000000).toFixed(1)+"M";if(n>=1000)return(n/1000).toFixed(1)+"K";return n||0;}
 function fmtBytes(b){if(b<1048576)return(b/1024).toFixed(1)+" KB";if(b<1073741824)return(b/1048576).toFixed(1)+" MB";return(b/1073741824).toFixed(2)+" GB";}
@@ -357,19 +325,6 @@ function el(id){return document.getElementById(id);}
 function mk(tag,cls){var e=document.createElement(tag);if(cls)e.className=cls;return e;}
 function icon(name,size){size=size||24;var i=document.createElement("i");i.setAttribute("data-lucide",name);i.style.cssText="width:"+size+"px;height:"+size+"px";return i;}
 
-// Отключи звука при първо скролване
-document.addEventListener("scroll",function unlockOnScroll(){
-  audioUnlocked=true;
-  document.querySelectorAll(".v-player").forEach(function(v){v.muted=false;});
-  document.removeEventListener("scroll",unlockOnScroll);
-},{passive:true,once:true});
-
-document.addEventListener("touchstart",function unlockOnTouch(){
-  audioUnlocked=true;
-  document.querySelectorAll(".v-player").forEach(function(v){v.muted=false;});
-  document.removeEventListener("touchstart",unlockOnTouch);
-},{passive:true,once:true});
-
 window.addEventListener("load",function(){
   lucide.createIcons();
   if(typeof supabase!=="undefined"){
@@ -378,7 +333,9 @@ window.addEventListener("load",function(){
       if(r.data&&r.data.session){
         var u=r.data.session.user;
         ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};
-        loadProfile().then(function(){renderProfile();});
+        loadProfile().then(function(){renderProfile();renderFeed();});
+      } else {
+        renderFeed();
       }
     });
     sb.auth.onAuthStateChange(function(event,session){
@@ -386,16 +343,15 @@ window.addEventListener("load",function(){
         var u=session.user;
         ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};
         loadProfile().then(function(){renderProfile();});
-      } else {
-        ME=null;
-        renderProfile();
-      }
+      } else {ME=null;renderProfile();}
     });
+  } else {
+    renderFeed();
   }
   var saved=localStorage.getItem("krevio-theme");
   if(saved==="light"){isDark=false;document.body.classList.add("light");}
   bindNav();bindModals();bindAuth();bindUpload();bindMenu();bindEditProfile();
-  renderFeed();renderSearch();renderInbox();renderProfile();
+  renderSearch();renderInbox();
   el("theme-btn").onclick=toggleTheme;
   el("auth-top-btn").onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};
 });
@@ -404,11 +360,7 @@ async function loadProfile(){
   if(!sb||!ME)return;
   try{
     var r=await sb.from("profiles").select("*").eq("id",ME.id).single();
-    if(r.data){
-      ME.avatar=r.data.avatar_url||"";
-      ME.bio=r.data.bio||"";
-      ME.username=r.data.username||ME.name;
-    }
+    if(r.data){ME.avatar=r.data.avatar_url||"";ME.bio=r.data.bio||"";ME.username=r.data.username||ME.name;}
   }catch(e){}
 }
 
@@ -427,7 +379,7 @@ function showPage(page){
 function bindNav(){
   el("bn-feed").onclick=function(){showPage("feed");};
   el("bn-search").onclick=function(){showPage("search");};
-  el("bn-upload").onclick=function(){openUpload();};
+  el("bn-upload").onclick=openUpload;
   el("bn-inbox").onclick=function(){showPage("inbox");};
   el("bn-profile").onclick=function(){showPage("profile");};
 }
@@ -443,12 +395,7 @@ async function renderFeed(){
   var wrap=el("feed-wrap");if(!wrap)return;
   wrap.innerHTML="";
   var videos=[];
-  if(sb){
-    try{
-      var r=await sb.from("videos").select("*").order("created_at",{ascending:false}).limit(20);
-      if(r.data&&r.data.length>0)videos=r.data;
-    }catch(e){}
-  }
+  if(sb){try{var r=await sb.from("videos").select("*").order("created_at",{ascending:false}).limit(20);if(r.data&&r.data.length>0)videos=r.data;}catch(e){}}
   if(videos.length===0){
     var empty=mk("div");
     empty.style.cssText="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,.4);text-align:center;padding:20px";
@@ -458,7 +405,7 @@ async function renderFeed(){
   var adIdx=0;
   videos.forEach(function(v,i){
     wrap.appendChild(buildVideo(v,i));
-    if((i+1)%3===0&&adIdx<ADS.length){wrap.appendChild(buildAd(ADS[adIdx++]));}
+    if((i+1)%3===0&&adIdx<4)wrap.appendChild(buildAd(adIdx++));
   });
   lucide.createIcons();
 }
@@ -468,29 +415,27 @@ function buildVideo(v,i){
   var vid=document.createElement("video");
   vid.className="v-player";vid.src=v.file_url;vid.loop=true;vid.muted=true;vid.playsInline=true;vid.preload="metadata";
   item.appendChild(vid);
-
   var loading=mk("div","v-loading");loading.id="loading-"+i;loading.appendChild(mk("div","v-spinner"));item.appendChild(loading);
   var playOv=mk("div","v-play-overlay");playOv.id="playov-"+i;
   var circle=mk("div","v-play-circle");circle.innerHTML="<svg viewBox='0 0 24 24'><polygon points='6,3 20,12 6,21' fill='white'/></svg>";
   playOv.appendChild(circle);item.appendChild(playOv);
   var prog=mk("div","v-progress");var fill=mk("div","v-progress-fill");fill.id="prog-"+i;prog.appendChild(fill);item.appendChild(prog);
-
   vid.addEventListener("loadeddata",function(){var l=el("loading-"+i);if(l)l.style.display="none";});
   vid.addEventListener("timeupdate",function(){var f=el("prog-"+i);if(f&&vid.duration)f.style.width=(vid.currentTime/vid.duration*100)+"%";});
   vid.addEventListener("click",function(){
-    audioUnlocked=true;vid.muted=false;
+    if(!audioUnlocked){
+      audioUnlocked=true;vid.muted=false;
+      document.querySelectorAll(".v-player").forEach(function(vv){vv.muted=false;});
+      return;
+    }
     if(vid.paused){vid.play();var po=el("playov-"+i);if(po){po.classList.add("show");setTimeout(function(){po.classList.remove("show");},600);}}
     else{vid.pause();var po=el("playov-"+i);if(po)po.classList.add("show");}
   });
   prog.addEventListener("click",function(e){var rect=prog.getBoundingClientRect();vid.currentTime=((e.clientX-rect.left)/rect.width)*vid.duration;});
-
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        currentVideoId=v.id;
-        vid.muted=!audioUnlocked;
-        vid.play().catch(function(){vid.muted=true;vid.play().catch(function(){});});
-      } else {vid.pause();vid.currentTime=0;}
+      if(entry.isIntersecting){currentVideoId=v.id;vid.muted=!audioUnlocked;vid.play().catch(function(){vid.muted=true;vid.play().catch(function(){});});}
+      else{vid.pause();vid.currentTime=0;}
     });
   },{threshold:0.8});
   obs.observe(item);
@@ -506,30 +451,32 @@ function buildVideo(v,i){
 
   var acts=mk("div","v-actions");
 
-  // Аватар — натискане отваря профила на творец
+  // Аватар на творец — отваря профила
   var avDiv=mk("div","v-act-avatar");
-  avDiv.textContent="🎬";
-  avDiv.onclick=function(){showToast("Профил скоро!");};
+  if(v.user_avatar){var avImg=document.createElement("img");avImg.src=v.user_avatar;avDiv.appendChild(avImg);}
+  else avDiv.textContent="🎬";
+  avDiv.onclick=function(){openCreatorProfile(v.user_id);};
   acts.appendChild(avDiv);
 
-  // Харесване — с оцветяване
+  // Харесване — зарежда се от Supabase
   var likeBtn=mk("button","v-act-btn");
-  var likeIco=icon("heart",28);
-  likeIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";
-  var likeCnt=mk("span");likeCnt.textContent=fmt(v.likes||0);
+  var likeIco=icon("heart",28);likeIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";
+  var likeCnt=mk("span");likeCnt.textContent="0";
   likeBtn.appendChild(likeIco);likeBtn.appendChild(likeCnt);
-  if(likedVideos[v.id]){likeBtn.classList.add("liked");}
-  likeBtn.onclick=function(){
-    likedVideos[v.id]=!likedVideos[v.id];
-    if(likedVideos[v.id]){
-      likeBtn.classList.add("liked");
-      likeCnt.textContent=fmt((v.likes||0)+1);
-    } else {
+  likeBtn.onclick=async function(){
+    if(!ME){showToast("Влез за да харесаш!");return;}
+    var isLiked=likeBtn.classList.contains("liked");
+    if(isLiked){
       likeBtn.classList.remove("liked");
-      likeCnt.textContent=fmt(v.likes||0);
+      try{await sb.from("likes").delete().eq("video_id",v.id).eq("user_id",ME.id);}catch(e){}
+    } else {
+      likeBtn.classList.add("liked");
+      try{await sb.from("likes").insert({video_id:v.id,user_id:ME.id});}catch(e){}
     }
+    loadLikeCount(v.id,likeCnt);
   };
   acts.appendChild(likeBtn);
+  loadLikeCount(v.id,likeCnt,likeBtn);
 
   // Коментари
   var cmtBtn=mk("button","v-act-btn");
@@ -540,37 +487,38 @@ function buildVideo(v,i){
   acts.appendChild(cmtBtn);
   loadCommentCount(v.id,cmtCnt);
 
-  // Запазване — с оцветяване
+  // Запазване
   var saveBtn=mk("button","v-act-btn");
   var saveIco=icon("bookmark",28);saveIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";
-  var saveCnt=mk("span");saveCnt.textContent="0";
+  var saveCnt=mk("span");saveCnt.textContent="🔖";
   saveBtn.appendChild(saveIco);saveBtn.appendChild(saveCnt);
-  if(savedVideos[v.id]){saveBtn.classList.add("saved");}
-  saveBtn.onclick=function(){
-    savedVideos[v.id]=!savedVideos[v.id];
-    if(savedVideos[v.id]){
-      saveBtn.classList.add("saved");
-      showToast("Запазено!");
+  saveBtn.onclick=async function(){
+    if(!ME){showToast("Влез за да запазиш!");return;}
+    var isSaved=saveBtn.classList.contains("saved");
+    if(isSaved){
+      saveBtn.classList.remove("saved");showToast("Премахнато");
+      try{await sb.from("saves").delete().eq("video_id",v.id).eq("user_id",ME.id);}catch(e){}
     } else {
-      saveBtn.classList.remove("saved");
-      showToast("Премахнато");
+      saveBtn.classList.add("saved");showToast("Запазено!");
+      try{await sb.from("saves").insert({video_id:v.id,user_id:ME.id});}catch(e){}
     }
   };
   acts.appendChild(saveBtn);
+  loadSaveState(v.id,saveBtn);
 
   // Споделяне
   var shareBtn=mk("button","v-act-btn");
   var shareIco=icon("share-2",28);shareIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";
   var shareCnt=mk("span");shareCnt.textContent="Сподели";
   shareBtn.appendChild(shareIco);shareBtn.appendChild(shareCnt);
-  shareBtn.onclick=function(){if(navigator.share){navigator.share({title:v.title,url:window.location.href});}else{showToast("Копирано!");}};
+  shareBtn.onclick=function(){if(navigator.share)navigator.share({title:v.title,url:window.location.href});else showToast("Копирано!");};
   acts.appendChild(shareBtn);
   item.appendChild(acts);
 
   var info=mk("div","v-info");
   if(v.access_level!=="free"){var badge=mk("div","v-plan-badge");badge.textContent=v.access_level==="studio"?"🎧 Студио":"🏆 Про";info.appendChild(badge);}
   var creator=mk("div","v-creator");
-  creator.onclick=function(){showToast("Профил скоро!");};
+  creator.onclick=function(){openCreatorProfile(v.user_id);};
   var cAv=mk("div","v-avatar");cAv.textContent="🎬";
   var cInfo=mk("div");
   var cName=mk("div","v-name");cName.textContent=v.title||"Krevio Creator";
@@ -584,15 +532,41 @@ function buildVideo(v,i){
   return item;
 }
 
-async function loadCommentCount(videoId,el){
-  if(!sb||!videoId)return;
+function openCreatorProfile(userId){
+  if(ME&&userId===ME.id){showPage("profile");return;}
+  showToast("Профил скоро!");
+}
+
+async function loadLikeCount(videoId,cntEl,btn){
+  if(!sb)return;
   try{
-    var r=await sb.from("comments").select("id",{count:"exact"}).eq("video_id",videoId);
-    if(el)el.textContent=r.count||0;
+    var r=await sb.from("likes").select("id",{count:"exact"}).eq("video_id",videoId);
+    if(cntEl)cntEl.textContent=fmt(r.count||0);
+    if(btn&&ME){
+      var myLike=await sb.from("likes").select("id").eq("video_id",videoId).eq("user_id",ME.id).maybeSingle();
+      if(myLike.data)btn.classList.add("liked");
+      else btn.classList.remove("liked");
+    }
   }catch(e){}
 }
 
-function buildAd(ad){
+async function loadCommentCount(videoId,cntEl){
+  if(!sb)return;
+  try{var r=await sb.from("comments").select("id",{count:"exact"}).eq("video_id",videoId);if(cntEl)cntEl.textContent=fmt(r.count||0);}catch(e){}
+}
+
+async function loadSaveState(videoId,btn){
+  if(!sb||!ME||!btn)return;
+  try{
+    var r=await sb.from("saves").select("id").eq("video_id",videoId).eq("user_id",ME.id).maybeSingle();
+    if(r.data)btn.classList.add("saved");
+    else btn.classList.remove("saved");
+  }catch(e){}
+}
+
+function buildAd(idx){
+  var ads=[{company:"Техномаркет",text:"Лаптопи от 599 лв!"},{company:"Kaufland BG",text:"Промоции тази седмица!"},{company:"Виваком",text:"Интернет 1Gbps — 25 лв/мес"},{company:"Банка ДСК",text:"Кредит до 50,000 лв онлайн"}];
+  var ad=ads[idx%ads.length];
   var item=mk("div","video-item");
   var bg=mk("div","v-bg");bg.style.background="linear-gradient(160deg,#050510,#100520,#000)";
   var bgIco=mk("div","v-bg-ico");bgIco.textContent="📢";bg.appendChild(bgIco);item.appendChild(bg);
@@ -605,7 +579,6 @@ function buildAd(ad){
   return item;
 }
 
-// КОМЕНТАРИ
 async function openComments(videoId){
   currentVideoId=videoId;
   var list=el("cmt-list");if(!list)return;
@@ -615,18 +588,16 @@ async function openComments(videoId){
 }
 
 async function loadComments(videoId){
-  var list=el("cmt-list");if(!list)return;
-  if(!sb||!videoId)return;
+  var list=el("cmt-list");if(!list||!sb)return;
   try{
     var r=await sb.from("comments").select("*").eq("video_id",videoId).order("created_at",{ascending:true}).limit(50);
     list.innerHTML="";
-    if(!r.data||r.data.length===0){
-      list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Няма коментари. Бъди първи!</div>";
-      return;
-    }
+    if(!r.data||r.data.length===0){list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Няма коментари. Бъди първи!</div>";return;}
     r.data.forEach(function(c){
       var item=mk("div","cmt-item");
-      var av=mk("div","cmt-av");av.textContent="👤";
+      var av=mk("div","cmt-av");
+      if(c.avatar_url){var img=document.createElement("img");img.src=c.avatar_url;av.appendChild(img);}
+      else av.textContent="👤";
       var body=mk("div");
       var nm=mk("div","cmt-name");nm.textContent=c.username||"Потребител";
       var tx=mk("div","cmt-text");tx.textContent=c.text;
@@ -634,14 +605,13 @@ async function loadComments(videoId){
       body.appendChild(nm);body.appendChild(tx);body.appendChild(tm);
       item.appendChild(av);item.appendChild(body);list.appendChild(item);
     });
-    // Обнови брояча
     var cnt=el("cmt-cnt-"+videoId);if(cnt)cnt.textContent=r.data.length;
   }catch(e){list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Грешка при зареждане</div>";}
 }
 
 el("cmt-send-btn")&&(el("cmt-send-btn").onclick=async function(){
   var inp=el("cmt-inp");if(!inp||!inp.value.trim())return;
-  if(!ME){showToast("Влез в акаунта!");return;}
+  if(!ME){showToast("Влез за да коментираш!");return;}
   if(!sb||!currentVideoId)return;
   var text=inp.value.trim();inp.value="";
   try{
@@ -650,79 +620,57 @@ el("cmt-send-btn")&&(el("cmt-send-btn").onclick=async function(){
   }catch(e){showToast("Грешка!");}
 });
 
-// ТЪРСЕНЕ
 async function renderSearch(){
-  var wrap=el("search-list");if(!wrap)return;
+  var wrap=el("search-list");if(!wrap||!sb)return;
   wrap.innerHTML="";
-  if(!sb)return;
-  try{
-    var r=await sb.from("profiles").select("*").limit(20);
-    renderCreatorList(r.data||[]);
-  }catch(e){wrap.innerHTML="";}
-
+  try{var r=await sb.from("profiles").select("*").limit(20);renderResults(r.data||[],[]);}catch(e){}
   var inp=el("search-inp");
-  if(inp){
-    inp.oninput=async function(){
-      var q=this.value.trim();
-      if(!q){
-        var r=await sb.from("profiles").select("*").limit(20);
-        renderCreatorList(r.data||[]);
-        return;
-      }
-      // Търси в profiles И videos
-      var rp=await sb.from("profiles").select("*").or("username.ilike.%"+q+"%,full_name.ilike.%"+q+"%").limit(10);
-      var rv=await sb.from("videos").select("*").ilike("title","%"+q+"%").limit(10);
-      renderCreatorList(rp.data||[],rv.data||[]);
-    };
-  }
+  if(inp){inp.oninput=async function(){
+    var q=this.value.trim();
+    if(!q){var r=await sb.from("profiles").select("*").limit(20);renderResults(r.data||[],[]);return;}
+    var rp=await sb.from("profiles").select("*").or("username.ilike.%"+q+"%,full_name.ilike.%"+q+"%").limit(10);
+    var rv=await sb.from("videos").select("*").ilike("title","%"+q+"%").limit(10);
+    renderResults(rp.data||[],rv.data||[]);
+  };}
 }
 
-function renderCreatorList(profiles,videos){
+function renderResults(profiles,videos){
   var wrap=el("search-list");if(!wrap)return;
   wrap.innerHTML="";
-  var hasResults=false;
-
+  var has=false;
   if(profiles&&profiles.length>0){
-    hasResults=true;
+    has=true;
     var lbl=mk("div","sec-label");lbl.textContent="Творци";wrap.appendChild(lbl);
     profiles.forEach(function(c){
       var row=mk("div","creator-row");
       var av=mk("div","cr-avatar");
-      if(c.avatar_url){var img=document.createElement("img");img.src=c.avatar_url;av.appendChild(img);}
-      else av.textContent="👤";
+      if(c.avatar_url){var img=document.createElement("img");img.src=c.avatar_url;av.appendChild(img);}else av.textContent="👤";
       var info=mk("div");info.style.flex="1";
       var nm=mk("div","cr-name");nm.textContent=c.full_name||c.username||"Потребител";
       var hd=mk("div","cr-handle");hd.textContent="@"+(c.username||"user");
       info.appendChild(nm);info.appendChild(hd);
-      var fans=mk("div","cr-fans");fans.textContent=(c.followers_count||0)+" фена";
-      row.appendChild(av);row.appendChild(info);row.appendChild(fans);
-      row.onclick=function(){showToast("Профил скоро!");};
+      row.appendChild(av);row.appendChild(info);
+      row.onclick=function(){openCreatorProfile(c.id);};
       wrap.appendChild(row);
     });
   }
-
   if(videos&&videos.length>0){
-    hasResults=true;
+    has=true;
     var lbl2=mk("div","sec-label");lbl2.textContent="Видеа";wrap.appendChild(lbl2);
     videos.forEach(function(v){
       var row=mk("div","creator-row");
       var av=mk("div","cr-avatar");av.textContent="🎬";
       var info=mk("div");info.style.flex="1";
       var nm=mk("div","cr-name");nm.textContent=v.title;
-      var hd=mk("div","cr-handle");hd.textContent=v.description?v.description.slice(0,40)+"...":"";
-      info.appendChild(nm);info.appendChild(hd);
+      info.appendChild(nm);
       row.appendChild(av);row.appendChild(info);
       row.onclick=function(){showToast("▶ "+v.title);};
       wrap.appendChild(row);
     });
   }
-
-  if(!hasResults){
-    wrap.innerHTML="<div style='text-align:center;padding:30px;color:var(--text2)'>Няма намерени резултати</div>";
-  }
+  if(!has)wrap.innerHTML="<div style='text-align:center;padding:30px;color:var(--text2)'>Няма намерени резултати</div>";
 }
 
-// ИЗВЕСТИЯ
 function renderInbox(){
   var wrap=el("inbox-list");if(!wrap)return;
   wrap.innerHTML="";
@@ -743,265 +691,181 @@ function renderInbox(){
   });
 }
 
-// ПРОФИЛ
 async function renderProfile(){
   var wrap=el("profile-body");if(!wrap)return;
   wrap.innerHTML="";
-
   if(!ME){
-    var loginMsg=mk("div");
-    loginMsg.style.cssText="padding:60px 20px;text-align:center";
+    var loginMsg=mk("div");loginMsg.style.cssText="padding:60px 20px;text-align:center";
     loginMsg.innerHTML="<div style='font-size:3rem;margin-bottom:16px'>👤</div><div style='font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--text)'>Влез в акаунта си</div><div style='font-size:.82rem;color:var(--text2);margin-bottom:20px'>За да видиш профила си</div>";
     var loginBtn=mk("button","btn-red");loginBtn.style.cssText="width:auto;padding:12px 32px;margin:0 auto;display:block";loginBtn.textContent="Вход / Регистрация";
     loginBtn.onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};
-    loginMsg.appendChild(loginBtn);wrap.appendChild(loginMsg);
-    lucide.createIcons();return;
+    loginMsg.appendChild(loginBtn);wrap.appendChild(loginMsg);lucide.createIcons();return;
   }
 
   var hero=mk("div","profile-hero");
   var av=mk("div","p-avatar");
-  if(ME.avatar){var avImg=document.createElement("img");avImg.src=ME.avatar;av.appendChild(avImg);}
-  else{av.textContent="👤";}
-  var avEdit=mk("div","p-avatar-edit");avEdit.textContent="Смени";
-  av.appendChild(avEdit);
-  av.onclick=function(){el("upl-avatar-inp").click();};
+  if(ME.avatar){var avImg=document.createElement("img");avImg.src=ME.avatar;av.appendChild(avImg);}else{av.textContent="👤";}
+  var avEdit=mk("div","p-avatar-edit");avEdit.textContent="Смени";av.appendChild(avEdit);
+  av.onclick=function(){var inp=document.getElementById("upl-avatar-inp");if(inp)inp.click();};
 
-  // Avatar upload input
-  var avatarInp=document.getElementById("upl-avatar-inp");
-  if(!avatarInp){
-    avatarInp=document.createElement("input");
-    avatarInp.type="file";avatarInp.accept="image/*";avatarInp.id="upl-avatar-inp";avatarInp.style.display="none";
+  if(!document.getElementById("upl-avatar-inp")){
+    var avatarInp=document.createElement("input");avatarInp.type="file";avatarInp.accept="image/*";avatarInp.id="upl-avatar-inp";avatarInp.style.display="none";
     avatarInp.onchange=async function(){
       if(!this.files||!this.files[0])return;
       showToast("Качване...");
-      var file=this.files[0];
-      var ext=file.name.split(".").pop();
-      var path="avatars/"+ME.id+"."+ext;
+      var file=this.files[0];var ext=file.name.split(".").pop();var path="avatars/"+ME.id+"."+ext;
       try{
         await sb.storage.from("avatars").upload(path,file,{upsert:true});
         var url=sb.storage.from("avatars").getPublicUrl(path).data.publicUrl;
-        await sb.from("profiles").upsert({id:ME.id,avatar_url:url,username:ME.username||ME.name});
-        ME.avatar=url;
-        showToast("✅ Снимката е сменена!");
-        renderProfile();
-      }catch(e){showToast("Грешка при качване!");}
+        await sb.from("profiles").upsert({id:ME.id,avatar_url:url,username:ME.username||ME.name,full_name:ME.name});
+        ME.avatar=url;showToast("✅ Снимката е сменена!");renderProfile();
+      }catch(e){showToast("Грешка: "+e.message);}
     };
     document.body.appendChild(avatarInp);
   }
 
   var nm=mk("div","p-name");nm.textContent=ME.username||ME.name;
-  var hd=mk("div","p-handle");hd.textContent="@"+(ME.username||ME.name).toLowerCase().replace(/\s/g,"_");
-
+  var hd=mk("div","p-handle");hd.textContent="@"+(ME.username||ME.name).toLowerCase().replace(/\s+/g,"_");
   var stats=mk("div","p-stats");
   var myVideosCount=0;
   if(sb){try{var rv=await sb.from("videos").select("id",{count:"exact"}).eq("user_id",ME.id);myVideosCount=rv.count||0;}catch(e){}}
   [{n:myVideosCount,l:"Видеа"},{n:0,l:"Фена"},{n:0,l:"Следва"}].forEach(function(s){
     var st=mk("div");var sn=mk("div","pst-n");sn.textContent=s.n;var sl=mk("div","pst-l");sl.textContent=s.l;st.appendChild(sn);st.appendChild(sl);stats.appendChild(st);
   });
-
   var bio=mk("p","p-bio");bio.textContent=ME.bio||"Добави биография";
   var btns=mk("div","p-btns");
   var editBtn=mk("button");editBtn.textContent="✏️ Редактирай";
-  editBtn.onclick=function(){
-    el("edit-username").value=ME.username||ME.name;
-    el("edit-bio").value=ME.bio||"";
-    el("m-edit-profile").classList.add("open");
-    lucide.createIcons();
-  };
+  editBtn.onclick=function(){el("edit-username").value=ME.username||ME.name;el("edit-bio").value=ME.bio||"";el("m-edit-profile").classList.add("open");lucide.createIcons();};
   btns.appendChild(editBtn);
-
   hero.appendChild(av);hero.appendChild(nm);hero.appendChild(hd);hero.appendChild(stats);hero.appendChild(bio);hero.appendChild(btns);
   wrap.appendChild(hero);
 
-  // Табове — Моите видеа, Харесани, Запазени
   var tabs=mk("div","p-tabs");
-  var t1=mk("button","p-tab active");t1.textContent="Видеа";
+  var t1=mk("button","p-tab active");t1.textContent="📹 Видеа";
   var t2=mk("button","p-tab");t2.textContent="❤️ Харесани";
   var t3=mk("button","p-tab");t3.textContent="🔖 Запазени";
   tabs.appendChild(t1);tabs.appendChild(t2);tabs.appendChild(t3);
   wrap.appendChild(tabs);
 
+  async function buildVideoGrid(videos){
+    var grid=mk("div","vgrid");
+    if(videos&&videos.length>0){
+      videos.forEach(function(v){
+        var cell=mk("div","vg-cell");
+        var vidEl=document.createElement("video");vidEl.src=v.file_url;vidEl.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover";
+        cell.appendChild(vidEl);
+        var vw=mk("div","vg-views");vw.textContent=fmt(v.views||0);cell.appendChild(vw);
+        cell.onclick=function(){showToast("▶ "+v.title);};
+        grid.appendChild(cell);
+      });
+    } else {
+      grid.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>Няма видеа</div>";
+    }
+    return grid;
+  }
+
   // Моите видеа
-  var grid=mk("div","vgrid");grid.id="ptab-my";
-  if(sb){
-    try{
-      var rv2=await sb.from("videos").select("*").eq("user_id",ME.id).order("created_at",{ascending:false}).limit(12);
-      if(rv2.data&&rv2.data.length>0){
-        rv2.data.forEach(function(v){
-          var cell=mk("div","vg-cell");
-          var vidEl=document.createElement("video");
-          vidEl.src=v.file_url;vidEl.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover";
-          cell.appendChild(vidEl);
-          var vw=mk("div","vg-views");vw.textContent=fmt(v.views||0);cell.appendChild(vw);
-          cell.onclick=function(){showToast("▶ "+v.title);};
-          grid.appendChild(cell);
-        });
-      } else {
-        grid.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>Все още нямаш видеа</div>";
-      }
-    }catch(e){}
-  }
-  wrap.appendChild(grid);
+  var myVideos=[];
+  if(sb){try{var rv2=await sb.from("videos").select("*").eq("user_id",ME.id).order("created_at",{ascending:false}).limit(12);myVideos=rv2.data||[];}catch(e){}}
+  var grid1=await buildVideoGrid(myVideos.length>0?myVideos:null);
+  if(myVideos.length===0)grid1.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>Все още нямаш видеа</div>";
+  grid1.id="ptab-my";
+  wrap.appendChild(grid1);
 
-  // Харесани видеа
-  var likedGrid=mk("div","vgrid");likedGrid.id="ptab-liked";likedGrid.style.display="none";
-  var likedIds=Object.keys(likedVideos).filter(function(id){return likedVideos[id];});
-  if(likedIds.length>0){
-    if(sb){
-      try{
-        var rl=await sb.from("videos").select("*").in("id",likedIds);
-        if(rl.data&&rl.data.length>0){
-          rl.data.forEach(function(v){
-            var cell=mk("div","vg-cell");
-            var vidEl=document.createElement("video");vidEl.src=v.file_url;vidEl.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover";
-            cell.appendChild(vidEl);
-            var vw=mk("div","vg-views");vw.textContent="❤️";cell.appendChild(vw);
-            cell.onclick=function(){showToast("▶ "+v.title);};
-            likedGrid.appendChild(cell);
-          });
-        }
-      }catch(e){}
-    }
-  } else {
-    likedGrid.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>Все още не си харесал видеа</div>";
-  }
-  wrap.appendChild(likedGrid);
+  // Харесани
+  var likedVideos=[];
+  if(sb&&ME){try{
+    var rl=await sb.from("likes").select("video_id").eq("user_id",ME.id);
+    var likedIds=(rl.data||[]).map(function(l){return l.video_id;});
+    if(likedIds.length>0){var rlv=await sb.from("videos").select("*").in("id",likedIds);likedVideos=rlv.data||[];}
+  }catch(e){}}
+  var grid2=await buildVideoGrid(likedVideos.length>0?likedVideos:null);
+  if(likedVideos.length===0)grid2.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>Все още не си харесал видеа</div>";
+  grid2.id="ptab-liked";grid2.style.display="none";
+  wrap.appendChild(grid2);
 
-  // Запазени видеа
-  var savedGrid=mk("div","vgrid");savedGrid.id="ptab-saved";savedGrid.style.display="none";
-  var savedIds=Object.keys(savedVideos).filter(function(id){return savedVideos[id];});
-  if(savedIds.length>0){
-    if(sb){
-      try{
-        var rs=await sb.from("videos").select("*").in("id",savedIds);
-        if(rs.data&&rs.data.length>0){
-          rs.data.forEach(function(v){
-            var cell=mk("div","vg-cell");
-            var vidEl=document.createElement("video");vidEl.src=v.file_url;vidEl.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover";
-            cell.appendChild(vidEl);
-            var vw=mk("div","vg-views");vw.textContent="🔖";cell.appendChild(vw);
-            cell.onclick=function(){showToast("▶ "+v.title);};
-            savedGrid.appendChild(cell);
-          });
-        }
-      }catch(e){}
-    }
-  } else {
-    savedGrid.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>Все още нямаш запазени видеа</div>";
-  }
-  wrap.appendChild(savedGrid);
+  // Запазени
+  var savedVideos=[];
+  if(sb&&ME){try{
+    var rs=await sb.from("saves").select("video_id").eq("user_id",ME.id);
+    var savedIds=(rs.data||[]).map(function(s){return s.video_id;});
+    if(savedIds.length>0){var rsv=await sb.from("videos").select("*").in("id",savedIds);savedVideos=rsv.data||[];}
+  }catch(e){}}
+  var grid3=await buildVideoGrid(savedVideos.length>0?savedVideos:null);
+  if(savedVideos.length===0)grid3.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>Все още нямаш запазени видеа</div>";
+  grid3.id="ptab-saved";grid3.style.display="none";
+  wrap.appendChild(grid3);
 
-  // Tab handlers
   t1.onclick=function(){t1.classList.add("active");t2.classList.remove("active");t3.classList.remove("active");el("ptab-my").style.display="grid";el("ptab-liked").style.display="none";el("ptab-saved").style.display="none";};
   t2.onclick=function(){t2.classList.add("active");t1.classList.remove("active");t3.classList.remove("active");el("ptab-my").style.display="none";el("ptab-liked").style.display="grid";el("ptab-saved").style.display="none";};
   t3.onclick=function(){t3.classList.add("active");t1.classList.remove("active");t2.classList.remove("active");el("ptab-my").style.display="none";el("ptab-liked").style.display="none";el("ptab-saved").style.display="grid";};
-
   lucide.createIcons();
 }
 
-// РЕДАКТИРАНЕ НА ПРОФИЛ
 function bindEditProfile(){
   el("edit-cancel-btn").onclick=function(){el("m-edit-profile").classList.remove("open");};
   el("edit-save-btn").onclick=async function(){
-    var username=el("edit-username").value.trim();
-    var bio=el("edit-bio").value.trim();
+    var username=el("edit-username").value.trim();var bio=el("edit-bio").value.trim();
     if(!username){showToast("Въведи потребителско име!");return;}
     if(!sb||!ME)return;
     try{
       await sb.from("profiles").upsert({id:ME.id,username:username,bio:bio,full_name:ME.name,avatar_url:ME.avatar||""});
-      ME.username=username;ME.bio=bio;
-      el("m-edit-profile").classList.remove("open");
-      showToast("✅ Профилът е обновен!");
-      renderProfile();
+      ME.username=username;ME.bio=bio;el("m-edit-profile").classList.remove("open");showToast("✅ Профилът е обновен!");renderProfile();
     }catch(e){showToast("Грешка!");}
   };
 }
 
-function bindAuth(){
-  el("sw-login").onclick=function(){switchAuth("login");};
-  el("sw-register").onclick=function(){switchAuth("register");};
-  el("l-btn").onclick=doLogin;
-  el("r-btn").onclick=doRegister;
-}
-
-function switchAuth(type){
-  el("sw-login").classList.toggle("active",type==="login");
-  el("sw-register").classList.toggle("active",type==="register");
-  el("auth-login").style.display=type==="login"?"":"none";
-  el("auth-register").style.display=type==="register"?"":"none";
-}
+function bindAuth(){el("sw-login").onclick=function(){switchAuth("login");};el("sw-register").onclick=function(){switchAuth("register");};el("l-btn").onclick=doLogin;el("r-btn").onclick=doRegister;}
+function switchAuth(type){el("sw-login").classList.toggle("active",type==="login");el("sw-register").classList.toggle("active",type==="register");el("auth-login").style.display=type==="login"?"":"none";el("auth-register").style.display=type==="register"?"":"none";}
 
 async function doLogin(){
-  var email=el("l-email").value.trim();var pass=el("l-pass").value;
-  var err=el("l-err");var btn=el("l-btn");
+  var email=el("l-email").value.trim();var pass=el("l-pass").value;var err=el("l-err");var btn=el("l-btn");
   if(!email||!pass){err.textContent="Попълни имейл и парола.";err.style.display="block";return;}
   btn.textContent="Влизане...";btn.disabled=true;
   if(sb){
     var r=await sb.auth.signInWithPassword({email:email,password:pass});
-    if(r.error){
-      err.textContent=r.error.message.includes("Email not confirmed")?"Потвърди имейла си първо!":"Грешни имейл или парола.";
-      err.style.display="block";btn.textContent="Вход →";btn.disabled=false;return;
-    }
+    if(r.error){err.textContent=r.error.message.includes("Email not confirmed")?"Потвърди имейла си първо!":"Грешни имейл или парола.";err.style.display="block";btn.textContent="Вход →";btn.disabled=false;return;}
     var u=r.data.user;ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};
-    await loadProfile();
-    renderProfile();
+    await loadProfile();renderProfile();renderFeed();
   }
-  el("m-auth").classList.remove("open");
-  btn.textContent="Вход →";btn.disabled=false;
+  el("m-auth").classList.remove("open");btn.textContent="Вход →";btn.disabled=false;
   showToast("👋 Добре дошъл, "+(ME.username||ME.name)+"!");
 }
 
 async function doRegister(){
-  var name=el("r-name").value.trim();var email=el("r-email").value.trim();var pass=el("r-pass").value;
-  var err=el("r-err");var btn=el("r-btn");
+  var name=el("r-name").value.trim();var email=el("r-email").value.trim();var pass=el("r-pass").value;var err=el("r-err");var btn=el("r-btn");
   if(!name||!email||!pass){err.textContent="Попълни всички полета.";err.style.display="block";return;}
   if(pass.length<8){err.textContent="Паролата трябва да е поне 8 символа.";err.style.display="block";return;}
   btn.textContent="Регистрация...";btn.disabled=true;
   if(sb){
     var r=await sb.auth.signUp({email:email,password:pass,options:{data:{name:name}}});
     if(r.error){err.textContent=r.error.message;err.style.display="block";btn.textContent="Създай акаунт →";btn.disabled=false;return;}
-    if(r.data&&r.data.user){
-      var username=name.toLowerCase().replace(/\s+/g,"_");
-      await sb.from("profiles").upsert({id:r.data.user.id,username:username,full_name:name,bio:"",avatar_url:""});
-    }
+    if(r.data&&r.data.user){var username=name.toLowerCase().replace(/\s+/g,"_");await sb.from("profiles").upsert({id:r.data.user.id,username:username,full_name:name,bio:"",avatar_url:""});}
   }
-  el("m-auth").classList.remove("open");
-  btn.textContent="Създай акаунт →";btn.disabled=false;
+  el("m-auth").classList.remove("open");btn.textContent="Създай акаунт →";btn.disabled=false;
   showToast("🎉 Провери имейла си за потвърждение!");
 }
 
-function openUpload(){
-  if(!ME){el("m-auth").classList.add("open");lucide.createIcons();return;}
-  resetUpload();el("m-upload").classList.add("open");lucide.createIcons();
-}
-
+function openUpload(){if(!ME){el("m-auth").classList.add("open");lucide.createIcons();return;}resetUpload();el("m-upload").classList.add("open");lucide.createIcons();}
 function bindUpload(){
-  el("upl-dz").onclick=function(){el("upl-inp").click();};
-  el("upl-inp").onchange=function(){if(this.files&&this.files[0])setFile(this.files[0]);};
-  el("upl-fi-rm").onclick=resetUpload;
-  el("upl-go-btn").onclick=startUpload;
+  el("upl-dz").onclick=function(){el("upl-inp").click();};el("upl-inp").onchange=function(){if(this.files&&this.files[0])setFile(this.files[0]);};
+  el("upl-fi-rm").onclick=resetUpload;el("upl-go-btn").onclick=startUpload;
   el("upl-cancel-btn").onclick=function(){if(uplXhr){uplXhr.abort();uplXhr=null;}el("m-upload").classList.remove("open");resetUpload();};
-  el("upl-dz").ondragover=function(e){e.preventDefault();this.classList.add("over");};
-  el("upl-dz").ondragleave=function(){this.classList.remove("over");};
+  el("upl-dz").ondragover=function(e){e.preventDefault();this.classList.add("over");};el("upl-dz").ondragleave=function(){this.classList.remove("over");};
   el("upl-dz").ondrop=function(e){e.preventDefault();this.classList.remove("over");if(e.dataTransfer&&e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);};
 }
-
 function setFile(f){uplFile=f;el("upl-dz").style.display="none";el("upl-fi").style.display="flex";el("upl-fi-name").textContent=f.name;el("upl-fi-size").textContent=fmtBytes(f.size);}
 function resetUpload(){uplFile=null;el("upl-inp").value="";el("upl-dz").style.display="block";el("upl-fi").style.display="none";el("upl-prog").style.display="none";el("upl-suc").style.display="none";el("upl-act").style.display="block";el("upl-bar").style.width="0";el("upl-title").value="";el("upl-desc").value="";}
 
 async function startUpload(){
-  if(!uplFile){showToast("Избери видео!");return;}
-  var tit=el("upl-title");if(!tit.value.trim()){showToast("Въведи заглавие!");return;}
-  var token="";
-  if(sb){try{var s=await sb.auth.getSession();if(s.data&&s.data.session)token=s.data.session.access_token;}catch(e){}}
+  if(!uplFile){showToast("Избери видео!");return;}var tit=el("upl-title");if(!tit.value.trim()){showToast("Въведи заглавие!");return;}
+  var token="";if(sb){try{var s=await sb.auth.getSession();if(s.data&&s.data.session)token=s.data.session.access_token;}catch(e){}}
   if(!token){showToast("Влез в акаунта!");return;}
   el("upl-act").style.display="none";el("upl-prog").style.display="block";
   try{
     var pr=await fetch(BACKEND+"/presign",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({fileName:uplFile.name,mimeType:uplFile.type,title:tit.value.trim(),description:el("upl-desc").value,access:el("upl-access").value})});
-    var pd=await pr.json();
-    if(!pr.ok){el("upl-act").style.display="block";showToast("❌ "+(pd.error||"Грешка"));return;}
-    var t0=Date.now();
-    uplXhr=new XMLHttpRequest();uplXhr.open("PUT",pd.uploadUrl,true);uplXhr.setRequestHeader("Content-Type",uplFile.type);
+    var pd=await pr.json();if(!pr.ok){el("upl-act").style.display="block";showToast("❌ "+(pd.error||"Грешка"));return;}
+    var t0=Date.now();uplXhr=new XMLHttpRequest();uplXhr.open("PUT",pd.uploadUrl,true);uplXhr.setRequestHeader("Content-Type",uplFile.type);
     uplXhr.upload.onprogress=function(e){if(!e.lengthComputable)return;var p=Math.round(e.loaded/e.total*100);el("upl-bar").style.width=p+"%";el("upl-pct").textContent=p+"%";var s=Math.max(0.1,(Date.now()-t0)/1000);el("upl-spd").textContent=fmtBytes(e.loaded)+" / "+fmtBytes(e.total)+" — "+((e.loaded/1048576)/s).toFixed(1)+" MB/s";};
     uplXhr.onload=function(){uplXhr=null;if(this.status===200){el("upl-prog").style.display="none";el("upl-suc").style.display="block";showToast("✅ Качено успешно!");setTimeout(function(){renderFeed();},2000);}else{el("upl-act").style.display="block";showToast("❌ Грешка: "+this.status);}};
     uplXhr.onerror=function(){uplXhr=null;el("upl-act").style.display="block";showToast("❌ Мрежова грешка.");};
@@ -1012,10 +876,8 @@ async function startUpload(){
 function bindMenu(){
   el("menu-open-btn").onclick=function(){el("m-menu").classList.add("open");lucide.createIcons();};
   el("m-theme").onclick=function(){toggleTheme();el("m-menu").classList.remove("open");};
-  el("m-terms").onclick=function(){window.location.href="terms.html";};
-  el("m-privacy").onclick=function(){window.location.href="privacy.html";};
-  el("m-contact").onclick=function(){window.location.href="contact.html";};
-  el("m-about").onclick=function(){window.location.href="about.html";};
+  el("m-terms").onclick=function(){window.location.href="terms.html";};el("m-privacy").onclick=function(){window.location.href="privacy.html";};
+  el("m-contact").onclick=function(){window.location.href="contact.html";};el("m-about").onclick=function(){window.location.href="about.html";};
   el("m-logout").onclick=async function(){if(sb)await sb.auth.signOut();ME=null;el("m-menu").classList.remove("open");showToast("👋 Излязохте.");renderProfile();};
 }
 </script>
