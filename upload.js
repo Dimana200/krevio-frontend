@@ -64,12 +64,10 @@ async function startUpload() {
     return;
   }
 
-  // Покажи прогреса
   document.getElementById("upl-prog").style.display = "block";
   document.getElementById("upl-fi").style.display = "none";
 
   try {
-    // Стъпка 1: Вземи presigned URL от backend-а
     var presignRes = await fetch(BACKEND + "/presign", {
       method: "POST",
       headers: {
@@ -92,7 +90,6 @@ async function startUpload() {
       return;
     }
 
-    // Стъпка 2: Качи файла директно в R2
     var xhr = new XMLHttpRequest();
     xhr.open("PUT", presignData.uploadUrl);
     xhr.setRequestHeader("Content-Type", uplFile.type);
