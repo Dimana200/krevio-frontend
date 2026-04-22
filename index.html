@@ -51,7 +51,8 @@ body.light .logo-full{color:#111}
 .icon-btn svg{width:24px;height:24px;stroke:#fff;stroke-width:1.5;fill:none}
 .v-info{position:absolute;bottom:84px;left:0;right:72px;padding:0 14px;z-index:10}
 .v-creator{display:flex;align-items:center;gap:9px;margin-bottom:9px;cursor:pointer}
-.v-avatar{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;background:#222}
+.v-avatar{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;background:#222;overflow:hidden}
+.v-avatar img{width:100%;height:100%;object-fit:cover}
 .v-name{font-weight:700;font-size:.88rem;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
 .v-handle{font-size:.72rem;color:rgba(255,255,255,.6);margin-top:1px}
 .v-title{font-size:.84rem;color:rgba(255,255,255,.88);line-height:1.5;margin-bottom:7px;text-shadow:0 1px 3px rgba(0,0,0,.4);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -62,7 +63,8 @@ body.light .logo-full{color:#111}
 .v-act-btn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;background:none;border:none;padding:0}
 .v-act-btn svg{width:28px;height:28px;stroke:#fff;stroke-width:1.5;fill:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
 .v-act-btn span{font-size:.68rem;color:#fff;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.5)}
-.v-act-avatar{width:44px;height:44px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;position:relative;background:#222}
+.v-act-avatar{width:44px;height:44px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;position:relative;background:#222;overflow:hidden}
+.v-act-avatar img{width:100%;height:100%;object-fit:cover}
 .v-follow-plus{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:#e8192c;border:none;border-radius:100px;padding:2px 7px;font-size:.58rem;font-weight:700;color:#fff;white-space:nowrap;cursor:pointer}
 .v-music{display:none}
 .v-ad{position:absolute;bottom:88px;left:14px;right:72px;z-index:10}
@@ -92,7 +94,8 @@ body.light .logo-full{color:#111}
 .sec-label{font-size:.68rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;padding:20px 16px 10px}
 .creator-row{display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;transition:background .15s}
 .creator-row:active{background:var(--border)}
-.cr-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;background:var(--card);border:1px solid var(--border)}
+.cr-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;background:var(--card);border:1px solid var(--border);overflow:hidden}
+.cr-avatar img{width:100%;height:100%;object-fit:cover}
 .cr-name{font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:2px}
 .cr-handle{font-size:.75rem;color:var(--text2)}
 .cr-fans{font-size:.72rem;color:var(--text2);margin-left:auto;white-space:nowrap}
@@ -110,7 +113,9 @@ body.light .logo-full{color:#111}
 .profile-top{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(20px);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--nav-border)}
 .profile-top .icon-btn svg{stroke:var(--text)}
 .profile-hero{padding:20px 16px;display:flex;flex-direction:column;align-items:center;text-align:center}
-.p-avatar{width:82px;height:82px;border-radius:50%;background:var(--card);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:12px}
+.p-avatar{width:82px;height:82px;border-radius:50%;background:var(--card);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:12px;overflow:hidden;position:relative;cursor:pointer}
+.p-avatar img{width:100%;height:100%;object-fit:cover}
+.p-avatar-edit{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);font-size:.6rem;color:#fff;text-align:center;padding:3px}
 .p-name{font-size:1.1rem;font-weight:900;color:var(--text);letter-spacing:-.3px}
 .p-handle{font-size:.8rem;color:var(--text2);margin-bottom:14px}
 .p-stats{display:flex;gap:28px;margin-bottom:14px}
@@ -141,9 +146,10 @@ body.light .logo-full{color:#111}
 @keyframes spin{to{transform:rotate(360deg)}}
 .mhandle{width:34px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 18px}
 .mtitle{font-size:1rem;font-weight:800;color:var(--text);text-align:center;margin-bottom:18px}
-.cmt-list{display:flex;flex-direction:column;gap:12px;max-height:38vh;overflow-y:auto;margin-bottom:14px}
+.cmt-list{display:flex;flex-direction:column;gap:12px;max-height:45vh;overflow-y:auto;margin-bottom:14px}
 .cmt-item{display:flex;gap:9px}
-.cmt-av{width:32px;height:32px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;border:1px solid var(--border)}
+.cmt-av{width:32px;height:32px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;border:1px solid var(--border);overflow:hidden}
+.cmt-av img{width:100%;height:100%;object-fit:cover}
 .cmt-name{font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:2px}
 .cmt-text{font-size:.82rem;color:var(--text2);line-height:1.5}
 .cmt-time{font-size:.65rem;color:var(--text3);margin-top:2px}
@@ -188,6 +194,11 @@ textarea.fi{resize:vertical}
 .upl-row{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px;color:var(--text)}
 .upl-pct{font-weight:700;color:#e8192c}
 .upl-spd{font-size:.68rem;color:var(--text2)}
+.notif-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer}
+.notif-av{width:40px;height:40px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.notif-txt{font-size:.82rem;color:var(--text);flex:1;line-height:1.4}
+.notif-time{font-size:.65rem;color:var(--text3);white-space:nowrap}
+.notif-unread{width:8px;height:8px;border-radius:50%;background:#e8192c;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -211,7 +222,7 @@ textarea.fi{resize:vertical}
       <input type="text" id="search-inp" placeholder="Търси творец...">
     </div>
   </div>
-  <div class="sec-label">Популярни творци</div>
+  <div class="sec-label">Творци</div>
   <div id="search-list"></div>
 </div>
 <div id="page-inbox" class="page">
@@ -232,9 +243,11 @@ textarea.fi{resize:vertical}
   <button class="bn active" id="bn-feed"><i data-lucide="house"></i><span>Начало</span></button>
   <button class="bn" id="bn-search"><i data-lucide="search"></i><span>Търси</span></button>
   <div class="bn-plus-wrap" id="bn-upload"><div class="bn-plus"><i data-lucide="plus"></i></div><span>Качи</span></div>
-  <button class="bn" id="bn-inbox"><i data-lucide="message-square"></i><span>Входящи</span><div class="bn-badge">3</div></button>
+  <button class="bn" id="bn-inbox"><i data-lucide="bell"></i><span>Известия</span><div class="bn-badge" id="notif-badge" style="display:none">0</div></button>
   <button class="bn" id="bn-profile"><i data-lucide="user"></i><span>Профил</span></button>
 </nav>
+
+<!-- COMMENTS MODAL -->
 <div class="modal" id="m-comments">
   <div class="mbox">
     <div class="mhandle"></div>
@@ -246,6 +259,8 @@ textarea.fi{resize:vertical}
     </div>
   </div>
 </div>
+
+<!-- UPLOAD MODAL -->
 <div class="modal" id="m-upload">
   <div class="mbox">
     <div class="mhandle"></div>
@@ -270,7 +285,7 @@ textarea.fi{resize:vertical}
       <select class="fsel" id="upl-access">
         <option value="free">🌍 Безплатно</option>
         <option value="fan">⭐ Фен — 2.50€+</option>
-        <option value="studio" selected>🎧 Студио — 5€+</option>
+        <option value="studio">🎧 Студио — 5€+</option>
         <option value="pro">🏆 Про — 12€+</option>
       </select>
     </div>
@@ -289,6 +304,8 @@ textarea.fi{resize:vertical}
     </div>
   </div>
 </div>
+
+<!-- AUTH MODAL -->
 <div class="modal" id="m-auth">
   <div class="mbox">
     <div class="mhandle"></div>
@@ -311,6 +328,8 @@ textarea.fi{resize:vertical}
     </div>
   </div>
 </div>
+
+<!-- MENU MODAL -->
 <div class="modal" id="m-menu">
   <div class="mbox">
     <div class="mhandle"></div>
@@ -322,49 +341,59 @@ textarea.fi{resize:vertical}
     <div class="menu-item menu-danger" id="m-logout"><i data-lucide="log-out"></i><span class="menu-item-label">Изход</span></div>
   </div>
 </div>
+
 <div class="toast" id="toast"></div>
+
 <script>
 var SB_URL="https://ucsogdvswugpynaqymtg.supabase.co";
 var SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc29nZHZzd3VncHluYXF5bXRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NzM2NTEsImV4cCI6MjA5MjM0OTY1MX0.pGjks7ghLR6tDyK0RlIPP57xIvbDomx-jelXHO8fEKI";
 var BACKEND="https://krevio-backend-production.up.railway.app";
 var sb=null,ME=null,uplFile=null,uplXhr=null,isDark=true,likedSet={},savedSet={};
-var CREATORS=[
-  {name:"Виктор Александров",handle:"@viktor_bg",ico:"🎵",fans:1247,vids:89,likes:"2.8M",bio:"Музикален продуцент от София.",bg:"linear-gradient(135deg,#1a0a2e,#2e0a1a)"},
-  {name:"Мария Попова",handle:"@maria_art",ico:"🎨",fans:892,vids:54,likes:"1.2M",bio:"Дигитален художник и аниматор.",bg:"linear-gradient(135deg,#2e0a1a,#1a0d2e)"},
-  {name:"Технология БГ",handle:"@tech_bg",ico:"💻",fans:2104,vids:127,likes:"5.1M",bio:"Python, AI и уеб разработка.",bg:"linear-gradient(135deg,#0a1a0a,#0a1a2e)"},
-  {name:"Кино Разкази",handle:"@kino_bg",ico:"🎬",fans:645,vids:38,likes:"890K",bio:"Задкулисни материали.",bg:"linear-gradient(135deg,#2e1a0a,#1a2e0a)"},
-  {name:"Pixel Quest",handle:"@pixel_quest",ico:"🎮",fans:1830,vids:203,likes:"8.4M",bio:"Правя игри от нула.",bg:"linear-gradient(135deg,#0a2e0a,#2e2e0a)"}
-];
-var DEMO_VIDEOS=[
-  {user:"Виктор Александров",handle:"@viktor_bg",ico:"🎵",title:"Как направих хит с 200 EUR оборудване",likes:3122,comments:13,saves:216,access:"free",bg:"linear-gradient(160deg,#1a0a2e,#2e0a1a,#000)"},
-  {user:"Технология БГ",handle:"@tech_bg",ico:"💻",title:"Python трик — ще ти спести часове",likes:8934,comments:87,saves:1203,access:"free",bg:"linear-gradient(160deg,#0a1a0a,#0a1a2e,#000)"},
-  {user:"Мария Попова",handle:"@maria_art",ico:"🎨",title:"Speed paint — портрет за 60 секунди",likes:4521,comments:28,saves:654,access:"studio",bg:"linear-gradient(160deg,#2e0a1a,#1a0d2e,#000)"},
-  {user:"Pixel Quest",handle:"@pixel_quest",ico:"🎮",title:"Правя игра от нула — Ден 1",likes:12847,comments:234,saves:3401,access:"free",bg:"linear-gradient(160deg,#0a2e0a,#2e2e0a,#000)"},
-  {user:"Кино Разкази",handle:"@kino_bg",ico:"🎬",title:"Как се прави кино сцена от нула",likes:2103,comments:19,saves:412,access:"pro",bg:"linear-gradient(160deg,#2e1a0a,#1a2e0a,#000)"}
-];
+var audioUnlocked=false;
+var currentVideoId=null;
+
 var ADS=[
-  {company:"Техномаркет",text:"Лаптопи от 599 лв!",color:"#e8192c"},
-  {company:"Kaufland BG",text:"Промоции тази седмица!",color:"#c53030"},
-  {company:"Виваком",text:"Интернет 1Gbps — 25 лв/мес",color:"#3182ce"},
-  {company:"Банка ДСК",text:"Кредит до 50,000 лв онлайн",color:"#2f855a"}
+  {company:"Техномаркет",text:"Лаптопи от 599 лв!"},
+  {company:"Kaufland BG",text:"Промоции тази седмица!"},
+  {company:"Виваком",text:"Интернет 1Gbps — 25 лв/мес"},
+  {company:"Банка ДСК",text:"Кредит до 50,000 лв онлайн"}
 ];
-var COMMENTS_DATA=[
-  {ico:"🎨",name:"Мария К.",text:"Страхотно! Много полезно 🔥",time:"2 мин"},
-  {ico:"💻",name:"Петър Г.",text:"Браво! Научих нещо ново",time:"15 мин"},
-  {ico:"🎮",name:"Иван С.",text:"Повече такива видеа!",time:"1 ч"}
-];
-function fmt(n){if(n>=1000000)return(n/1000000).toFixed(1)+"M";if(n>=1000)return(n/1000).toFixed(1)+"K";return n;}
+
+function fmt(n){if(n>=1000000)return(n/1000000).toFixed(1)+"M";if(n>=1000)return(n/1000).toFixed(1)+"K";return n||0;}
 function fmtBytes(b){if(b<1048576)return(b/1024).toFixed(1)+" KB";if(b<1073741824)return(b/1048576).toFixed(1)+" MB";return(b/1073741824).toFixed(2)+" GB";}
+function fmtTime(ts){if(!ts)return"";var d=new Date(ts),now=new Date(),diff=Math.floor((now-d)/1000);if(diff<60)return diff+"с";if(diff<3600)return Math.floor(diff/60)+"мин";if(diff<86400)return Math.floor(diff/3600)+"ч";return Math.floor(diff/86400)+"д";}
 function showToast(msg){var t=document.getElementById("toast");if(!t)return;t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},3000);}
 function el(id){return document.getElementById(id);}
 function mk(tag,cls){var e=document.createElement(tag);if(cls)e.className=cls;return e;}
 function icon(name,size){size=size||24;var i=document.createElement("i");i.setAttribute("data-lucide",name);i.style.cssText="width:"+size+"px;height:"+size+"px";return i;}
+
+// Отключи звука при първо докосване
+document.addEventListener("touchstart",function unlockAudio(){
+  if(audioUnlocked)return;
+  audioUnlocked=true;
+  document.querySelectorAll(".v-player").forEach(function(v){v.muted=false;});
+  document.removeEventListener("touchstart",unlockAudio);
+},{once:true});
+
 window.addEventListener("load",function(){
   lucide.createIcons();
   if(typeof supabase!=="undefined"){
     sb=supabase.createClient(SB_URL,SB_ANON);
     sb.auth.getSession().then(function(r){
-      if(r.data&&r.data.session){var u=r.data.session.user;ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};}
+      if(r.data&&r.data.session){
+        var u=r.data.session.user;
+        ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};
+        loadProfile();
+      }
+    });
+    sb.auth.onAuthStateChange(function(event,session){
+      if(session){
+        var u=session.user;
+        ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};
+        loadProfile();
+      } else {
+        ME=null;
+      }
     });
   }
   var saved=localStorage.getItem("krevio-theme");
@@ -375,84 +404,180 @@ window.addEventListener("load",function(){
   el("auth-top-btn").onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};
   el("inbox-edit-btn").onclick=function(){showToast("Скоро!");};
 });
+
+async function loadProfile(){
+  if(!sb||!ME)return;
+  try{
+    var r=await sb.from("profiles").select("*").eq("id",ME.id).single();
+    if(r.data){
+      ME.avatar=r.data.avatar_url||"";
+      ME.bio=r.data.bio||"";
+      ME.username=r.data.username||ME.name;
+    }
+  }catch(e){}
+}
+
 function toggleTheme(){isDark=!isDark;document.body.classList.toggle("light",!isDark);localStorage.setItem("krevio-theme",isDark?"dark":"light");el("m-theme-label").textContent=isDark?"Светла тема":"Тъмна тема";lucide.createIcons();}
-function showPage(page){document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});document.querySelectorAll(".bn").forEach(function(b){b.classList.remove("active");});var pg=el("page-"+page);if(pg)pg.classList.add("active");var bn=el("bn-"+page);if(bn)bn.classList.add("active");}
-function bindNav(){el("bn-feed").onclick=function(){showPage("feed");};el("bn-search").onclick=function(){showPage("search");};el("bn-upload").onclick=function(){openUpload();};el("bn-inbox").onclick=function(){showPage("inbox");};el("bn-profile").onclick=function(){showPage("profile");};}
-function bindModals(){["m-comments","m-upload","m-auth","m-menu"].forEach(function(id){var m=el(id);if(!m)return;m.addEventListener("click",function(e){if(e.target===m)m.classList.remove("open");});});}
+
+function showPage(page){
+  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
+  document.querySelectorAll(".bn").forEach(function(b){b.classList.remove("active");});
+  var pg=el("page-"+page);if(pg)pg.classList.add("active");
+  var bn=el("bn-"+page);if(bn)bn.classList.add("active");
+  if(page==="profile")renderProfile();
+  if(page==="search")renderSearch();
+  if(page==="inbox")renderInbox();
+}
+
+function bindNav(){
+  el("bn-feed").onclick=function(){showPage("feed");};
+  el("bn-search").onclick=function(){showPage("search");};
+  el("bn-upload").onclick=function(){openUpload();};
+  el("bn-inbox").onclick=function(){showPage("inbox");};
+  el("bn-profile").onclick=function(){showPage("profile");};
+}
+
+function bindModals(){
+  ["m-comments","m-upload","m-auth","m-menu"].forEach(function(id){
+    var m=el(id);if(!m)return;
+    m.addEventListener("click",function(e){if(e.target===m)m.classList.remove("open");});
+  });
+}
+
 async function renderFeed(){
   var wrap=el("feed-wrap");if(!wrap)return;
   wrap.innerHTML="";
-  var videos=DEMO_VIDEOS;
+  var videos=[];
   if(sb){
     try{
       var r=await sb.from("videos").select("*").order("created_at",{ascending:false}).limit(20);
-      if(r.data&&r.data.length>0){
-        videos=r.data.map(function(v){
-          return {user:v.title||"Krevio Creator",handle:"@creator",ico:"🎬",title:v.title||"",likes:v.views||0,comments:0,saves:0,access:v.access_level||"free",bg:"linear-gradient(160deg,#1a0a2e,#2e0a1a,#000)",file_url:v.file_url};
-        });
-      }
+      if(r.data&&r.data.length>0)videos=r.data;
     }catch(e){console.log("Feed error:",e);}
   }
+  if(videos.length===0){
+    var empty=mk("div");
+    empty.style.cssText="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,.4);text-align:center;padding:20px";
+    empty.innerHTML="<div style='font-size:3rem;margin-bottom:16px'>🎬</div><div style='font-size:1rem;font-weight:700;margin-bottom:8px'>Все още няма видеа</div><div style='font-size:.82rem'>Бъди първият, който качи!</div>";
+    wrap.appendChild(empty);
+    lucide.createIcons();
+    return;
+  }
   var adIdx=0;
-  videos.forEach(function(v,i){wrap.appendChild(buildVideo(v,i));if((i+1)%2===0&&adIdx<ADS.length){wrap.appendChild(buildAd(ADS[adIdx++]));}});
+  videos.forEach(function(v,i){
+    wrap.appendChild(buildVideo(v,i));
+    if((i+1)%3===0&&adIdx<ADS.length){wrap.appendChild(buildAd(ADS[adIdx++]));}
+  });
   lucide.createIcons();
 }
+
 function buildVideo(v,i){
   var item=mk("div","video-item");
-  if(v.file_url){
-    var vid=document.createElement("video");
-    vid.className="v-player";vid.src=v.file_url;vid.loop=true;vid.muted=true;vid.playsInline=true;vid.preload="metadata";
-    item.appendChild(vid);
-    var loading=mk("div","v-loading");loading.id="loading-"+i;loading.appendChild(mk("div","v-spinner"));item.appendChild(loading);
-    var playOv=mk("div","v-play-overlay");playOv.id="playov-"+i;
-    var circle=mk("div","v-play-circle");circle.innerHTML="<svg viewBox='0 0 24 24'><polygon points='6,3 20,12 6,21' fill='white'/></svg>";
-    playOv.appendChild(circle);item.appendChild(playOv);
-    var prog=mk("div","v-progress");var fill=mk("div","v-progress-fill");fill.id="prog-"+i;prog.appendChild(fill);item.appendChild(prog);
-    vid.addEventListener("loadeddata",function(){var l=el("loading-"+i);if(l)l.style.display="none";});
-    vid.addEventListener("timeupdate",function(){var f=el("prog-"+i);if(f&&vid.duration)f.style.width=(vid.currentTime/vid.duration*100)+"%";});
-    vid.addEventListener("click",function(){
-      if(vid.paused){vid.play();var po=el("playov-"+i);if(po){po.classList.add("show");setTimeout(function(){po.classList.remove("show");},600);}}
-      else{vid.pause();var po=el("playov-"+i);if(po)po.classList.add("show");}
+  var vid=document.createElement("video");
+  vid.className="v-player";
+  vid.src=v.file_url;
+  vid.loop=true;
+  vid.muted=true;
+  vid.playsInline=true;
+  vid.preload="metadata";
+  item.appendChild(vid);
+
+  var loading=mk("div","v-loading");loading.id="loading-"+i;loading.appendChild(mk("div","v-spinner"));item.appendChild(loading);
+  var playOv=mk("div","v-play-overlay");playOv.id="playov-"+i;
+  var circle=mk("div","v-play-circle");circle.innerHTML="<svg viewBox='0 0 24 24'><polygon points='6,3 20,12 6,21' fill='white'/></svg>";
+  playOv.appendChild(circle);item.appendChild(playOv);
+  var prog=mk("div","v-progress");var fill=mk("div","v-progress-fill");fill.id="prog-"+i;prog.appendChild(fill);item.appendChild(prog);
+
+  vid.addEventListener("loadeddata",function(){var l=el("loading-"+i);if(l)l.style.display="none";});
+  vid.addEventListener("timeupdate",function(){var f=el("prog-"+i);if(f&&vid.duration)f.style.width=(vid.currentTime/vid.duration*100)+"%";});
+  vid.addEventListener("click",function(){
+    audioUnlocked=true;
+    vid.muted=false;
+    if(vid.paused){vid.play();var po=el("playov-"+i);if(po){po.classList.add("show");setTimeout(function(){po.classList.remove("show");},600);}}
+    else{vid.pause();var po=el("playov-"+i);if(po)po.classList.add("show");}
+  });
+  prog.addEventListener("click",function(e){var rect=prog.getBoundingClientRect();vid.currentTime=((e.clientX-rect.left)/rect.width)*vid.duration;});
+
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        currentVideoId=v.id;
+        vid.muted=!audioUnlocked;
+        vid.play().catch(function(){vid.muted=true;vid.play().catch(function(){});});
+      } else {
+        vid.pause();
+        vid.currentTime=0;
+      }
     });
-    prog.addEventListener("click",function(e){var rect=prog.getBoundingClientRect();vid.currentTime=((e.clientX-rect.left)/rect.width)*vid.duration;});
-    var obs=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){vid.muted=false;vid.play().catch(function(){vid.muted=true;vid.play().catch(function(){});});}
-        else{vid.pause();vid.currentTime=0;}
-      });
-    },{threshold:0.8});
-    obs.observe(item);
-  } else {
-    var bg=mk("div","v-bg");bg.style.background=v.bg;var bgIco=mk("div","v-bg-ico");bgIco.textContent=v.ico;bg.appendChild(bgIco);item.appendChild(bg);
-  }
+  },{threshold:0.8});
+  obs.observe(item);
+
   item.appendChild(mk("div","v-gradient"));
-  if(v.access!=="free"){
+
+  if(v.access_level!=="free"){
     var lkOv=mk("div","locked-ov");
     var lkH=mk("h3");lkH.textContent="Ексклузивно съдържание";lkOv.appendChild(lkH);
     var lkP=mk("p");lkP.textContent="Абонирай се за да гледаш";lkOv.appendChild(lkP);
     var lkBtn=mk("button");lkBtn.textContent="Абонирай се";lkBtn.style.cssText="background:#e8192c;color:#fff;border:none;border-radius:10px;padding:11px 24px;font-size:.88rem;font-weight:700;cursor:pointer";
     lkBtn.onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};lkOv.appendChild(lkBtn);item.appendChild(lkOv);
   }
+
   var acts=mk("div","v-actions");
-  var avDiv=mk("div","v-act-avatar");avDiv.textContent=v.ico;
+  var avDiv=mk("div","v-act-avatar");
+  if(v.avatar_url){var avImg=document.createElement("img");avImg.src=v.avatar_url;avDiv.appendChild(avImg);}
+  else avDiv.textContent="🎬";
   var plusDiv=mk("div","v-follow-plus");plusDiv.textContent="Следвай";plusDiv.onclick=function(e){e.stopPropagation();showToast("Следваш!");};
-  avDiv.appendChild(plusDiv);avDiv.onclick=function(){showPage("profile");};acts.appendChild(avDiv);
-  var likeBtn=mk("button","v-act-btn");var likeIco=icon("heart",28);likeIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";var likeCnt=mk("span");likeCnt.textContent=fmt(v.likes);likeBtn.appendChild(likeIco);likeBtn.appendChild(likeCnt);likeBtn.onclick=function(){likedSet[i]=!likedSet[i];likeIco.style.fill=likedSet[i]?"#e8192c":"none";likeIco.style.stroke=likedSet[i]?"#e8192c":"#fff";likeCnt.textContent=fmt(v.likes+(likedSet[i]?1:0));};acts.appendChild(likeBtn);
-  var cmtBtn=mk("button","v-act-btn");var cmtIco=icon("message-circle",28);cmtIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";var cmtCnt=mk("span");cmtCnt.textContent=fmt(v.comments);cmtBtn.appendChild(cmtIco);cmtBtn.appendChild(cmtCnt);cmtBtn.onclick=function(){openComments();};acts.appendChild(cmtBtn);
-  var saveBtn=mk("button","v-act-btn");var saveIco=icon("bookmark",28);saveIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";var saveCnt=mk("span");saveCnt.textContent=fmt(v.saves);saveBtn.appendChild(saveIco);saveBtn.appendChild(saveCnt);saveBtn.onclick=function(){savedSet[i]=!savedSet[i];saveIco.style.fill=savedSet[i]?"#fff":"none";showToast(savedSet[i]?"Запазено!":"Премахнато");};acts.appendChild(saveBtn);
-  var shareBtn=mk("button","v-act-btn");var shareIco=icon("share-2",28);shareIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";var shareCnt=mk("span");shareCnt.textContent="Сподели";shareBtn.appendChild(shareIco);shareBtn.appendChild(shareCnt);shareBtn.onclick=function(){showToast("Копирано!");};acts.appendChild(shareBtn);
+  avDiv.appendChild(plusDiv);acts.appendChild(avDiv);
+
+  var likeBtn=mk("button","v-act-btn");
+  var likeIco=icon("heart",28);likeIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";
+  var likeCnt=mk("span");likeCnt.textContent=fmt(v.likes||0);
+  likeBtn.appendChild(likeIco);likeBtn.appendChild(likeCnt);
+  likeBtn.onclick=function(){likedSet[i]=!likedSet[i];likeIco.style.fill=likedSet[i]?"#e8192c":"none";likeIco.style.stroke=likedSet[i]?"#e8192c":"#fff";likeCnt.textContent=fmt((v.likes||0)+(likedSet[i]?1:0));};
+  acts.appendChild(likeBtn);
+
+  var cmtBtn=mk("button","v-act-btn");
+  var cmtIco=icon("message-circle",28);cmtIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";
+  var cmtCnt=mk("span");cmtCnt.textContent="0";
+  cmtBtn.appendChild(cmtIco);cmtBtn.appendChild(cmtCnt);
+  cmtBtn.onclick=function(){openComments(v.id);};
+  acts.appendChild(cmtBtn);
+
+  var saveBtn=mk("button","v-act-btn");
+  var saveIco=icon("bookmark",28);saveIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";
+  var saveCnt=mk("span");saveCnt.textContent="0";
+  saveBtn.appendChild(saveIco);saveBtn.appendChild(saveCnt);
+  saveBtn.onclick=function(){savedSet[i]=!savedSet[i];saveIco.style.fill=savedSet[i]?"#fff":"none";showToast(savedSet[i]?"Запазено!":"Премахнато");};
+  acts.appendChild(saveBtn);
+
+  var shareBtn=mk("button","v-act-btn");
+  var shareIco=icon("share-2",28);shareIco.style.cssText="width:28px;height:28px;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))";
+  var shareCnt=mk("span");shareCnt.textContent="Сподели";
+  shareBtn.appendChild(shareIco);shareBtn.appendChild(shareCnt);
+  shareBtn.onclick=function(){if(navigator.share){navigator.share({title:v.title,url:window.location.href});}else{showToast("Копирано!");}};
+  acts.appendChild(shareBtn);
   item.appendChild(acts);
+
   var info=mk("div","v-info");
-  if(v.access!=="free"){var badge=mk("div","v-plan-badge");badge.textContent=v.access==="studio"?"🎧 Студио":"🏆 Про";info.appendChild(badge);}
-  var creator=mk("div","v-creator");creator.onclick=function(){showPage("profile");};
-  var cAv=mk("div","v-avatar");cAv.textContent=v.ico;var cInfo=mk("div");var cName=mk("div","v-name");cName.textContent=v.user;var cHandle=mk("div","v-handle");cHandle.textContent=v.handle;cInfo.appendChild(cName);cInfo.appendChild(cHandle);creator.appendChild(cAv);creator.appendChild(cInfo);info.appendChild(creator);
-  var title=mk("div","v-title");title.textContent=v.title;info.appendChild(title);
+  if(v.access_level!=="free"){var badge=mk("div","v-plan-badge");badge.textContent=v.access_level==="studio"?"🎧 Студио":"🏆 Про";info.appendChild(badge);}
+  var creator=mk("div","v-creator");
+  var cAv=mk("div","v-avatar");cAv.textContent="🎬";
+  var cInfo=mk("div");
+  var cName=mk("div","v-name");cName.textContent=v.title||"Krevio Creator";
+  var cHandle=mk("div","v-handle");cHandle.textContent="@creator";
+  cInfo.appendChild(cName);cInfo.appendChild(cHandle);
+  creator.appendChild(cAv);creator.appendChild(cInfo);
+  info.appendChild(creator);
+  var desc=mk("div","v-title");desc.textContent=v.description||"";info.appendChild(desc);
   var tags=mk("div","v-tags");var t1=mk("span","v-tag");t1.textContent="#krevio";tags.appendChild(t1);info.appendChild(tags);
   item.appendChild(info);
   return item;
 }
+
 function buildAd(ad){
-  var item=mk("div","video-item");var bg=mk("div","v-bg");bg.style.background="linear-gradient(160deg,#050510,#100520,#000)";var bgIco=mk("div","v-bg-ico");bgIco.textContent="📢";bg.appendChild(bgIco);item.appendChild(bg);item.appendChild(mk("div","v-gradient"));
+  var item=mk("div","video-item");
+  var bg=mk("div","v-bg");bg.style.background="linear-gradient(160deg,#050510,#100520,#000)";
+  var bgIco=mk("div","v-bg-ico");bgIco.textContent="📢";bg.appendChild(bgIco);item.appendChild(bg);
+  item.appendChild(mk("div","v-gradient"));
   var center=mk("div");center.style.cssText="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;text-align:center;padding:24px;pointer-events:none";
   var clabel=mk("div");clabel.style.cssText="font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px";clabel.textContent="Спонсорирано";
   var cname=mk("div");cname.style.cssText="font-size:1.6rem;font-weight:900;color:#fff;margin-bottom:6px";cname.textContent=ad.company;
@@ -460,29 +585,312 @@ function buildAd(ad){
   center.appendChild(clabel);center.appendChild(cname);center.appendChild(ctext);item.appendChild(center);
   return item;
 }
-function openComments(){var list=el("cmt-list");if(!list)return;list.innerHTML="";COMMENTS_DATA.forEach(function(c){var item=mk("div","cmt-item");var av=mk("div","cmt-av");av.textContent=c.ico;var body=mk("div");var nm=mk("div","cmt-name");nm.textContent=c.name;var tx=mk("div","cmt-text");tx.textContent=c.text;var tm=mk("div","cmt-time");tm.textContent=c.time+" назад";body.appendChild(nm);body.appendChild(tx);body.appendChild(tm);item.appendChild(av);item.appendChild(body);list.appendChild(item);});el("m-comments").classList.add("open");lucide.createIcons();}
-el("cmt-send-btn")&&(el("cmt-send-btn").onclick=function(){var inp=el("cmt-inp");if(!inp||!inp.value.trim())return;showToast("Коментарът е добавен!");inp.value="";});
-function renderSearch(){renderCreatorList(CREATORS);el("search-inp").oninput=function(){var q=this.value.toLowerCase();renderCreatorList(CREATORS.filter(function(c){return !q||c.name.toLowerCase().indexOf(q)>=0||c.handle.indexOf(q)>=0;}));};}
-function renderCreatorList(list){var wrap=el("search-list");if(!wrap)return;wrap.innerHTML="";list.forEach(function(c){var row=mk("div","creator-row");var av=mk("div","cr-avatar");av.textContent=c.ico;var info=mk("div");info.style.flex="1";var nm=mk("div","cr-name");nm.textContent=c.name;var hd=mk("div","cr-handle");hd.textContent=c.handle;info.appendChild(nm);info.appendChild(hd);var fans=mk("div","cr-fans");fans.textContent=fmt(c.fans)+" фена";row.appendChild(av);row.appendChild(info);row.appendChild(fans);row.onclick=function(){showPage("profile");};wrap.appendChild(row);});}
-function renderInbox(){var wrap=el("inbox-list");if(!wrap)return;var msgs=[{ico:"🎨",name:"Мария Попова",preview:"Харесах видеото! 🔥",time:"2 мин",unread:true,online:true},{ico:"🎮",name:"Pixel Quest",preview:"Можем ли да колаборираме?",time:"1 ч",unread:true,online:false},{ico:"⭐",name:"Krevio Team",preview:"Добре дошъл в Krevio!",time:"вчера",unread:false,online:true}];msgs.forEach(function(m){var row=mk("div","msg-row");row.onclick=function(){showToast("Скоро!");};var av=mk("div","msg-avatar");av.textContent=m.ico;if(m.online){var dot=mk("div","msg-online");av.appendChild(dot);}var body=mk("div");body.style.cssText="flex:1;min-width:0";var nm=mk("div","msg-name");nm.textContent=m.name;var pv=mk("div","msg-preview");pv.textContent=m.preview;body.appendChild(nm);body.appendChild(pv);var right=mk("div");right.style.cssText="display:flex;flex-direction:column;align-items:flex-end;gap:4px";var tm=mk("div","msg-time");tm.textContent=m.time;right.appendChild(tm);if(m.unread){var dot2=mk("div","msg-dot");right.appendChild(dot2);}row.appendChild(av);row.appendChild(body);row.appendChild(right);wrap.appendChild(row);});}
-function renderProfile(){var wrap=el("profile-body");if(!wrap)return;var c=CREATORS[0];wrap.innerHTML="";var hero=mk("div","profile-hero");var av=mk("div","p-avatar");av.textContent=c.ico;var nm=mk("div","p-name");nm.textContent=c.name;var hd=mk("div","p-handle");hd.textContent=c.handle;var stats=mk("div","p-stats");[{n:c.vids,l:"Видеа"},{n:fmt(c.fans),l:"Фена"},{n:c.likes,l:"Харесв."}].forEach(function(s){var st=mk("div");var sn=mk("div","pst-n");sn.textContent=s.n;var sl=mk("div","pst-l");sl.textContent=s.l;st.appendChild(sn);st.appendChild(sl);stats.appendChild(st);});var bio=mk("p","p-bio");bio.textContent=c.bio;var btns=mk("div","p-btns");var msgBtn=mk("button");msgBtn.textContent="Съобщение";msgBtn.onclick=function(){showToast("Скоро!");};var subBtn=mk("button","sub-btn");subBtn.textContent="Подкрепи";subBtn.onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};btns.appendChild(msgBtn);btns.appendChild(subBtn);hero.appendChild(av);hero.appendChild(nm);hero.appendChild(hd);hero.appendChild(stats);hero.appendChild(bio);hero.appendChild(btns);wrap.appendChild(hero);
-var planScroll=mk("div","plan-scroll");[{price:"2.50€",name:"⭐ Фен / месец",hot:false},{price:"5€",name:"🎧 Студио / месец",hot:true},{price:"12€",name:"🏆 Про / месец",hot:false}].forEach(function(p){var card=mk("div","plan-card");if(p.hot)card.classList.add("hot");var pr=mk("div","plan-price");pr.textContent=p.price;var pn=mk("div","plan-name");pn.textContent=p.name;var pb=mk("button","btn-sm-red");pb.textContent="Абонирай се";pb.style.width="100%";pb.onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};card.appendChild(pr);card.appendChild(pn);card.appendChild(pb);planScroll.appendChild(card);});wrap.appendChild(planScroll);
-var tabs=mk("div","p-tabs");var t1=mk("button","p-tab active");t1.textContent="Видеа";var t2=mk("button","p-tab");t2.textContent="За членове";tabs.appendChild(t1);tabs.appendChild(t2);wrap.appendChild(tabs);
-var grid=mk("div","vgrid");grid.id="ptab-videos";DEMO_VIDEOS.slice(0,6).forEach(function(v){var cell=mk("div","vg-cell");var cellBg=mk("div","vg-bg");cellBg.style.background=v.bg;var cellIco=mk("div","vg-ico");cellIco.textContent=v.ico;cell.appendChild(cellBg);cell.appendChild(cellIco);var vw=mk("div","vg-views");vw.textContent=fmt(v.likes);cell.appendChild(vw);cell.onclick=function(){showToast("▶ Зарежда...");};grid.appendChild(cell);});wrap.appendChild(grid);
-var locked=mk("div");locked.id="ptab-locked";locked.style.cssText="padding:40px 16px;text-align:center;display:none";locked.innerHTML="<div style='font-size:2rem;margin-bottom:10px'>🔒</div><div style='font-weight:700;margin-bottom:6px;color:var(--text)'>Ексклузивно съдържание</div><p style='font-size:.82rem;color:var(--text2);margin-bottom:18px'>Абонирай се за достъп</p>";var lbtn=mk("button","btn-sm-red");lbtn.style.padding="10px 24px";lbtn.textContent="Абонирай се";lbtn.onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};locked.appendChild(lbtn);wrap.appendChild(locked);
-t1.onclick=function(){t1.classList.add("active");t2.classList.remove("active");el("ptab-videos").style.display="grid";el("ptab-locked").style.display="none";};
-t2.onclick=function(){t2.classList.add("active");t1.classList.remove("active");el("ptab-videos").style.display="none";el("ptab-locked").style.display="block";};
-lucide.createIcons();}
-function bindAuth(){el("sw-login").onclick=function(){switchAuth("login");};el("sw-register").onclick=function(){switchAuth("register");};el("l-btn").onclick=doLogin;el("r-btn").onclick=doRegister;}
-function switchAuth(type){el("sw-login").classList.toggle("active",type==="login");el("sw-register").classList.toggle("active",type==="register");el("auth-login").style.display=type==="login"?"":"none";el("auth-register").style.display=type==="register"?"":"none";}
-async function doLogin(){var email=el("l-email").value.trim();var pass=el("l-pass").value;var err=el("l-err");var btn=el("l-btn");if(!email||!pass){err.textContent="Попълни имейл и парола.";err.style.display="block";return;}btn.textContent="Влизане...";btn.disabled=true;if(sb){var r=await sb.auth.signInWithPassword({email:email,password:pass});if(r.error){err.textContent="Грешни имейл или парола.";err.style.display="block";btn.textContent="Вход →";btn.disabled=false;return;}var u=r.data.user;ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};}else{ME={email:email,name:email.split("@")[0]};}el("m-auth").classList.remove("open");btn.textContent="Вход →";btn.disabled=false;showToast("👋 Добре дошъл, "+ME.name+"!");}
-async function doRegister(){var name=el("r-name").value.trim();var email=el("r-email").value.trim();var pass=el("r-pass").value;var err=el("r-err");var btn=el("r-btn");if(!name||!email||!pass){err.textContent="Попълни всички полета.";err.style.display="block";return;}if(pass.length<8){err.textContent="Паролата трябва да е поне 8 символа.";err.style.display="block";return;}btn.textContent="Регистрация...";btn.disabled=true;if(sb){var r=await sb.auth.signUp({email:email,password:pass,options:{data:{name:name}}});if(r.error){err.textContent=r.error.message;err.style.display="block";btn.textContent="Създай акаунт →";btn.disabled=false;return;}}ME={email:email,name:name};el("m-auth").classList.remove("open");btn.textContent="Създай акаунт →";btn.disabled=false;showToast("🎉 "+name+", добре дошъл в Krevio!");}
-function openUpload(){if(!ME){el("m-auth").classList.add("open");lucide.createIcons();return;}resetUpload();el("m-upload").classList.add("open");lucide.createIcons();}
-function bindUpload(){el("upl-dz").onclick=function(){el("upl-inp").click();};el("upl-inp").onchange=function(){if(this.files&&this.files[0])setFile(this.files[0]);};el("upl-fi-rm").onclick=resetUpload;el("upl-go-btn").onclick=startUpload;el("upl-cancel-btn").onclick=function(){if(uplXhr){uplXhr.abort();uplXhr=null;}el("m-upload").classList.remove("open");resetUpload();};el("upl-dz").ondragover=function(e){e.preventDefault();this.classList.add("over");};el("upl-dz").ondragleave=function(){this.classList.remove("over");};el("upl-dz").ondrop=function(e){e.preventDefault();this.classList.remove("over");if(e.dataTransfer&&e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);};}
+
+// КОМЕНТАРИ
+async function openComments(videoId){
+  currentVideoId=videoId;
+  var list=el("cmt-list");if(!list)return;
+  list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Зарежда...</div>";
+  el("m-comments").classList.add("open");
+  lucide.createIcons();
+  if(!sb||!videoId)return;
+  try{
+    var r=await sb.from("comments").select("*").eq("video_id",videoId).order("created_at",{ascending:true}).limit(50);
+    list.innerHTML="";
+    if(!r.data||r.data.length===0){
+      list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Няма коментари. Бъди първи!</div>";
+      return;
+    }
+    r.data.forEach(function(c){
+      var item=mk("div","cmt-item");
+      var av=mk("div","cmt-av");av.textContent="👤";
+      var body=mk("div");
+      var nm=mk("div","cmt-name");nm.textContent=c.username||"Потребител";
+      var tx=mk("div","cmt-text");tx.textContent=c.text;
+      var tm=mk("div","cmt-time");tm.textContent=fmtTime(c.created_at)+" назад";
+      body.appendChild(nm);body.appendChild(tx);body.appendChild(tm);
+      item.appendChild(av);item.appendChild(body);
+      list.appendChild(item);
+    });
+  }catch(e){list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Грешка при зареждане</div>";}
+}
+
+el("cmt-send-btn")&&(el("cmt-send-btn").onclick=async function(){
+  var inp=el("cmt-inp");if(!inp||!inp.value.trim())return;
+  if(!ME){showToast("Влез в акаунта!");return;}
+  if(!sb||!currentVideoId)return;
+  var text=inp.value.trim();inp.value="";
+  try{
+    await sb.from("comments").insert({video_id:currentVideoId,user_id:ME.id,username:ME.name,text:text});
+    showToast("Коментарът е добавен!");
+    openComments(currentVideoId);
+  }catch(e){showToast("Грешка!");}
+});
+
+// ТЪРСЕНЕ
+async function renderSearch(){
+  var wrap=el("search-list");if(!wrap)return;
+  wrap.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Зарежда...</div>";
+  if(!sb){wrap.innerHTML="";return;}
+  try{
+    var r=await sb.from("profiles").select("*").limit(20);
+    renderCreatorList(r.data||[]);
+  }catch(e){wrap.innerHTML="";}
+  el("search-inp").oninput=async function(){
+    var q=this.value.trim();
+    if(!q){renderSearch();return;}
+    var r=await sb.from("profiles").select("*").ilike("username","%"+q+"%").limit(20);
+    renderCreatorList(r.data||[]);
+  };
+}
+
+function renderCreatorList(list){
+  var wrap=el("search-list");if(!wrap)return;
+  wrap.innerHTML="";
+  if(list.length===0){
+    wrap.innerHTML="<div style='text-align:center;padding:30px;color:var(--text2)'>Няма намерени творци</div>";
+    return;
+  }
+  list.forEach(function(c){
+    var row=mk("div","creator-row");
+    var av=mk("div","cr-avatar");
+    if(c.avatar_url){var img=document.createElement("img");img.src=c.avatar_url;av.appendChild(img);}
+    else av.textContent="👤";
+    var info=mk("div");info.style.flex="1";
+    var nm=mk("div","cr-name");nm.textContent=c.username||c.full_name||"Потребител";
+    var hd=mk("div","cr-handle");hd.textContent="@"+(c.username||"user");
+    info.appendChild(nm);info.appendChild(hd);
+    var fans=mk("div","cr-fans");fans.textContent=(c.followers_count||0)+" фена";
+    row.appendChild(av);row.appendChild(info);row.appendChild(fans);
+    row.onclick=function(){showToast("Профил скоро!");};
+    wrap.appendChild(row);
+  });
+}
+
+// ИЗВЕСТИЯ
+async function renderInbox(){
+  var wrap=el("inbox-list");if(!wrap)return;
+  wrap.innerHTML="";
+  var notifs=[
+    {ico:"❤️",text:"Някой хареса твоето видео",time:"2 мин",unread:true},
+    {ico:"💬",text:"Нов коментар на твоето видео",time:"1 ч",unread:true},
+    {ico:"👤",text:"Нов последовател",time:"вчера",unread:false},
+    {ico:"⭐",text:"Добре дошъл в Krevio!",time:"2 дни",unread:false}
+  ];
+  notifs.forEach(function(n){
+    var item=mk("div","notif-item");
+    var av=mk("div","notif-av");av.textContent=n.ico;
+    var txt=mk("div","notif-txt");txt.textContent=n.text;
+    var time=mk("div","notif-time");time.textContent=n.time;
+    item.appendChild(av);item.appendChild(txt);item.appendChild(time);
+    if(n.unread){var dot=mk("div","notif-unread");item.appendChild(dot);}
+    wrap.appendChild(item);
+  });
+}
+
+// ПРОФИЛ
+async function renderProfile(){
+  var wrap=el("profile-body");if(!wrap)return;
+  wrap.innerHTML="";
+
+  if(!ME){
+    var loginMsg=mk("div");
+    loginMsg.style.cssText="padding:60px 20px;text-align:center";
+    loginMsg.innerHTML="<div style='font-size:3rem;margin-bottom:16px'>👤</div><div style='font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--text)'>Влез в акаунта си</div><div style='font-size:.82rem;color:var(--text2);margin-bottom:20px'>За да видиш профила си</div>";
+    var loginBtn=mk("button","btn-red");loginBtn.style.cssText="width:auto;padding:12px 32px;margin:0 auto;display:block";loginBtn.textContent="Вход / Регистрация";
+    loginBtn.onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};
+    loginMsg.appendChild(loginBtn);wrap.appendChild(loginMsg);
+    lucide.createIcons();return;
+  }
+
+  var hero=mk("div","profile-hero");
+  var av=mk("div","p-avatar");
+  if(ME.avatar){var avImg=document.createElement("img");avImg.src=ME.avatar;av.appendChild(avImg);}
+  else{av.textContent="👤";}
+  var avEdit=mk("div","p-avatar-edit");avEdit.textContent="Смени";
+  av.appendChild(avEdit);
+  av.onclick=function(){el("upl-avatar-inp").click();};
+
+  var avatarInp=document.createElement("input");
+  avatarInp.type="file";avatarInp.accept="image/*";avatarInp.id="upl-avatar-inp";avatarInp.style.display="none";
+  avatarInp.onchange=async function(){
+    if(!this.files||!this.files[0])return;
+    showToast("Качване на снимката...");
+    var file=this.files[0];
+    var ext=file.name.split(".").pop();
+    var path="avatars/"+ME.id+"."+ext;
+    try{
+      var r=await sb.storage.from("avatars").upload(path,file,{upsert:true});
+      if(r.error){showToast("Грешка!");return;}
+      var url=sb.storage.from("avatars").getPublicUrl(path).data.publicUrl;
+      await sb.from("profiles").upsert({id:ME.id,avatar_url:url});
+      ME.avatar=url;
+      showToast("✅ Снимката е сменена!");
+      renderProfile();
+    }catch(e){showToast("Грешка!");}
+  };
+  document.body.appendChild(avatarInp);
+
+  var nm=mk("div","p-name");nm.textContent=ME.username||ME.name;
+  var hd=mk("div","p-handle");hd.textContent="@"+(ME.username||ME.name.toLowerCase().replace(/\s/g,"_"));
+
+  var stats=mk("div","p-stats");
+  var myVideos=0;
+  if(sb){
+    try{var rv=await sb.from("videos").select("id",{count:"exact"}).eq("user_id",ME.id);myVideos=rv.count||0;}catch(e){}
+  }
+  [{n:myVideos,l:"Видеа"},{n:0,l:"Фена"},{n:0,l:"Следва"}].forEach(function(s){
+    var st=mk("div");
+    var sn=mk("div","pst-n");sn.textContent=s.n;
+    var sl=mk("div","pst-l");sl.textContent=s.l;
+    st.appendChild(sn);st.appendChild(sl);stats.appendChild(st);
+  });
+
+  var bio=mk("p","p-bio");bio.textContent=ME.bio||"Добави биография в настройките";
+  var btns=mk("div","p-btns");
+  var editBtn=mk("button");editBtn.textContent="✏️ Редактирай";editBtn.onclick=function(){showToast("Скоро!");};
+  btns.appendChild(editBtn);
+
+  hero.appendChild(av);hero.appendChild(nm);hero.appendChild(hd);hero.appendChild(stats);hero.appendChild(bio);hero.appendChild(btns);
+  wrap.appendChild(hero);
+
+  var tabs=mk("div","p-tabs");
+  var t1=mk("button","p-tab active");t1.textContent="Моите видеа";
+  tabs.appendChild(t1);wrap.appendChild(tabs);
+
+  var grid=mk("div","vgrid");grid.id="ptab-my-videos";
+  if(sb){
+    try{
+      var rv2=await sb.from("videos").select("*").eq("user_id",ME.id).order("created_at",{ascending:false}).limit(12);
+      if(rv2.data&&rv2.data.length>0){
+        rv2.data.forEach(function(v){
+          var cell=mk("div","vg-cell");
+          var vidEl=document.createElement("video");
+          vidEl.src=v.file_url;vidEl.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover";
+          cell.appendChild(vidEl);
+          var vw=mk("div","vg-views");vw.textContent=fmt(v.views||0);cell.appendChild(vw);
+          cell.onclick=function(){showToast("▶ "+v.title);};
+          grid.appendChild(cell);
+        });
+      } else {
+        grid.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>Все още нямаш видеа</div>";
+      }
+    }catch(e){}
+  }
+  wrap.appendChild(grid);
+  lucide.createIcons();
+}
+
+function bindAuth(){
+  el("sw-login").onclick=function(){switchAuth("login");};
+  el("sw-register").onclick=function(){switchAuth("register");};
+  el("l-btn").onclick=doLogin;
+  el("r-btn").onclick=doRegister;
+}
+
+function switchAuth(type){
+  el("sw-login").classList.toggle("active",type==="login");
+  el("sw-register").classList.toggle("active",type==="register");
+  el("auth-login").style.display=type==="login"?"":"none";
+  el("auth-register").style.display=type==="register"?"":"none";
+}
+
+async function doLogin(){
+  var email=el("l-email").value.trim();var pass=el("l-pass").value;
+  var err=el("l-err");var btn=el("l-btn");
+  if(!email||!pass){err.textContent="Попълни имейл и парола.";err.style.display="block";return;}
+  btn.textContent="Влизане...";btn.disabled=true;
+  if(sb){
+    var r=await sb.auth.signInWithPassword({email:email,password:pass});
+    if(r.error){
+      if(r.error.message.includes("Email not confirmed")){err.textContent="Потвърди имейла си първо!";}
+      else{err.textContent="Грешни имейл или парола.";}
+      err.style.display="block";btn.textContent="Вход →";btn.disabled=false;return;
+    }
+    var u=r.data.user;ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};
+    await loadProfile();
+  }
+  el("m-auth").classList.remove("open");
+  btn.textContent="Вход →";btn.disabled=false;
+  showToast("👋 Добре дошъл, "+ME.name+"!");
+}
+
+async function doRegister(){
+  var name=el("r-name").value.trim();var email=el("r-email").value.trim();var pass=el("r-pass").value;
+  var err=el("r-err");var btn=el("r-btn");
+  if(!name||!email||!pass){err.textContent="Попълни всички полета.";err.style.display="block";return;}
+  if(pass.length<8){err.textContent="Паролата трябва да е поне 8 символа.";err.style.display="block";return;}
+  btn.textContent="Регистрация...";btn.disabled=true;
+  if(sb){
+    var r=await sb.auth.signUp({email:email,password:pass,options:{data:{name:name}}});
+    if(r.error){err.textContent=r.error.message;err.style.display="block";btn.textContent="Създай акаунт →";btn.disabled=false;return;}
+    await sb.from("profiles").upsert({id:r.data.user.id,username:name.toLowerCase().replace(/\s/g,"_"),full_name:name});
+  }
+  el("m-auth").classList.remove("open");
+  btn.textContent="Създай акаунт →";btn.disabled=false;
+  showToast("🎉 Провери имейла си за потвърждение!");
+}
+
+function openUpload(){
+  if(!ME){el("m-auth").classList.add("open");lucide.createIcons();return;}
+  resetUpload();el("m-upload").classList.add("open");lucide.createIcons();
+}
+
+function bindUpload(){
+  el("upl-dz").onclick=function(){el("upl-inp").click();};
+  el("upl-inp").onchange=function(){if(this.files&&this.files[0])setFile(this.files[0]);};
+  el("upl-fi-rm").onclick=resetUpload;
+  el("upl-go-btn").onclick=startUpload;
+  el("upl-cancel-btn").onclick=function(){if(uplXhr){uplXhr.abort();uplXhr=null;}el("m-upload").classList.remove("open");resetUpload();};
+  el("upl-dz").ondragover=function(e){e.preventDefault();this.classList.add("over");};
+  el("upl-dz").ondragleave=function(){this.classList.remove("over");};
+  el("upl-dz").ondrop=function(e){e.preventDefault();this.classList.remove("over");if(e.dataTransfer&&e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);};
+}
+
 function setFile(f){uplFile=f;el("upl-dz").style.display="none";el("upl-fi").style.display="flex";el("upl-fi-name").textContent=f.name;el("upl-fi-size").textContent=fmtBytes(f.size);}
 function resetUpload(){uplFile=null;el("upl-inp").value="";el("upl-dz").style.display="block";el("upl-fi").style.display="none";el("upl-prog").style.display="none";el("upl-suc").style.display="none";el("upl-act").style.display="block";el("upl-bar").style.width="0";el("upl-title").value="";el("upl-desc").value="";}
-async function startUpload(){if(!uplFile){showToast("Избери видео!");return;}var tit=el("upl-title");if(!tit.value.trim()){showToast("Въведи заглавие!");return;}var token="";if(sb){try{var s=await sb.auth.getSession();if(s.data&&s.data.session)token=s.data.session.access_token;}catch(e){}}if(!token){showToast("Влез в акаунта!");return;}el("upl-act").style.display="none";el("upl-prog").style.display="block";try{var pr=await fetch(BACKEND+"/presign",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({fileName:uplFile.name,mimeType:uplFile.type,title:tit.value.trim(),description:el("upl-desc").value,access:el("upl-access").value})});var pd=await pr.json();if(!pr.ok){el("upl-act").style.display="block";showToast("❌ "+(pd.error||"Грешка"));return;}var t0=Date.now();uplXhr=new XMLHttpRequest();uplXhr.open("PUT",pd.uploadUrl,true);uplXhr.setRequestHeader("Content-Type",uplFile.type);uplXhr.upload.onprogress=function(e){if(!e.lengthComputable)return;var p=Math.round(e.loaded/e.total*100);el("upl-bar").style.width=p+"%";el("upl-pct").textContent=p+"%";var s=Math.max(0.1,(Date.now()-t0)/1000);el("upl-spd").textContent=fmtBytes(e.loaded)+" / "+fmtBytes(e.total)+" — "+((e.loaded/1048576)/s).toFixed(1)+" MB/s";};uplXhr.onload=function(){uplXhr=null;if(this.status===200){el("upl-prog").style.display="none";el("upl-suc").style.display="block";showToast("✅ Качено успешно!");setTimeout(function(){renderFeed();},2000);}else{el("upl-act").style.display="block";showToast("❌ Грешка: "+this.status);}};uplXhr.onerror=function(){uplXhr=null;el("upl-act").style.display="block";showToast("❌ Мрежова грешка.");};uplXhr.send(uplFile);}catch(err){el("upl-act").style.display="block";showToast("❌ "+err.message);}}
-function bindMenu(){el("menu-open-btn").onclick=function(){el("m-menu").classList.add("open");lucide.createIcons();};el("m-theme").onclick=function(){toggleTheme();el("m-menu").classList.remove("open");};el("m-terms").onclick=function(){window.location.href="terms.html";};el("m-privacy").onclick=function(){window.location.href="privacy.html";};el("m-contact").onclick=function(){window.location.href="contact.html";};el("m-about").onclick=function(){window.location.href="about.html";};el("m-logout").onclick=async function(){if(sb)await sb.auth.signOut();ME=null;el("m-menu").classList.remove("open");showToast("👋 Излязохте.");};}
+
+async function startUpload(){
+  if(!uplFile){showToast("Избери видео!");return;}
+  var tit=el("upl-title");if(!tit.value.trim()){showToast("Въведи заглавие!");return;}
+  var token="";
+  if(sb){try{var s=await sb.auth.getSession();if(s.data&&s.data.session)token=s.data.session.access_token;}catch(e){}}
+  if(!token){showToast("Влез в акаунта!");return;}
+  el("upl-act").style.display="none";el("upl-prog").style.display="block";
+  try{
+    var pr=await fetch(BACKEND+"/presign",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({fileName:uplFile.name,mimeType:uplFile.type,title:tit.value.trim(),description:el("upl-desc").value,access:el("upl-access").value})});
+    var pd=await pr.json();
+    if(!pr.ok){el("upl-act").style.display="block";showToast("❌ "+(pd.error||"Грешка"));return;}
+    var t0=Date.now();
+    uplXhr=new XMLHttpRequest();
+    uplXhr.open("PUT",pd.uploadUrl,true);
+    uplXhr.setRequestHeader("Content-Type",uplFile.type);
+    uplXhr.upload.onprogress=function(e){
+      if(!e.lengthComputable)return;
+      var p=Math.round(e.loaded/e.total*100);
+      el("upl-bar").style.width=p+"%";el("upl-pct").textContent=p+"%";
+      var s=Math.max(0.1,(Date.now()-t0)/1000);
+      el("upl-spd").textContent=fmtBytes(e.loaded)+" / "+fmtBytes(e.total)+" — "+((e.loaded/1048576)/s).toFixed(1)+" MB/s";
+    };
+    uplXhr.onload=function(){
+      uplXhr=null;
+      if(this.status===200){el("upl-prog").style.display="none";el("upl-suc").style.display="block";showToast("✅ Качено успешно!");setTimeout(function(){renderFeed();},2000);}
+      else{el("upl-act").style.display="block";showToast("❌ Грешка: "+this.status);}
+    };
+    uplXhr.onerror=function(){uplXhr=null;el("upl-act").style.display="block";showToast("❌ Мрежова грешка.");};
+    uplXhr.send(uplFile);
+  }catch(err){el("upl-act").style.display="block";showToast("❌ "+err.message);}
+}
+
+function bindMenu(){
+  el("menu-open-btn").onclick=function(){el("m-menu").classList.add("open");lucide.createIcons();};
+  el("m-theme").onclick=function(){toggleTheme();el("m-menu").classList.remove("open");};
+  el("m-terms").onclick=function(){window.location.href="terms.html";};
+  el("m-privacy").onclick=function(){window.location.href="privacy.html";};
+  el("m-contact").onclick=function(){window.location.href="contact.html";};
+  el("m-about").onclick=function(){window.location.href="about.html";};
+  el("m-logout").onclick=async function(){if(sb)await sb.auth.signOut();ME=null;el("m-menu").classList.remove("open");showToast("👋 Излязохте.");renderProfile();};
+}
 </script>
 </body>
 </html>
