@@ -180,7 +180,7 @@
   <div class="mbox">
     <div class="mhandle" id="handle-edit"></div>
     <div class="mtitle">Редактирай профил</div>
-    <div class="fg"><label class="fl">Потребителско име</label><input type="text" class="fi" id="edit-username" placeholder="viktor_bg"></div>
+    <div class="fg"><label class="fl">Потребителско ime</label><input type="text" class="fi" id="edit-username" placeholder="viktor_bg"></div>
     <div class="fg"><label class="fl">Биография</label><textarea class="fi" id="edit-bio" rows="3" placeholder="Разкажи за себе си..."></textarea></div>
     <button class="btn-gold" id="edit-save-btn">Запази</button>
     <button class="btn-ghost" id="edit-cancel-btn">Откажи</button>
@@ -211,6 +211,12 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="js/app.js" defer></script>
+<script>
+window.onload = function() {
+  var s = document.createElement('script');
+  s.src = 'js/app.js';
+  document.body.appendChild(s);
+};
+</script>
 </body>
 </html>
