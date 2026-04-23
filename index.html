@@ -4,135 +4,159 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Krevio</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* CSS-ът си остава същият като преди */
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff}
-:root{
-  --gold:#c9a84c;--gold2:#e8c96d;
-  --nav-bg:rgba(10,10,10,.92);
-}
-body{background:#0a0a0a}
-.page{display:none;position:fixed;inset:0;z-index:1;background:#0a0a0a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#000;color:#fff}
+
+/* Страници */
+.page{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000;overflow-y:auto}
 .page.active{display:block}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:4px;background:linear-gradient(135deg,#c9a84c,#e8c96d);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.feed-top{position:fixed;top:0;left:0;right:0;z-index:50;background:linear-gradient(to bottom,#0a0a0a,transparent);padding:12px 16px 0}
-.feed-top-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.feed-tabs{display:flex;gap:4px;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.2);border-radius:100px;padding:4px}
-.feed-tab{flex:1;text-align:center;padding:10px;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.6);border-radius:100px;cursor:pointer}
-.feed-tab.active{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000}
-.feed-wrap{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch}
-.feed-wrap::-webkit-scrollbar{display:none}
-.video-item{height:100vh;scroll-snap-align:start;position:relative;background:#000;overflow:hidden}
-.v-player{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.v-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 50%,rgba(0,0,0,.5) 100%);pointer-events:none}
-.v-info-zone{position:absolute;bottom:70px;left:0;right:0;z-index:10;padding:0 12px 16px}
-.v-creator-bar{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.v-avatar{width:44px;height:44px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:#222}
-.v-creator-name{font-size:.9rem;font-weight:700}
-.v-creator-handle{font-size:.75rem;color:rgba(255,255,255,.5)}
-.v-title-text{font-size:.9rem;margin-bottom:12px;line-height:1.4}
-.v-action-bar{display:flex;align-items:center;justify-content:space-around;background:rgba(0,0,0,.4);backdrop-filter:blur(10px);border:1px solid rgba(201,168,76,.2);border-radius:16px;padding:8px}
-.v-act{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;padding:8px 16px;border-radius:12px;cursor:pointer;color:#fff;font-size:.7rem;transition:all .15s}
-.v-act:active{background:rgba(255,255,255,.1)}
-.v-act span{font-size:1.5rem;margin-bottom:2px}
-.v-act.liked{color:#ff2d55}
-.botnav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:space-around;align-items:center;padding:8px;background:var(--nav-bg);backdrop-filter:blur(20px);border-top:1px solid rgba(201,168,76,.2)}
-.bn{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;padding:8px 16px;cursor:pointer;color:rgba(255,255,255,.3);font-size:.7rem}
-.bn span{font-size:1.5rem;margin-bottom:2px}
-.bn.active{color:#c9a84c}
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:999;background:rgba(201,168,76,.2);backdrop-filter:blur(20px);color:#c9a84c;padding:10px 20px;border-radius:100px;font-size:.85rem;opacity:0;transition:opacity .3s;pointer-events:none}
-.toast.show{opacity:1}
-.btn-gold{width:100%;background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000;border:none;border-radius:12px;padding:16px;font-size:1rem;font-weight:800;cursor:pointer}
+
+/* Header */
+.header{position:sticky;top:0;z-index:10;background:#000;padding:16px;border-bottom:1px solid #222}
+.logo{font-size:28px;font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,#c9a84c,#e8c96d);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* Табове */
+.tabs{display:flex;gap:8px;margin-top:12px}
+.tab{flex:1;text-align:center;padding:12px;background:#111;border-radius:30px;font-size:14px;font-weight:600;color:#888;cursor:pointer}
+.tab.active{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000}
+
+/* Видео */
+.video-container{height:calc(100vh - 140px);overflow-y:scroll;scroll-snap-type:y mandatory}
+.video-item{height:100%;scroll-snap-align:start;position:relative}
+.video-player{width:100%;height:100%;object-fit:cover}
+.video-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,#000,transparent)}
+.creator{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.avatar{width:40px;height:40px;border-radius:50%;border:2px solid #c9a84c;display:flex;align-items:center;justify-content:center;font-size:20px;background:#222}
+.creator-name{font-weight:700;font-size:16px}
+.creator-handle{font-size:12px;color:#aaa}
+.video-title{font-size:14px;margin-bottom:16px}
+
+/* Бутони за действия */
+.actions{display:flex;justify-content:space-around;margin-top:12px}
+.action-btn{background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:12px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.action-btn span{font-size:12px}
+.action-btn.liked{color:#ff2d55}
+
+/* Долна навигация */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:#111;padding:12px;border-top:1px solid #222}
+.nav-btn{background:none;border:none;color:#666;font-size:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nav-btn.active{color:#c9a84c}
+.nav-btn span{font-size:20px}
+
+/* Toast */
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#c9a84c;color:#000;padding:12px 24px;border-radius:30px;font-weight:700;z-index:1000;display:none}
+.toast.show{display:block}
 </style>
 </head>
 <body>
 
 <!-- FEED PAGE -->
 <div id="page-feed" class="page active">
-  <div class="feed-top">
-    <div class="feed-top-row1">
-      <div class="logo">KREVIO</div>
-      <div style="display:flex;gap:16px">
-        <button class="icon-btn" onclick="showToast('🌙 Тема')" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer">☀️</button>
-        <button class="icon-btn" onclick="showAuth()" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer">👤</button>
-      </div>
-    </div>
-    <div class="feed-tabs">
-      <div class="feed-tab active" onclick="switchTab(this)">🔥 Trending</div>
-      <div class="feed-tab" onclick="switchTab(this)">👥 Following</div>
-      <div class="feed-tab" onclick="switchTab(this)">💎 Премиум</div>
+  <div class="header">
+    <div class="logo">KREVIO</div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this)">🔥 Trending</div>
+      <div class="tab" onclick="switchTab(this)">👥 Following</div>
+      <div class="tab" onclick="switchTab(this)">💎 Премиум</div>
     </div>
   </div>
-  <div class="feed-wrap" id="feed-wrap"></div>
+  <div class="video-container" id="video-container"></div>
 </div>
 
-<!-- Другите страници -->
-<div id="page-search" class="page"><div style="padding:60px 20px;text-align:center">🔍 Търсачка</div></div>
-<div id="page-inbox" class="page"><div style="padding:60px 20px;text-align:center">🔔 Известия</div></div>
-<div id="page-profile" class="page"><div style="padding:60px 20px;text-align:center">👤 Профил</div></div>
+<!-- SEARCH PAGE -->
+<div id="page-search" class="page">
+  <div class="header">
+    <div class="logo">ТЪРСИ</div>
+  </div>
+  <div style="padding:20px">
+    <input type="text" placeholder="Търси..." style="width:100%;padding:16px;background:#111;border:1px solid #333;border-radius:12px;color:#fff;font-size:16px">
+    <div style="text-align:center;margin-top:40px;color:#888">🔍 Започни да търсиш</div>
+  </div>
+</div>
 
-<!-- Навигация -->
-<nav class="botnav">
-  <button class="bn active" data-page="feed" onclick="showPage('feed')"><span>🏠</span>Начало</button>
-  <button class="bn" data-page="search" onclick="showPage('search')"><span>🔍</span>Търси</button>
-  <button class="bn" onclick="handleUpload()"><span>➕</span>Качи</button>
-  <button class="bn" data-page="inbox" onclick="showPage('inbox')"><span>🔔</span>Известия</button>
-  <button class="bn" data-page="profile" onclick="showPage('profile')"><span>👤</span>Профил</button>
-</nav>
+<!-- INBOX PAGE -->
+<div id="page-inbox" class="page">
+  <div class="header">
+    <div class="logo">ИЗВЕСТИЯ</div>
+  </div>
+  <div style="padding:20px;text-align:center;color:#888;margin-top:40px">
+    <div style="font-size:48px;margin-bottom:20px">🔔</div>
+    <div>Няма нови известия</div>
+  </div>
+</div>
 
-<!-- Toast -->
+<!-- PROFILE PAGE -->
+<div id="page-profile" class="page">
+  <div class="header">
+    <div class="logo">ПРОФИЛ</div>
+  </div>
+  <div style="padding:20px;text-align:center">
+    <div style="font-size:64px;margin:30px 0">👤</div>
+    <div style="font-size:20px;font-weight:700;margin-bottom:12px">Влез в акаунта си</div>
+    <div style="color:#888;margin-bottom:30px">За да видиш профила си</div>
+    <button onclick="showToast('🔐 Вход')" style="background:#c9a84c;color:#000;border:none;padding:16px 40px;border-radius:30px;font-weight:700;font-size:16px;cursor:pointer">Вход / Регистрация</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="showPage('feed')"><span>🏠</span>Начало</button>
+  <button class="nav-btn" onclick="showPage('search')"><span>🔍</span>Търси</button>
+  <button class="nav-btn" onclick="showToast('📤 Качване')"><span>➕</span>Качи</button>
+  <button class="nav-btn" onclick="showPage('inbox')"><span>🔔</span>Известия</button>
+  <button class="nav-btn" onclick="showPage('profile')"><span>👤</span>Профил</button>
+</div>
+
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// Използваме ЕМОДЖИТА вместо Lucide (за да работи дори от file://)
-function showToast(msg){
-  var t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2000);
-}
-
-function showPage(page){
+// Гарантирано работещи функции
+function showPage(pageName){
+  // Скрий всички страници
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.bn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+page).classList.add('active');
-  document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
+  // Покажи избраната
+  document.getElementById('page-'+pageName).classList.add('active');
+  
+  // Обнови навигацията
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
 }
 
 function switchTab(tab){
-  document.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   tab.classList.add('active');
   showToast(tab.textContent);
 }
 
-function handleUpload(){
-  showToast('📤 Качването е в разработка');
+function showToast(text){
+  var toast=document.getElementById('toast');
+  toast.textContent=text;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),2000);
 }
 
-function showAuth(){
-  showToast('🔐 Вход / Регистрация');
-}
-
-// Зареждане на тестови видеа
-window.addEventListener('load',function(){
-  var wrap=document.getElementById('feed-wrap');
+// Инициализация при зареждане
+window.onload=function(){
+  console.log('Стартиране...');
   
-  // Тестови видеа с ЕМОДЖИ бутони
+  var container=document.getElementById('video-container');
+  
+  // Тестови видеа (ГАРАНТИРАНО РАБОТЕЩИ)
   var videos=[
     {title:'Залез над морето 🌅',creator:'Nature BG',handle:'nature_bg',url:'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'},
     {title:'Планинско приключение 🏔️',creator:'Adventure Time',handle:'adventure',url:'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'},
     {title:'Танци от България 💃',creator:'Folk Dance',handle:'folk_bg',url:'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4'}
   ];
   
-  videos.forEach((v,i)=>{
+  videos.forEach(function(v){
     var item=document.createElement('div');
     item.className='video-item';
     
     // Видео
     var vid=document.createElement('video');
-    vid.className='v-player';
+    vid.className='video-player';
     vid.src=v.url;
     vid.loop=true;
     vid.muted=true;
@@ -140,41 +164,30 @@ window.addEventListener('load',function(){
     vid.setAttribute('playsinline','');
     item.appendChild(vid);
     
-    // Градиент
-    var gradient=document.createElement('div');
-    gradient.className='v-gradient';
-    item.appendChild(gradient);
+    // Overlay
+    var overlay=document.createElement('div');
+    overlay.className='video-overlay';
     
-    // Инфо зона
-    var info=document.createElement('div');
-    info.className='v-info-zone';
-    
-    // Creator
-    var creator=document.createElement('div');
-    creator.className='v-creator-bar';
-    creator.innerHTML=`
-      <div class="v-avatar">🎬</div>
-      <div style="flex:1">
-        <div class="v-creator-name">${v.creator}</div>
-        <div class="v-creator-handle">@${v.handle}</div>
+    // Creator info
+    overlay.innerHTML=`
+      <div class="creator">
+        <div class="avatar">🎬</div>
+        <div>
+          <div class="creator-name">${v.creator}</div>
+          <div class="creator-handle">@${v.handle}</div>
+        </div>
       </div>
+      <div class="video-title">${v.title}</div>
     `;
-    info.appendChild(creator);
     
-    // Заглавие
-    var title=document.createElement('div');
-    title.className='v-title-text';
-    title.textContent=v.title;
-    info.appendChild(title);
-    
-    // Action бутони с ЕМОДЖИТА
+    // Бутони
     var actions=document.createElement('div');
-    actions.className='v-action-bar';
+    actions.className='actions';
     
     // Харесване
     var likeBtn=document.createElement('button');
-    likeBtn.className='v-act';
-    likeBtn.innerHTML='<span>❤️</span>0';
+    likeBtn.className='action-btn';
+    likeBtn.innerHTML='<span>❤️</span><span>0</span>';
     likeBtn.onclick=function(){
       this.classList.toggle('liked');
       showToast(this.classList.contains('liked')?'❤️ Харесано!':'💔 Премахнато');
@@ -182,36 +195,43 @@ window.addEventListener('load',function(){
     
     // Коментари
     var cmtBtn=document.createElement('button');
-    cmtBtn.className='v-act';
-    cmtBtn.innerHTML='<span>💬</span>0';
-    cmtBtn.onclick=()=>showToast('💬 Коментари');
+    cmtBtn.className='action-btn';
+    cmtBtn.innerHTML='<span>💬</span><span>0</span>';
+    cmtBtn.onclick=function(){showToast('💬 Коментари');};
     
     // Запази
     var saveBtn=document.createElement('button');
-    saveBtn.className='v-act';
-    saveBtn.innerHTML='<span>🔖</span>Запази';
-    saveBtn.onclick=()=>showToast('🔖 Запазено!');
+    saveBtn.className='action-btn';
+    saveBtn.innerHTML='<span>🔖</span><span>Запази</span>';
+    saveBtn.onclick=function(){showToast('🔖 Запазено!');};
     
     // Сподели
     var shareBtn=document.createElement('button');
-    shareBtn.className='v-act';
-    shareBtn.innerHTML='<span>📤</span>Сподели';
-    shareBtn.onclick=()=>showToast('📤 Споделяне');
+    shareBtn.className='action-btn';
+    shareBtn.innerHTML='<span>📤</span><span>Сподели</span>';
+    shareBtn.onclick=function(){showToast('📤 Споделяне');};
     
     actions.appendChild(likeBtn);
     actions.appendChild(cmtBtn);
     actions.appendChild(saveBtn);
     actions.appendChild(shareBtn);
     
-    info.appendChild(actions);
-    item.appendChild(info);
+    overlay.appendChild(actions);
+    item.appendChild(overlay);
+    container.appendChild(item);
     
     // Клик за пауза/плей
-    vid.addEventListener('click',()=>vid.paused?vid.play():vid.pause());
+    vid.onclick=function(){
+      if(vid.paused){
+        vid.play();
+      }else{
+        vid.pause();
+      }
+    };
     
     // Двоен тап
     var lastTap=0;
-    item.addEventListener('touchend',()=>{
+    item.addEventListener('touchend',function(){
       var now=Date.now();
       if(now-lastTap<300){
         likeBtn.classList.add('liked');
@@ -219,20 +239,28 @@ window.addEventListener('load',function(){
       }
       lastTap=now;
     });
-    
-    wrap.appendChild(item);
   });
   
   // Autoplay при скрол
-  var observer=new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      var v=e.target.querySelector('video');
-      if(v)e.isIntersecting?v.play().catch(()=>{}):v.pause();
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      var vid=entry.target.querySelector('video');
+      if(vid){
+        if(entry.isIntersecting){
+          vid.play().catch(function(){});
+        }else{
+          vid.pause();
+        }
+      }
     });
   },{threshold:0.7});
   
-  document.querySelectorAll('.video-item').forEach(v=>observer.observe(v));
-});
+  document.querySelectorAll('.video-item').forEach(function(item){
+    observer.observe(item);
+  });
+  
+  showToast('👋 Добре дошли в Krevio!');
+};
 </script>
 </body>
 </html>
