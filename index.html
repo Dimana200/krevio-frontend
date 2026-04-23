@@ -462,14 +462,12 @@ var SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
 var BACKEND="https://krevio-backend-production.up.railway.app";
 var sb=null,ME=null,uplFile=null,uplXhr=null,isDark=true,audioUnlocked=false,currentVideoId=null,uplAccess="free",isFullscreen=false,followingSet={};
 
-// INFINITE SCROLL
 var feedPage=0;
 var feedBatchSize=5;
 var feedLoading=false;
 var feedHasMore=true;
 var feedOffset=0;
 
-// СЪОБЩЕНИЯ — локален списък за известия
 var inboxMessages=[];
 
 function fmt(n){if(n>=1000000)return(n/1000000).toFixed(1)+"M";if(n>=1000)return(n/1000).toFixed(1)+"K";return n||0;}
@@ -531,7 +529,6 @@ window.addEventListener("load",function(){
     var list=el("msg-list");
     var bubble=mk("div","msg-bubble mine");bubble.textContent=inp.value.trim();
     list.appendChild(bubble);
-    // Добавяме съобщението в известията
     var msgTitle=el("msg-title");var recipient=msgTitle?msgTitle.textContent.replace("Съобщение до ",""):"@creator";
     addInboxMessage("Ти → "+recipient,inp.value.trim());
     inp.value="";list.scrollTop=list.scrollHeight;
@@ -608,9 +605,6 @@ async function loadCreatorPanel(){
   }catch(e){console.log(e);}
 }
 
-// ═══════════════════════════════
-// FEED С INFINITE SCROLL
-// ═══════════════════════════════
 function resetFeed(){feedOffset=0;feedLoading=false;feedHasMore=true;}
 
 async function renderFeed(){
@@ -618,17 +612,13 @@ async function renderFeed(){
   wrap.innerHTML="";
   resetFeed();
   await loadMoreVideos();
-
-  // Infinite scroll sentinel
   var sentinel=mk("div","load-more");sentinel.id="feed-sentinel";
   var spinner=mk("div","load-more-spinner");sentinel.appendChild(spinner);
   wrap.appendChild(sentinel);
-
   var obs=new IntersectionObserver(function(entries){
     if(entries[0].isIntersecting&&!feedLoading&&feedHasMore){loadMoreVideos();}
   },{threshold:0.1});
   obs.observe(sentinel);
-
   lucide.createIcons();
 }
 
@@ -643,24 +633,12 @@ async function loadMoreVideos(){
     try{
       var r=await sb.from("videos").select("*").order("created_at",{ascending:false}).range(feedOffset,feedOffset+feedBatchSize-1);
       if(r.data)videos=r.data;
-
-// ══════════ ТОЧКА 1: ПРИОРИТЕТНО ПОДРЕЖДАНЕ ══════════
-videos.sort(function(a, b) {
-    var scoreA = (a.views || 0) * 0.7;
-    var scoreB = (b.views || 0) * 0.7;
-    return scoreB - scoreA;
-});
-
-// Леко разбъркване
-for (var i = videos.length - 1; i > 0; i--) {
-    if (Math.random() > 0.7) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = videos[i];
-        videos[i] = videos[j];
-        videos[j] = temp;
-    }
-}
-// ═══════════════════════════════════════════════════════
+      
+      // ══════════ ТОЧКА 1: ПРИОРИТЕТНО ПОДРЕЖДАНЕ ══════════
+      videos.sort(function(a,b){var sa=(a.views||0)*0.7;var sb2=(b.views||0)*0.7;return sb2-sa;});
+      if(videos.length>3){for(var i=videos.length-1;i>0;i--){if(Math.random()>0.7){var j=Math.floor(Math.random()*(i+1));var tmp=videos[i];videos[i]=videos[j];videos[j]=tmp;}}}
+      // ═══════════════════════════════════════════════════════
+      
       if(r.data&&r.data.length<feedBatchSize)feedHasMore=false;
     }catch(e){feedLoading=false;return;}
   }
@@ -746,28 +724,27 @@ function buildVideo(v,i){
   cInfo.appendChild(cName);cInfo.appendChild(cHandle);
   var cBtns=mk("div","v-creator-btns");
   var followBtn=mk("button","v-follow-btn");
-var isFollowing=followingSet[v.user_id]||false;
-followBtn.textContent=isFollowing?"✓ Следваш":"Следвай";
-if(isFollowing)followBtn.classList.add("following");
-
-followBtn.onclick=async function(){
+  var isFollowing=followingSet[v.user_id]||false;
+  followBtn.textContent=isFollowing?"✓ Следваш":"Следвай";
+  if(isFollowing)followBtn.classList.add("following");
+  // ══════════ ТОЧКА 2: БУТОН СЛЕДВАЙ (ЗАПИС В SUPABASE) ══════════
+  followBtn.onclick=async function(){
     if(!ME){el("m-auth").classList.add("open");lucide.createIcons();return;}
-    
     if(followingSet[v.user_id]){
-        try{await sb.from("follows").delete().eq("follower_id",ME.id).eq("following_id",v.user_id);}catch(e){}
-        followingSet[v.user_id]=false;
-        followBtn.textContent="Следвай";
-        followBtn.classList.remove("following");
-        showToast("Спря да следваш");
+      try{await sb.from("follows").delete().eq("follower_id",ME.id).eq("following_id",v.user_id);}catch(e){}
+      followingSet[v.user_id]=false;
+      followBtn.textContent="Следвай";
+      followBtn.classList.remove("following");
+      showToast("Спря да следваш");
     } else {
-        try{await sb.from("follows").insert({follower_id:ME.id,following_id:v.user_id});}catch(e){}
-        followingSet[v.user_id]=true;
-        followBtn.textContent="✓ Следваш";
-        followBtn.classList.add("following");
-        showToast("✅ Следваш!");
+      try{await sb.from("follows").insert({follower_id:ME.id,following_id:v.user_id});}catch(e){}
+      followingSet[v.user_id]=true;
+      followBtn.textContent="✓ Следваш";
+      followBtn.classList.add("following");
+      showToast("✅ Следваш!");
     }
-}; Можеш да пратиш съобщение 💬":"Спря да следваш");
   };
+  // ════════════════════════════════════════════════════════════════
   var subBtn=mk("button","v-sub-btn");subBtn.textContent="Абонирай";subBtn.onclick=function(){if(!ME){el("m-auth").classList.add("open");lucide.createIcons();return;}showToast("Скоро!");};
   cBtns.appendChild(followBtn);cBtns.appendChild(subBtn);
   creatorBar.appendChild(cAv);creatorBar.appendChild(cInfo);creatorBar.appendChild(cBtns);
@@ -826,7 +803,6 @@ function renderResults(profiles,videos){var wrap=el("search-list");if(!wrap)retu
 
 function renderInbox(){
   var wrap=el("inbox-list");if(!wrap)return;wrap.innerHTML="";
-  // Системни известия
   var systemNotifs=[
     {ico:"❤️",text:"Някой хареса твоето видео",time:"2 мин",unread:true},
     {ico:"💬",text:"Нов коментар на твоето видео",time:"1 ч",unread:true},
@@ -834,7 +810,6 @@ function renderInbox(){
     {ico:"👤",text:"Нов последовател",time:"вчера",unread:false},
     {ico:"⭐",text:"Добре дошъл в Krevio!",time:"2 дни",unread:false}
   ];
-  // Съобщения от потребители
   var allNotifs=inboxMessages.concat(systemNotifs);
   allNotifs.forEach(function(n){
     var item=mk("div","notif-item");
