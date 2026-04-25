@@ -672,6 +672,26 @@ async function renderInbox(){
       var time=mk('div','notif-time');time.textContent=fmtTime(n.created_at)+' назад';
       item.appendChild(av);item.appendChild(txt);item.appendChild(time);
       if(!n.read){var dot=mk('div','notif-dot');item.appendChild(dot);}
+
+      item.style.cursor='pointer';
+      item.onclick=async function(){
+        try{await STATE.sb.from('notifications').update({read:true}).eq('id',n.id);}catch(e){}
+        item.classList.remove('unread');var dot2=item.querySelector('.notif-dot');if(dot2)dot2.remove();
+
+        if(n.type==='follow'&&n.from_user_id){
+          el('creator-profile-modal').classList.remove('open');
+          openCreatorProfile(n.from_user_id);
+        }else if(n.type==='message'&&n.from_user_id){
+          var profile=await getProfile(n.from_user_id);
+          var name=profile?(profile.name||profile.username||'Потребител'):'Потребител';
+          openMessages(n.from_user_id,name);
+        }else if((n.type==='like'||n.type==='comment')&&n.video_id){
+          openComments(n.video_id);
+        }else if(n.type==='purchase'&&n.from_user_id){
+          openCreatorProfile(n.from_user_id);
+        }
+      };
+
       wrap.appendChild(item);
     });
   }catch(e){console.error('renderInbox:',e);wrap.innerHTML="<div style='padding:20px;text-align:center;color:var(--text2)'>Грешка при зареждане</div>";}
