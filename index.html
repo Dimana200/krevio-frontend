@@ -982,11 +982,12 @@ function resetFeed(){STATE.feed.offset=0;STATE.feed.loading=false;STATE.feed.has
 
 function cleanupVideos(curIdx){
   document.querySelectorAll('.video-item').forEach(function(item,idx){
-    var vid=item.querySelector('.v-player');if(!vid)return;
-    if(idx<curIdx-2||idx>curIdx+3){
-      if(vid.src){vid.pause();vid._src=vid._src||vid.src;vid.src='';vid.load();}
-    }else{
-      if(!vid.src&&vid._src)vid.src=vid._src;
+    var vid = item.querySelector('.v-player');
+    if(!vid) return;
+
+    // само pause, НЕ трием src!
+    if(idx !== curIdx){
+      vid.pause();
     }
   });
 }
@@ -1078,7 +1079,7 @@ function buildCard(v,i){
   // Video element
   var vid=document.createElement('video');
   vid.className='v-player'+(STATE.isLandscape?' landscape':'');
-  vid.src=v.file_url;vid.loop=true;vid.muted=true;vid.playsInline=true;vid.preload='none';
+  vid.src=v.file_url;vid.loop=true;vid.muted=true;vid.playsInline=true;vid.preload='metadata';
   item.appendChild(vid);
 
   // Loading spinner
@@ -1113,11 +1114,20 @@ function buildCard(v,i){
       startViewTimer(v.id);
       var all=document.querySelectorAll('.video-item');
       cleanupVideos(Array.from(all).indexOf(item));
+
+ // preload next video (smooth scroll)
+var next = item.nextElementSibling;
+if(next){
+  var nextVid = next.querySelector('.v-player');
+  if(nextVid && nextVid.src){
+    nextVid.preload = 'auto';
+  }
+}      
     }else{
       vid.pause();vid.currentTime=0;
       stopViewTimer(v.id);
     }
-  },{threshold:0.8});
+  },{threshold:0.3, rootMargin:"100px"});
   obs.observe(item);item._obs=obs;
   item.appendChild(mk('div','v-gradient'));
 
