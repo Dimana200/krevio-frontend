@@ -8,6 +8,9 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 1: RESET + VARIABLES
+═══════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif}
 :root{
@@ -19,9 +22,22 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif}
   --red:#e8192c;
 }
 body{background:var(--bg);color:var(--text)}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 2: PAGES + LAYOUT
+═══════════════════════════════════════ */
 .page{display:none;position:fixed;inset:0;z-index:1;background:var(--bg)}
 .page.active{display:block}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;background:linear-gradient(135deg,#c9a84c,#e8c96d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+#page-search,#page-inbox,#page-profile,#page-creator{overflow-y:auto;padding-top:60px;padding-bottom:72px}
+.page-header{position:fixed;top:0;left:0;right:0;z-index:50;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--nav-border)}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold);letter-spacing:3px}
+.icon-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
+.icon-btn svg{width:22px;height:22px;stroke:rgba(255,255,255,.7);stroke-width:1.5;fill:none}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 3: FEED + VIDEO
+═══════════════════════════════════════ */
 .feed-top{position:fixed;top:0;left:0;right:0;z-index:50;background:linear-gradient(to bottom,rgba(10,10,10,.9),transparent);padding:12px 16px 0;transition:opacity .3s}
 .feed-top-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .feed-top-icons{display:flex;gap:8px}
@@ -33,6 +49,7 @@ body{background:var(--bg);color:var(--text)}
 .feed-wrap{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch}
 .feed-wrap::-webkit-scrollbar{display:none}
 .video-item{height:100vh;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#111;overflow:hidden}
+.ad-item{height:100vh;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden}
 .v-player{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;cursor:pointer;transition:transform .3s}
 .v-player.landscape{transform:rotate(90deg) scale(1.78);transform-origin:center center}
 .v-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.2) 55%,rgba(0,0,0,.35) 100%);pointer-events:none}
@@ -44,6 +61,10 @@ body{background:var(--bg);color:var(--text)}
 .v-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.15);z-index:16}
 .v-progress-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#e8c96d);border-radius:2px;transition:width .1s linear}
 body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscreen-mode .feed-top,body.fullscreen-mode .botnav{opacity:0;pointer-events:none}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 4: INFO ZONE + ACTIONS
+═══════════════════════════════════════ */
 .v-info-zone{position:absolute;bottom:68px;left:0;right:0;z-index:10;padding:0 12px 12px;transition:opacity .3s}
 .v-creator-bar{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .v-avatar{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;background:#222;overflow:hidden;cursor:pointer}
@@ -71,6 +92,10 @@ body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscre
 .v-act.saved svg{fill:var(--gold);stroke:var(--gold)}
 .v-act-unlock{background:linear-gradient(135deg,#c9a84c,#e8c96d);border:none;border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:4px;cursor:pointer}
 .v-act-unlock span{font-size:.68rem;color:#000;font-weight:800}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 5: LOCKED OVERLAY
+═══════════════════════════════════════ */
 .locked-ov{position:absolute;inset:0;z-index:20;background:rgba(0,0,0,.75);backdrop-filter:blur(14px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
 .locked-badge{background:linear-gradient(135deg,#c9a84c,#e8c96d);border-radius:100px;padding:4px 14px;font-size:.7rem;font-weight:800;color:#000;margin-bottom:14px}
 .locked-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:6px;text-align:center}
@@ -79,6 +104,10 @@ body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscre
 .locked-btns{display:flex;gap:8px;width:100%;max-width:260px}
 .locked-preview{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:10px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit}
 .locked-unlock{flex:1;background:linear-gradient(135deg,#c9a84c,#e8c96d);border:none;color:#000;border-radius:10px;padding:10px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 6: BOTTOM NAV
+═══════════════════════════════════════ */
 .botnav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:64px;display:flex;justify-content:space-around;align-items:center;padding:0 4px 6px;background:rgba(10,10,10,.78);backdrop-filter:blur(24px);border-top:1px solid var(--nav-border);transition:opacity .3s}
 .bn{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:none;border:none;padding:4px 10px;position:relative;font-family:inherit}
 .bn svg{width:23px;height:23px;stroke:rgba(255,255,255,.55);stroke-width:1.5;fill:none;transition:all .2s}
@@ -91,11 +120,10 @@ body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscre
 .bn-plus{width:42px;height:28px;background:linear-gradient(135deg,#c9a84c,#e8c96d);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .bn-plus svg{width:18px;height:18px;stroke:#000;stroke-width:2.5;fill:none}
 .bn-plus-wrap span{font-size:.52rem;color:rgba(255,255,255,.55);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-#page-search,#page-inbox,#page-profile,#page-creator{overflow-y:auto;padding-top:60px;padding-bottom:72px}
-.page-header{position:fixed;top:0;left:0;right:0;z-index:50;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--nav-border)}
-.page-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold);letter-spacing:3px}
-.icon-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
-.icon-btn svg{width:22px;height:22px;stroke:rgba(255,255,255,.7);stroke-width:1.5;fill:none}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 7: SEARCH
+═══════════════════════════════════════ */
 .search-box{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:10px 14px;margin:12px 16px}
 .search-box svg{width:16px;height:16px;stroke:var(--text3);stroke-width:1.5;fill:none;flex-shrink:0}
 .search-box input{background:none;border:none;color:var(--text);font-size:.88rem;outline:none;flex:1;font-family:inherit}
@@ -106,6 +134,10 @@ body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscre
 .cr-avatar img{width:100%;height:100%;object-fit:cover}
 .cr-name{font-weight:700;font-size:.88rem;color:var(--text)}
 .cr-handle{font-size:.72rem;color:var(--text2)}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 8: NOTIFICATIONS
+═══════════════════════════════════════ */
 .notif-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
 .notif-item:active{background:rgba(255,255,255,.04)}
 .notif-item.unread{background:rgba(201,168,76,.04)}
@@ -113,6 +145,10 @@ body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscre
 .notif-txt{font-size:.82rem;color:var(--text);flex:1;line-height:1.4}
 .notif-time{font-size:.62rem;color:var(--text3);white-space:nowrap}
 .notif-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 9: PROFILE
+═══════════════════════════════════════ */
 .p-banner{height:140px;background:linear-gradient(135deg,#1a1400,#2a1f00,#1a1400);position:relative}
 .p-banner-gradient{position:absolute;inset:0;background:linear-gradient(to bottom,transparent,rgba(10,10,10,.8))}
 .p-hero{padding:0 16px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:-40px}
@@ -140,6 +176,10 @@ body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscre
 .vg-info{position:absolute;bottom:4px;left:5px;right:5px;display:flex;justify-content:space-between}
 .vg-views{font-size:.6rem;color:#fff;font-weight:600}
 .vg-badge{font-size:.55rem;color:var(--gold);font-weight:700}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 10: CREATOR PANEL
+═══════════════════════════════════════ */
 .creator-panel-tabs{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;border-bottom:1px solid var(--border)}
 .creator-panel-tabs::-webkit-scrollbar{display:none}
 .cptab{padding:7px 14px;border-radius:100px;font-size:.72rem;font-weight:600;cursor:pointer;border:1px solid var(--border2);color:var(--text2);background:none;white-space:nowrap;font-family:inherit;flex-shrink:0}
@@ -163,6 +203,10 @@ body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscre
 .cp-vid-btn{background:var(--card);border:1px solid var(--border2);color:var(--text2);border-radius:6px;padding:4px 10px;font-size:.65rem;font-weight:600;cursor:pointer;font-family:inherit}
 .cp-setting-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer}
 .cp-setting-label{font-size:.87rem;color:var(--text);font-weight:500}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 11: MODALS
+═══════════════════════════════════════ */
 .creator-profile-modal{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);overflow-y:auto}
 .creator-profile-modal.open{display:block}
 .creator-profile-header{position:sticky;top:0;display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--nav-bg);border-bottom:1px solid var(--nav-border);z-index:10}
@@ -174,6 +218,10 @@ body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscre
 @keyframes spin{to{transform:rotate(360deg)}}
 .mhandle{width:32px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 18px;cursor:grab}
 .mtitle{font-size:.95rem;font-weight:800;color:var(--text);text-align:center;margin-bottom:18px}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 12: COMMENTS + MESSAGES
+═══════════════════════════════════════ */
 .cmt-list{display:flex;flex-direction:column;gap:12px;max-height:42vh;overflow-y:auto;margin-bottom:14px}
 .cmt-item{display:flex;gap:9px}
 .cmt-av{width:30px;height:30px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;border:1px solid var(--border)}
@@ -194,6 +242,10 @@ body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscre
 .msg-input-row{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border2);border-radius:100px;padding:8px 12px}
 .msg-input-row input{background:none;border:none;color:var(--text);font-size:.84rem;flex:1;outline:none;font-family:inherit}
 .msg-send{background:none;border:none;cursor:pointer;display:flex}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 13: FORMS + UPLOAD
+═══════════════════════════════════════ */
 .fg{margin-bottom:14px}
 .fl{display:block;font-size:.62rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
 .fi{width:100%;background:var(--card);border:1px solid var(--border2);color:var(--text);padding:11px 13px;border-radius:10px;font-size:.87rem;outline:none;font-family:inherit;transition:border-color .2s}
@@ -226,6 +278,10 @@ textarea.fi{resize:vertical}
 .upl-bar-bg{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin:6px 0}
 .upl-bar{height:100%;width:0;background:linear-gradient(90deg,#c9a84c,#e8c96d);border-radius:2px;transition:width .3s}
 .upl-suc{display:none;text-align:center;padding:18px;background:rgba(201,168,76,.08);border-radius:12px;border:1px solid rgba(201,168,76,.2);margin-bottom:12px}
+
+/* ═══════════════════════════════════════
+   РАЗДЕЛ CSS 14: MENU + MISC
+═══════════════════════════════════════ */
 .menu-item{display:flex;align-items:center;gap:13px;padding:14px 2px;border-bottom:1px solid var(--border);cursor:pointer}
 .menu-item:last-child{border:none}
 .menu-item svg{width:18px;height:18px;stroke:var(--text2);stroke-width:1.5;fill:none;flex-shrink:0}
@@ -245,6 +301,9 @@ textarea.fi{resize:vertical}
 </head>
 <body>
 
+<!-- ═══════════════════════════════════════
+     HTML 1: FEED PAGE
+═══════════════════════════════════════ -->
 <div id="page-feed" class="page active">
   <div class="feed-top">
     <div class="feed-top-row1">
@@ -263,17 +322,26 @@ textarea.fi{resize:vertical}
   <div class="feed-wrap" id="feed-wrap"></div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     HTML 2: SEARCH PAGE
+═══════════════════════════════════════ -->
 <div id="page-search" class="page">
   <div class="page-header"><div class="page-title">ТЪРСИ</div></div>
   <div class="search-box"><i data-lucide="search"></i><input type="text" id="search-inp" placeholder="Търси творец, видео или #таг..."></div>
   <div id="search-list"></div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     HTML 3: INBOX PAGE
+═══════════════════════════════════════ -->
 <div id="page-inbox" class="page">
   <div class="page-header"><div class="page-title">ИЗВЕСТИЯ</div></div>
   <div id="inbox-list"></div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     HTML 4: PROFILE PAGE
+═══════════════════════════════════════ -->
 <div id="page-profile" class="page">
   <div class="page-header">
     <div class="page-title">ПРОФИЛ</div>
@@ -282,6 +350,9 @@ textarea.fi{resize:vertical}
   <div id="profile-body"></div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     HTML 5: CREATOR PANEL PAGE
+═══════════════════════════════════════ -->
 <div id="page-creator" class="page">
   <div class="page-header">
     <div class="page-title">CREATOR ПАНЕЛ</div>
@@ -318,6 +389,9 @@ textarea.fi{resize:vertical}
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     HTML 6: CREATOR PROFILE MODAL
+═══════════════════════════════════════ -->
 <div id="creator-profile-modal" class="creator-profile-modal">
   <div class="creator-profile-header">
     <button class="creator-profile-back" id="creator-profile-back-btn"><i data-lucide="arrow-left"></i> Назад</button>
@@ -326,6 +400,9 @@ textarea.fi{resize:vertical}
   <div id="creator-profile-body" style="padding-bottom:30px"></div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     HTML 7: BOTTOM NAV
+═══════════════════════════════════════ -->
 <nav class="botnav">
   <button class="bn active" id="bn-feed"><i data-lucide="house"></i><span>Начало</span></button>
   <button class="bn" id="bn-search"><i data-lucide="search"></i><span>Търси</span></button>
@@ -334,6 +411,9 @@ textarea.fi{resize:vertical}
   <button class="bn" id="bn-profile"><i data-lucide="user"></i><span>Профил</span></button>
 </nav>
 
+<!-- ═══════════════════════════════════════
+     HTML 8: MODALS
+═══════════════════════════════════════ -->
 <div class="modal" id="m-comments">
   <div class="mbox"><div class="mhandle" id="handle-comments"></div><div class="mtitle">Коментари</div><div class="cmt-list" id="cmt-list"></div><div class="cmt-input"><input type="text" id="cmt-inp" placeholder="Добави коментар..."><button class="cmt-send" id="cmt-send-btn"><i data-lucide="send" style="width:18px;height:18px;stroke:var(--gold);stroke-width:2;fill:none"></i></button></div></div>
 </div>
@@ -412,6 +492,9 @@ textarea.fi{resize:vertical}
 'use strict';
 window.onerror=function(msg,url,line){console.error('❌',msg,'line:',line);};
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 1: CONFIG + STATE
+// ════════════════════════════════════════
 var STATE={
   sb:null,user:null,
   uploadFile:null,uploadXhr:null,
@@ -436,6 +519,9 @@ var CONFIG={
   CACHE_LIMIT:100,MSG_COOLDOWN:3000,MSG_LIMIT:20,VIEW_MS:3000
 };
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 2: UTILS
+// ════════════════════════════════════════
 function fmt(n){if(n>=1000000)return(n/1000000).toFixed(1)+'M';if(n>=1000)return(n/1000).toFixed(1)+'K';return n||0;}
 function fmtBytes(b){if(b<1048576)return(b/1024).toFixed(1)+' KB';if(b<1073741824)return(b/1048576).toFixed(1)+' MB';return(b/1073741824).toFixed(2)+' GB';}
 function fmtTime(ts){if(!ts)return'';var d=new Date(ts),now=new Date(),s=Math.floor((now-d)/1000);if(s<60)return s+'с';if(s<3600)return Math.floor(s/60)+'мин';if(s<86400)return Math.floor(s/3600)+'ч';return Math.floor(s/86400)+'д';}
@@ -448,6 +534,9 @@ function closeModal(id){var m=el(id);if(m)m.classList.remove('open');}
 function bindSwipe(hid,mid){var h=el(hid),m=el(mid);if(!h||!m)return;var y0=0,t0=0;h.addEventListener('touchstart',function(e){y0=e.touches[0].clientY;t0=Date.now();},{passive:true});h.addEventListener('touchend',function(e){if(e.changedTouches[0].clientY-y0>60&&Date.now()-t0<400)m.classList.remove('open');},{passive:true});}
 function parseTags(text){if(!text)return[];var m=text.match(/#[\wа-яА-ЯёЁ]+/g);return m?m.map(function(t){return t.toLowerCase();}):[]; }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 3: NAVIGATION
+// ════════════════════════════════════════
 function showPage(page){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.bn').forEach(function(b){b.classList.remove('active');});
@@ -461,13 +550,15 @@ function showPage(page){
 function toggleFullscreen(){STATE.isFullscreen=!STATE.isFullscreen;document.body.classList.toggle('fullscreen-mode',STATE.isFullscreen);var b=el('btn-fullscreen');if(b){b.innerHTML=STATE.isFullscreen?'<i data-lucide="minimize-2"></i> Малък':'<i data-lucide="maximize-2"></i> Голям';if(window.lucide)window.lucide.createIcons();}}
 function toggleLandscape(){STATE.isLandscape=!STATE.isLandscape;document.querySelectorAll('.v-player').forEach(function(v){v.classList.toggle('landscape',STATE.isLandscape);});var b=el('btn-rotate');if(b){b.innerHTML=STATE.isLandscape?'<i data-lucide="rotate-ccw"></i> Изправи':'<i data-lucide="rotate-cw"></i> Завърти';if(window.lucide)window.lucide.createIcons();}showToast(STATE.isLandscape?'↔ Хоризонтален режим':'↕ Вертикален режим');}
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 4: PROFILE CACHE + FOLLOW
+// ════════════════════════════════════════
 async function getProfile(uid){
   if(STATE.profileCache[uid])return STATE.profileCache[uid];
   if(!STATE.sb)return null;
   try{var r=await STATE.sb.from('profiles').select('*').eq('id',uid).single();if(r.data){if(STATE.profileCacheKeys.length>=CONFIG.CACHE_LIMIT){delete STATE.profileCache[STATE.profileCacheKeys.shift()];}STATE.profileCache[uid]=r.data;STATE.profileCacheKeys.push(uid);return r.data;}}catch(e){}
   return null;
 }
-
 async function toggleFollow(toId,btn){
   if(!STATE.user){openModal('m-auth');return;}
   if(STATE.user.id===toId){showToast('Не можеш да следваш себе си!');return;}
@@ -479,6 +570,9 @@ async function toggleFollow(toId,btn){
 }
 async function loadFollowing(){if(!STATE.sb||!STATE.user)return;try{var r=await STATE.sb.from('follows').select('following_id').eq('follower_id',STATE.user.id);if(r.data)r.data.forEach(function(f){STATE.following[f.following_id]=true;});}catch(e){}}
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 5: NOTIFICATIONS
+// ════════════════════════════════════════
 async function sendNotif(toUserId,type,text,videoId){
   if(!STATE.sb||!STATE.user||toUserId===STATE.user.id)return;
   try{await STATE.sb.from('notifications').insert({user_id:toUserId,from_user_id:STATE.user.id,type:type,text:text,video_id:videoId||null,read:false});}catch(e){}
@@ -527,6 +621,9 @@ async function renderInbox(){
   }catch(e){wrap.innerHTML="<div style='padding:20px;text-align:center;color:var(--text2)'>Грешка при зареждане</div>";}
 }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 6: MESSAGES
+// ════════════════════════════════════════
 async function openMessages(toUserId,toName){
   STATE.currentMsgUserId=toUserId;
   var titleEl=el('msg-title');if(titleEl)titleEl.textContent='💬 '+toName;
@@ -565,6 +662,9 @@ async function sendMsg(text){
   catch(e){return false;}
 }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 7: VIEWS + WATCH HISTORY
+// ════════════════════════════════════════
 function startViewTimer(videoId,tags){
   if(STATE.viewedVideos[videoId]||STATE.viewedVideos['_t_'+videoId])return;
   STATE.viewedVideos['_t_'+videoId]=setTimeout(async function(){
@@ -582,6 +682,9 @@ function startViewTimer(videoId,tags){
 }
 function stopViewTimer(videoId){if(STATE.viewedVideos['_t_'+videoId]){clearTimeout(STATE.viewedVideos['_t_'+videoId]);delete STATE.viewedVideos['_t_'+videoId];}}
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 8: FEED + ALGORITHM
+// ════════════════════════════════════════
 function resetFeed(){STATE.feed.offset=0;STATE.feed.loading=false;STATE.feed.hasMore=true;STATE.shownVideoIds=[];}
 
 function cleanupVideos(curIdx){
@@ -681,11 +784,12 @@ async function loadMoreVideos(){
   if(window.lucide)window.lucide.createIcons();
 }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 9: VIDEO CARD
+// ════════════════════════════════════════
 function buildCard(v,i){
   var profile=STATE.profileCache[v.user_id]||null;
   var cName=profile?(profile.name||'Потребител'):(v.creator_name||'Потребител');
-  
-buildCard  
   var cAvatar=profile?profile.avatar_url:null;
   var isPaid=v.access_level&&v.access_level!=='free';
   var tags=parseTags(v.description);
@@ -802,21 +906,29 @@ buildCard
   abar.appendChild(msgBtn);
 
   var shareBtn=mk('button','v-act');shareBtn.appendChild(ico('share-2',20));
-shareBtn.onclick=function(){if(navigator.share){navigator.share({title:v.title,url:v.file_url});}else if(navigator.clipboard){navigator.clipboard.writeText(v.file_url).then(function(){showToast('🔗 Копирано!');});}else{showToast('🔗 Копирано!');}};
+  shareBtn.onclick=function(){if(navigator.share){navigator.share({title:v.title,url:v.file_url});}else if(navigator.clipboard){navigator.clipboard.writeText(v.file_url).then(function(){showToast('🔗 Копирано!');});}else{showToast('🔗 Копирано!');}};
   abar.appendChild(shareBtn);
 
   if(isPaid){var unlBtn=mk('button','v-act-unlock');unlBtn.innerHTML="<i data-lucide='lock' style='width:16px;height:16px;stroke:#000;stroke-width:2;fill:none'></i><span>Отключи</span>";unlBtn.onclick=function(){openModal('m-auth');};abar.appendChild(unlBtn);}
   info.appendChild(abar);item.appendChild(info);
   return item;
 }
+
+// ════════════════════════════════════════
+// РАЗДЕЛ 10: AD CARD
+// ════════════════════════════════════════
 function buildAd(idx,ads){
   var ad=ads[idx%ads.length];
   var item=mk('div','ad-item');
-  item.style.cssText='height:100vh;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:linear-gradient(160deg,#0a0800,#1a1400,#0a0800)';
+  item.style.background='linear-gradient(160deg,#0a0800,#1a1400,#0a0800)';
   var c=mk('div');c.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;text-align:center;padding:24px';
   c.innerHTML="<div style='font-size:.62rem;color:rgba(201,168,76,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;border:1px solid rgba(201,168,76,.2);padding:3px 10px;border-radius:100px'>Спонсорирано</div><div style='font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#c9a84c,#e8c96d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px'>"+ad.company+"</div><div style='font-size:.9rem;color:rgba(255,255,255,.65)'>"+ad.text+"</div>";
   item.appendChild(c);return item;
 }
+
+// ════════════════════════════════════════
+// РАЗДЕЛ 11: VIDEO GRID (профил + creator panel)
+// ════════════════════════════════════════
 function buildVideoGrid(videos,emptyMsg){
   var grid=mk('div','vgrid');
   if(videos&&videos.length>0){
@@ -840,6 +952,9 @@ async function loadLikeCount(videoId,cntEl,btn){if(!STATE.sb)return;try{var r=aw
 async function loadCommentCount(videoId,cntEl){if(!STATE.sb)return;try{var r=await STATE.sb.from('comments').select('id',{count:'exact'}).eq('video_id',videoId);if(cntEl)cntEl.textContent=fmt(r.count||0);}catch(e){}}
 async function loadSaveState(videoId,btn){if(!STATE.sb||!STATE.user||!btn)return;try{var r=await STATE.sb.from('saves').select('id').eq('video_id',videoId).eq('user_id',STATE.user.id).maybeSingle();if(r.data)btn.classList.add('saved');}catch(e){}}
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 12: COMMENTS
+// ════════════════════════════════════════
 async function openComments(videoId){STATE.currentVideoId=videoId;var list=el('cmt-list');if(!list)return;list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Зарежда...</div>";openModal('m-comments');await loadComments(videoId);}
 async function loadComments(videoId){
   var list=el('cmt-list');if(!list||!STATE.sb)return;
@@ -852,6 +967,9 @@ async function sendComment(){
   catch(e){if(e.message&&e.message.includes('Изчакай'))showToast('⏱ Изчакай преди да коментираш!');else showToast('Грешка!');}
 }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 13: SEARCH
+// ════════════════════════════════════════
 function searchByTag(tag){showPage('search');var inp=el('search-inp');if(inp){inp.value=tag;inp.dispatchEvent(new Event('input'));}}
 async function renderSearch(){
   var wrap=el('search-list');if(!wrap||!STATE.sb)return;
@@ -870,6 +988,9 @@ function renderSearchResults(profiles,videos){
   if(!has)wrap.innerHTML="<div style='padding:30px;text-align:center;color:var(--text2)'>Няма резултати</div>";
 }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 14: CREATOR PROFILE
+// ════════════════════════════════════════
 async function openCreatorProfile(userId){
   if(STATE.user&&userId===STATE.user.id){showPage('profile');return;}
   var modal=el('creator-profile-modal'),body=el('creator-profile-body'),titleEl=el('creator-profile-title');
@@ -903,6 +1024,9 @@ async function openCreatorProfile(userId){
   if(window.lucide)window.lucide.createIcons();
 }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 15: PROFILE PAGE
+// ════════════════════════════════════════
 async function renderProfile(){
   var wrap=el('profile-body');if(!wrap)return;wrap.innerHTML='';
   if(!STATE.user){
@@ -944,6 +1068,9 @@ async function renderProfile(){
   if(window.lucide)window.lucide.createIcons();
 }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 16: CREATOR PANEL
+// ════════════════════════════════════════
 async function loadCreatorPanel(){
   if(!STATE.user||!STATE.sb)return;
   try{
@@ -970,6 +1097,9 @@ async function loadCreatorPanel(){
   }catch(e){console.error('loadCreatorPanel:',e);}
 }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 17: AUTH
+// ════════════════════════════════════════
 function switchAuth(type){var sl=el('sw-login'),sr=el('sw-register'),al=el('auth-login'),ar=el('auth-register');if(sl)sl.classList.toggle('active',type==='login');if(sr)sr.classList.toggle('active',type==='register');if(al)al.style.display=type==='login'?'':'none';if(ar)ar.style.display=type==='register'?'':'none';}
 async function doLogin(){
   var em=el('l-email'),ps=el('l-pass'),er=el('l-err'),bn=el('l-btn');if(!em||!ps)return;var email=em.value.trim(),pass=ps.value;
@@ -995,6 +1125,9 @@ async function saveProfile(){
 }
 function toggleTheme(){STATE.isDark=!STATE.isDark;document.body.classList.toggle('light',!STATE.isDark);localStorage.setItem('krevio-theme',STATE.isDark?'dark':'light');var lbl=el('m-theme-label');if(lbl)lbl.textContent=STATE.isDark?'Светла тема':'Тъмна тема';if(window.lucide)window.lucide.createIcons();}
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 18: UPLOAD
+// ════════════════════════════════════════
 function openUpload(){if(!STATE.user){openModal('m-auth');return;}resetUpload();openModal('m-upload');}
 function bindUpload(){
   var dz=el('upl-dz'),inp=el('upl-inp');
@@ -1019,6 +1152,9 @@ async function startUpload(){
   }catch(err){if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ '+err.message);}
 }
 
+// ════════════════════════════════════════
+// РАЗДЕЛ 19: INIT + BIND ALL
+// ════════════════════════════════════════
 window.addEventListener('load',async function(){
   if(window.lucide)window.lucide.createIcons();
   var saved=localStorage.getItem('krevio-theme');if(saved==='light'){STATE.isDark=false;document.body.classList.add('light');}
