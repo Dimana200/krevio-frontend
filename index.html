@@ -289,7 +289,7 @@ textarea.fi{resize:vertical}
 .menu-item-arrow{margin-left:auto;color:var(--text3)}
 .menu-danger svg{stroke:var(--red)}
 .menu-danger .menu-item-label{color:var(--red)}
-.toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(8px);z-index:999;background:rgba(201,168,76,.15);backdrop-filter:blur(16px);color:var(--gold);padding:9px 18px;border-radius:100px;font-size:.8rem;font-weight:700;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;border:1px solid rgba(201,168,76,.3)}
+.toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(8px);z-index:999;background:rgba(20,20,20,.95);backdrop-filter:blur(16px);color:#fff;padding:9px 18px;border-radius:100px;font-size:.8rem;font-weight:700;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;border:1px solid rgba(201,168,76,.3)}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .load-more{display:flex;align-items:center;justify-content:center;height:100vh;height:100dvh;scroll-snap-align:start}
 .load-spinner{width:40px;height:40px;border:3px solid rgba(201,168,76,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
@@ -927,7 +927,7 @@ function buildAd(idx,ads){
 }
 
 // ════════════════════════════════════════
-// РАЗДЕЛ 11: VIDEO GRID (профил + creator panel)
+// РАЗДЕЛ 11: VIDEO GRID
 // ════════════════════════════════════════
 function buildVideoGrid(videos,emptyMsg){
   var grid=mk('div','vgrid');
@@ -964,7 +964,7 @@ async function sendComment(){
   var inp=el('cmt-inp');if(!inp||!inp.value.trim())return;if(!STATE.user){showToast('Влез за да коментираш!');return;}if(!STATE.sb||!STATE.currentVideoId)return;
   var text=inp.value.trim();inp.value='';
   try{await STATE.sb.from('comments').insert({video_id:STATE.currentVideoId,user_id:STATE.user.id,username:STATE.user.name||STATE.user.email.split('@')[0],text:text});await loadComments(STATE.currentVideoId);try{var vr=await STATE.sb.from('videos').select('user_id,title').eq('id',STATE.currentVideoId).single();if(vr.data)sendNotif(vr.data.user_id,'comment','@'+(STATE.user.name||STATE.user.email.split('@')[0])+' коментира "'+vr.data.title+'"',STATE.currentVideoId);}catch(e){}}
-  catch(e){if(e.message&&e.message.includes('Изчакай'))showToast('⏱ Изчакай преди да коментираш!');else showToast('Грешка!');}
+  catch(e){showToast('Грешка при коментар!');}
 }
 
 // ════════════════════════════════════════
@@ -973,11 +973,11 @@ async function sendComment(){
 function searchByTag(tag){showPage('search');var inp=el('search-inp');if(inp){inp.value=tag;inp.dispatchEvent(new Event('input'));}}
 async function renderSearch(){
   var wrap=el('search-list');if(!wrap||!STATE.sb)return;
-  try{var r=await STATE.sb.from('profiles').select('*').limit(20);renderSearchResults(r.data||[],$=[]);}catch(e){}
+  try{var r=await STATE.sb.from('profiles').select('*').limit(20);renderSearchResults(r.data||[],[]);}catch(e){}
   var inp=el('search-inp');if(!inp)return;
   inp.oninput=async function(){
     var q=this.value.trim();
-    if(!q){try{var r=await STATE.sb.from('profiles').select('*').limit(20);renderSearchResults(r.data||[],$=[]);}catch(e){}return;}
+    if(!q){try{var r=await STATE.sb.from('profiles').select('*').limit(20);renderSearchResults(r.data||[],[]);}catch(e){}return;}
     try{var rp=await STATE.sb.from('profiles').select('*').or('name.ilike.%'+q+'%').limit(10);var rv=await STATE.sb.from('videos').select('*').or('title.ilike.%'+q+'%,description.ilike.%'+q+'%').limit(15);renderSearchResults(rp.data||[],rv.data||[]);}catch(e){}
   };
 }
@@ -1132,22 +1132,30 @@ function openUpload(){if(!STATE.user){openModal('m-auth');return;}resetUpload();
 function bindUpload(){
   var dz=el('upl-dz'),inp=el('upl-inp');
   if(dz&&inp){dz.onclick=function(){inp.click();};inp.onchange=function(){if(this.files&&this.files[0])setFile(this.files[0]);};dz.ondragover=function(e){e.preventDefault();dz.classList.add('over');};dz.ondragleave=function(){dz.classList.remove('over');};dz.ondrop=function(e){e.preventDefault();dz.classList.remove('over');if(e.dataTransfer&&e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);};}
-  var rm=el('upl-fi-rm');if(rm)rm.onclick=resetUpload;var go=el('upl-go-btn');if(go)go.onclick=startUpload;var cancel=el('upl-cancel-btn');if(cancel)cancel.onclick=function(){if(STATE.uploadXhr){STATE.uploadXhr.abort();STATE.uploadXhr=null;}closeModal('m-upload');resetUpload();};
+  var rm=el('upl-fi-rm');if(rm)rm.onclick=resetUpload;
+  var go=el('upl-go-btn');if(go)go.onclick=startUpload;
+  var cancel=el('upl-cancel-btn');if(cancel)cancel.onclick=function(){if(STATE.uploadXhr){STATE.uploadXhr.abort();STATE.uploadXhr=null;}closeModal('m-upload');resetUpload();};
 }
 function setFile(f){STATE.uploadFile=f;var dz=el('upl-dz');if(dz)dz.style.display='none';var fi=el('upl-fi');if(fi)fi.style.display='flex';var fn=el('upl-fi-name');if(fn)fn.textContent=f.name;var fs=el('upl-fi-size');if(fs)fs.textContent=fmtBytes(f.size);}
 function resetUpload(){STATE.uploadFile=null;STATE.uploadAccess='free';var inp=el('upl-inp');if(inp)inp.value='';var dz=el('upl-dz');if(dz)dz.style.display='block';var fi=el('upl-fi');if(fi)fi.style.display='none';var prog=el('upl-prog');if(prog)prog.style.display='none';var suc=el('upl-suc');if(suc)suc.style.display='none';var act=el('upl-act');if(act)act.style.display='block';var bar=el('upl-bar');if(bar)bar.style.width='0';var ti=el('upl-title');if(ti)ti.value='';var de=el('upl-desc');if(de)de.value='';document.querySelectorAll('.mono-opt').forEach(function(o,i){o.classList.toggle('selected',i===0);});}
 async function startUpload(){
-  if(!STATE.uploadFile){showToast('Избери видео!');return;}var ti=el('upl-title');if(!ti||!ti.value.trim()){showToast('Въведи заглавие!');return;}
-  var token='';try{var s=await STATE.sb.auth.getSession();if(s.data&&s.data.session)token=s.data.session.access_token;}catch(e){}if(!token){showToast('Влез в акаунта!');return;}
+  if(!STATE.uploadFile){showToast('Избери видео!');return;}
+  var ti=el('upl-title');if(!ti||!ti.value.trim()){showToast('Въведи заглавие!');return;}
+  var token='';try{var s=await STATE.sb.auth.getSession();if(s.data&&s.data.session)token=s.data.session.access_token;}catch(e){}
+  if(!token){showToast('Влез в акаунта!');return;}
   var act=el('upl-act');var prog=el('upl-prog');if(act)act.style.display='none';if(prog)prog.style.display='block';
   try{
     var amap={free:'free',paid:'fan',subscribers:'studio'};var de=el('upl-desc');
     var pr=await fetch(CONFIG.BACKEND+'/presign',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({fileName:STATE.uploadFile.name,mimeType:STATE.uploadFile.type,title:ti.value.trim(),description:de?de.value:'',access:amap[STATE.uploadAccess]||'free'})});
-    var pd=await pr.json();if(!pr.ok){if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ '+(pd.error||'Грешка'));return;}
-    var t0=Date.now();var xhr=new XMLHttpRequest();STATE.uploadXhr=xhr;xhr.open('PUT',pd.uploadUrl,true);xhr.setRequestHeader('Content-Type',STATE.uploadFile.type);
+    var pd=await pr.json();
+console.log('Upload URL:', pd.uploadUrl);
+if(!pr.ok){if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ '+(pd.error||'Грешка от сървъра'));return;}
+if(!pd.uploadUrl){ if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ Няма URL за качване');return;}
+    var t0=Date.now();var xhr=new XMLHttpRequest();STATE.uploadXhr=xhr;
+    xhr.open('PUT',pd.uploadUrl,true);xhr.setRequestHeader('Content-Type',STATE.uploadFile.type);
     xhr.upload.onprogress=function(e){if(!e.lengthComputable)return;var p=Math.round(e.loaded/e.total*100);var b=el('upl-bar');var pc=el('upl-pct');var sp=el('upl-spd');if(b)b.style.width=p+'%';if(pc)pc.textContent=p+'%';var sec=Math.max(0.1,(Date.now()-t0)/1000);if(sp)sp.textContent=fmtBytes(e.loaded)+' / '+fmtBytes(e.total)+' — '+((e.loaded/1048576)/sec).toFixed(1)+' MB/s';};
     xhr.onload=function(){STATE.uploadXhr=null;var suc=el('upl-suc');if(this.status===200){if(prog)prog.style.display='none';if(suc)suc.style.display='block';showToast('✅ Качено успешно!');setTimeout(function(){closeModal('m-upload');resetUpload();renderFeed();},2000);}else{if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ Грешка: '+this.status);}};
-    xhr.onerror=function(){STATE.uploadXhr=null;if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ Мрежова грешка.');};
+    xhr.onerror=function(){STATE.uploadXhr=null;if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ Мрежова грешка — провери backend');};
     xhr.send(STATE.uploadFile);
   }catch(err){if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ '+err.message);}
 }
@@ -1163,7 +1171,7 @@ window.addEventListener('load',async function(){
     var sess=await STATE.sb.auth.getSession();
     if(sess.data&&sess.data.session){await initUser(sess.data.session.user);renderFeed();}else{renderFeed();}
     STATE.sb.auth.onAuthStateChange(async function(event,session){
-      if(session){await initUser(session.user);renderProfile();}
+      if(session){await initUser(session.user);}
       else{STATE.user=null;STATE.following={};STATE.profileCache={};STATE.profileCacheKeys=[];if(STATE.msgSubscription){STATE.msgSubscription.unsubscribe();STATE.msgSubscription=null;}if(STATE.notifSubscription){STATE.notifSubscription.unsubscribe();STATE.notifSubscription=null;}renderProfile();updateNotifBadge();}
     });
   }else{renderFeed();}
@@ -1199,9 +1207,11 @@ function bindAll(){
   var cpb=el('creator-profile-back-btn');if(cpb)cpb.onclick=function(){el('creator-profile-modal').classList.remove('open');};
   var swl=el('sw-login');if(swl)swl.onclick=function(){switchAuth('login');};
   var swr=el('sw-register');if(swr)swr.onclick=function(){switchAuth('register');};
-  var lb=el('l-btn');if(lb)lb.onclick=doLogin;var rb=el('r-btn');if(rb)rb.onclick=doRegister;
+  var lb=el('l-btn');if(lb)lb.onclick=doLogin;
+  var rb=el('r-btn');if(rb)rb.onclick=doRegister;
   bindUpload();
-  var esb=el('edit-save-btn');if(esb)esb.onclick=saveProfile;var ecb=el('edit-cancel-btn');if(ecb)ecb.onclick=function(){closeModal('m-edit-profile');};
+  var esb=el('edit-save-btn');if(esb)esb.onclick=saveProfile;
+  var ecb=el('edit-cancel-btn');if(ecb)ecb.onclick=function(){closeModal('m-edit-profile');};
   var mob=el('menu-open-btn');if(mob)mob.onclick=function(){openModal('m-menu');};
   var mth=el('m-theme');if(mth)mth.onclick=function(){toggleTheme();closeModal('m-menu');};
   var mcp=el('m-creator-panel');if(mcp)mcp.onclick=function(){closeModal('m-menu');showPage('creator');};
