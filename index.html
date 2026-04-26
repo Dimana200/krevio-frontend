@@ -16,6 +16,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif}
   --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);
   --gold:#c9a84c;--gold2:#e8c96d;--gold-dim:rgba(201,168,76,.12);
   --nav-bg:rgba(10,10,10,.92);--nav-border:rgba(201,168,76,.2);
+  --red:#e8192c;
 }
 body{background:var(--bg);color:var(--text)}
 .page{display:none;position:fixed;inset:0;z-index:1;background:var(--bg)}
@@ -23,108 +24,94 @@ body{background:var(--bg);color:var(--text)}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;background:linear-gradient(135deg,#c9a84c,#e8c96d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
 .feed-top{position:fixed;top:0;left:0;right:0;z-index:50;background:linear-gradient(to bottom,rgba(10,10,10,.9),transparent);padding:12px 16px 0;transition:opacity .3s}
 .feed-top-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.feed-top-icons{display:flex;gap:8px;align-items:center}
-.feed-top-btn{background:rgba(0,0,0,.35);backdrop-filter:blur(8px);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:6px 8px;cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--gold);font-size:.68rem;font-weight:700;font-family:inherit}
-.feed-top-btn svg{width:16px;height:16px;stroke:var(--gold);stroke-width:1.5;fill:none}
-.feed-tabs{display:flex;gap:0;background:rgba(255,255,255,.06);border:1px solid var(--nav-border);border-radius:100px;padding:3px;margin-bottom:8px}
+.feed-top-icons{display:flex;gap:8px}
+.feed-top-btn{background:rgba(0,0,0,.3);backdrop-filter:blur(8px);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:6px 10px;cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--gold);font-size:.68rem;font-weight:700;font-family:inherit}
+.feed-tabs{display:flex;background:rgba(255,255,255,.06);border:1px solid var(--nav-border);border-radius:100px;padding:3px;margin-bottom:8px}
 .feed-tab{flex:1;text-align:center;padding:6px 8px;font-size:.7rem;font-weight:600;color:var(--text2);border-radius:100px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .feed-tab.active{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000;font-weight:700}
 #page-feed{background:#000}
 .feed-wrap{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch}
 .feed-wrap::-webkit-scrollbar{display:none}
 .video-item{height:100vh;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#111;overflow:hidden}
+.ad-item{height:100vh;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden}
 .v-player{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;cursor:pointer;transition:transform .3s}
 .v-player.landscape{transform:rotate(90deg) scale(1.78);transform-origin:center center}
-.v-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.3) 50%,rgba(0,0,0,.4) 100%);pointer-events:none;transition:opacity .3s}
+.v-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.2) 55%,rgba(0,0,0,.35) 100%);pointer-events:none}
+.v-loading{position:absolute;inset:0;z-index:14;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3)}
+.v-spinner{width:32px;height:32px;border:2px solid rgba(201,168,76,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
 .v-play-overlay{position:absolute;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .3s}
 .v-play-overlay.show{opacity:1}
 .v-play-circle{width:60px;height:60px;border-radius:50%;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;border:1.5px solid var(--gold)}
-.v-loading{position:absolute;inset:0;z-index:14;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3)}
-.v-spinner{width:32px;height:32px;border:2px solid rgba(201,168,76,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
 .v-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.15);z-index:16}
 .v-progress-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#e8c96d);border-radius:2px;transition:width .1s linear}
+body.fullscreen-mode .v-info-zone,body.fullscreen-mode .v-gradient,body.fullscreen-mode .feed-top,body.fullscreen-mode .botnav{opacity:0;pointer-events:none}
 .v-info-zone{position:absolute;bottom:68px;left:0;right:0;z-index:10;padding:0 12px 12px;transition:opacity .3s}
-
-/* CREATOR BAR — преработен */
-.v-creator-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.v-creator-bar{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .v-avatar{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;background:#222;overflow:hidden;cursor:pointer}
 .v-avatar img{width:100%;height:100%;object-fit:cover}
 .v-creator-info{flex:1;min-width:0}
 .v-creator-name{font-size:.85rem;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.v-creator-handle{font-size:.7rem;color:rgba(255,255,255,.55)}
-
-/* БУТОНИ СЛЕДВАЙ + АБОНИРАЙ — под името */
 .v-creator-actions{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
 .v-follow-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:4px 12px;border-radius:100px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap}
 .v-follow-btn.following{background:var(--gold-dim);color:var(--gold2)}
-.v-sub-btn{background:linear-gradient(135deg,#c9a84c,#e8c96d);border:none;color:#000;padding:4px 12px;border-radius:100px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
-
-/* ЗАГЛАВИЕ + ОПИСАНИЕ */
+.v-sub-btn{background:linear-gradient(135deg,#c9a84c,#e8c96d);border:none;color:#000;padding:4px 12px;border-radius:100px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;display:none}
+.v-sub-btn.visible{display:block}
 .v-text-block{margin-bottom:8px;cursor:pointer}
-.v-title-text{font-size:.85rem;font-weight:700;color:#fff;line-height:1.4;margin-bottom:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.v-title-text{font-size:.85rem;font-weight:700;color:#fff;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .v-title-text.expanded{-webkit-line-clamp:unset;display:block}
-.v-desc-text{font-size:.75rem;font-weight:400;color:rgba(255,255,255,.65);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.v-desc-text{font-size:.75rem;color:rgba(255,255,255,.65);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .v-desc-text.expanded{-webkit-line-clamp:unset;display:block}
-.v-tags{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
-.v-tag{font-size:.72rem;color:var(--gold);font-weight:600}
-
-/* ACTION BAR */
+.v-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.v-tag{font-size:.72rem;color:var(--gold);font-weight:600;cursor:pointer}
 .v-action-bar{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.25);backdrop-filter:blur(8px);border:1px solid rgba(201,168,76,.08);border-radius:12px;padding:8px 10px}
-.v-act{display:flex;align-items:center;gap:4px;cursor:pointer;background:none;border:none;padding:5px 7px;border-radius:8px;transition:background .15s}
+.v-act{display:flex;align-items:center;gap:4px;cursor:pointer;background:none;border:none;padding:5px 7px;border-radius:8px;transition:background .15s;font-family:inherit}
 .v-act:active{background:rgba(255,255,255,.08)}
 .v-act svg{width:20px;height:20px;stroke:rgba(255,255,255,.85);stroke-width:1.5;fill:none}
 .v-act span{font-size:.68rem;color:rgba(255,255,255,.6);font-weight:600}
-.v-act.liked svg{fill:#e8192c;stroke:#e8192c}
+.v-act.liked svg{fill:var(--red);stroke:var(--red)}
 .v-act.saved svg{fill:var(--gold);stroke:var(--gold)}
 .v-act-unlock{background:linear-gradient(135deg,#c9a84c,#e8c96d);border:none;border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:4px;cursor:pointer}
-.v-act-unlock svg{width:16px;height:16px;stroke:#000;stroke-width:2;fill:none}
 .v-act-unlock span{font-size:.68rem;color:#000;font-weight:800}
-body.fullscreen-mode .v-info-zone{opacity:0;pointer-events:none}
-body.fullscreen-mode .v-gradient{opacity:0}
-body.fullscreen-mode .feed-top{opacity:0;pointer-events:none}
-body.fullscreen-mode .botnav{opacity:0;pointer-events:none}
 .locked-ov{position:absolute;inset:0;z-index:20;background:rgba(0,0,0,.75);backdrop-filter:blur(14px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
-.locked-badge{background:linear-gradient(135deg,#c9a84c,#e8c96d);border-radius:100px;padding:4px 14px;font-size:.7rem;font-weight:800;color:#000;margin-bottom:14px;letter-spacing:1px}
+.locked-badge{background:linear-gradient(135deg,#c9a84c,#e8c96d);border-radius:100px;padding:4px 14px;font-size:.7rem;font-weight:800;color:#000;margin-bottom:14px}
 .locked-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:6px;text-align:center}
 .locked-price{font-size:1.8rem;font-weight:900;color:var(--gold);margin-bottom:4px}
 .locked-sub{font-size:.78rem;color:rgba(255,255,255,.5);margin-bottom:18px;text-align:center}
 .locked-btns{display:flex;gap:8px;width:100%;max-width:260px}
-.locked-preview{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:10px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit;text-align:center}
-.locked-unlock{flex:1;background:linear-gradient(135deg,#c9a84c,#e8c96d);border:none;color:#000;border-radius:10px;padding:10px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit;text-align:center}
-.botnav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:64px;display:flex;justify-content:space-around;align-items:center;padding:0 4px 6px;background:var(--nav-bg);backdrop-filter:blur(24px);border-top:1px solid var(--nav-border);transition:opacity .3s}
-.bn{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:none;border:none;padding:4px 10px;position:relative}
-.bn svg{width:23px;height:23px;stroke:var(--text3);stroke-width:1.5;fill:none;transition:all .2s}
-.bn span{font-size:.52rem;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.locked-preview{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:10px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit}
+.locked-unlock{flex:1;background:linear-gradient(135deg,#c9a84c,#e8c96d);border:none;color:#000;border-radius:10px;padding:10px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit}
+.botnav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:64px;display:flex;justify-content:space-around;align-items:center;padding:0 4px 6px;background:rgba(10,10,10,.78);backdrop-filter:blur(24px);border-top:1px solid var(--nav-border);transition:opacity .3s}
+.bn{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:none;border:none;padding:4px 10px;position:relative;font-family:inherit}
+.bn svg{width:23px;height:23px;stroke:rgba(255,255,255,.55);stroke-width:1.5;fill:none;transition:all .2s}
+.bn span{font-size:.52rem;color:rgba(255,255,255,.55);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 .bn.active svg{stroke:var(--gold)}
 .bn.active span{color:var(--gold)}
-.bn-badge{position:absolute;top:0;right:2px;min-width:14px;height:14px;background:#e8192c;border-radius:100px;font-size:.5rem;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 3px;color:#fff}
+.bn-badge{position:absolute;top:0;right:2px;min-width:14px;height:14px;background:var(--red);border-radius:100px;font-size:.5rem;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 3px;color:#fff}
+.bn-badge.show{display:flex}
 .bn-plus-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
 .bn-plus{width:42px;height:28px;background:linear-gradient(135deg,#c9a84c,#e8c96d);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .bn-plus svg{width:18px;height:18px;stroke:#000;stroke-width:2.5;fill:none}
-.bn-plus-wrap span{font-size:.52rem;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.bn-plus-wrap span{font-size:.52rem;color:rgba(255,255,255,.55);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 #page-search,#page-inbox,#page-profile,#page-creator{overflow-y:auto;padding-top:60px;padding-bottom:72px}
 .page-header{position:fixed;top:0;left:0;right:0;z-index:50;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--nav-border)}
 .page-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold);letter-spacing:3px}
-.icon-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center}
-.icon-btn svg{width:22px;height:22px;stroke:var(--text2);stroke-width:1.5;fill:none}
+.icon-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
+.icon-btn svg{width:22px;height:22px;stroke:rgba(255,255,255,.7);stroke-width:1.5;fill:none}
 .search-box{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:10px 14px;margin:12px 16px}
 .search-box svg{width:16px;height:16px;stroke:var(--text3);stroke-width:1.5;fill:none;flex-shrink:0}
 .search-box input{background:none;border:none;color:var(--text);font-size:.88rem;outline:none;flex:1;font-family:inherit}
 .search-box input::placeholder{color:var(--text3)}
-.search-tabs{display:flex;gap:6px;padding:0 16px 12px;overflow-x:auto}
-.search-tabs::-webkit-scrollbar{display:none}
-.stab{padding:6px 14px;border-radius:100px;font-size:.72rem;font-weight:600;cursor:pointer;border:1px solid var(--border2);color:var(--text2);background:none;white-space:nowrap;font-family:inherit}
-.stab.active{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000;border-color:transparent}
 .sec-label{font-size:.65rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;padding:8px 16px}
 .creator-row{display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--border)}
 .cr-avatar{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;background:var(--card);border:1px solid var(--border2);overflow:hidden}
 .cr-avatar img{width:100%;height:100%;object-fit:cover}
 .cr-name{font-weight:700;font-size:.88rem;color:var(--text)}
 .cr-handle{font-size:.72rem;color:var(--text2)}
-.cr-badge{font-size:.62rem;color:var(--gold);font-weight:700;margin-left:auto}
-.notif-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer}
-.notif-av{width:38px;height:38px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;border:1px solid var(--border)}
-.notif-txt{font-size:.8rem;color:var(--text);flex:1;line-height:1.4}
+.notif-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.notif-item:active{background:rgba(255,255,255,.04)}
+.notif-item.unread{background:rgba(201,168,76,.04)}
+.notif-av{width:40px;height:40px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1px solid var(--border)}
+.notif-txt{font-size:.82rem;color:var(--text);flex:1;line-height:1.4}
 .notif-time{font-size:.62rem;color:var(--text3);white-space:nowrap}
 .notif-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0}
 .p-banner{height:140px;background:linear-gradient(135deg,#1a1400,#2a1f00,#1a1400);position:relative}
@@ -141,17 +128,17 @@ body.fullscreen-mode .botnav{opacity:0;pointer-events:none}
 .pst-l{font-size:.6rem;color:var(--text2);text-align:center;text-transform:uppercase;letter-spacing:.5px}
 .p-action-btns{display:flex;gap:8px;width:100%;max-width:300px;margin-bottom:16px}
 .p-action-btns button{flex:1;padding:10px;border-radius:10px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit}
-.p-follow-btn{background:var(--card);color:var(--text);border:1px solid var(--border2)}
-.p-sub-btn{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000;border:none}
+.p-edit-btn{background:var(--card);color:var(--text);border:1px solid var(--border2)}
+.p-creator-btn{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000;border:none}
 .p-tabs{display:flex;border-bottom:1px solid var(--border);width:100%;overflow-x:auto}
 .p-tabs::-webkit-scrollbar{display:none}
-.p-tab{flex-shrink:0;padding:10px 14px;font-size:.75rem;font-weight:600;color:var(--text3);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;white-space:nowrap}
+.p-tab{flex-shrink:0;padding:10px 14px;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.55);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;white-space:nowrap}
 .p-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 .vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 .vg-cell{aspect-ratio:9/16;background:var(--card);position:relative;overflow:hidden;cursor:pointer}
-.vg-cell video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vg-cell img,.vg-cell video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .vg-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5),transparent)}
-.vg-info{position:absolute;bottom:4px;left:5px;right:5px;display:flex;justify-content:space-between;align-items:center}
+.vg-info{position:absolute;bottom:4px;left:5px;right:5px;display:flex;justify-content:space-between}
 .vg-views{font-size:.6rem;color:#fff;font-weight:600}
 .vg-badge{font-size:.55rem;color:var(--gold);font-weight:700}
 .creator-panel-tabs{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;border-bottom:1px solid var(--border)}
@@ -165,8 +152,8 @@ body.fullscreen-mode .botnav{opacity:0;pointer-events:none}
 .cp-stat-val{font-size:1.4rem;font-weight:900;color:var(--gold);margin-bottom:2px}
 .cp-stat-label{font-size:.68rem;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
 .cp-video-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
-.cp-video-thumb{width:52px;height:36px;border-radius:6px;background:var(--card);overflow:hidden;flex-shrink:0}
-.cp-video-thumb video{width:100%;height:100%;object-fit:cover}
+.cp-video-thumb{width:52px;height:36px;border-radius:6px;background:var(--card);overflow:hidden;flex-shrink:0;position:relative}
+.cp-video-thumb img,.cp-video-thumb video{width:100%;height:100%;object-fit:cover}
 .cp-video-info{flex:1;min-width:0}
 .cp-video-title{font-size:.8rem;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cp-video-meta{font-size:.68rem;color:var(--text2);margin-top:2px}
@@ -175,71 +162,58 @@ body.fullscreen-mode .botnav{opacity:0;pointer-events:none}
 .cp-video-badge.paid{background:var(--gold-dim);color:var(--gold)}
 .cp-video-actions{display:flex;gap:6px;margin-top:6px}
 .cp-vid-btn{background:var(--card);border:1px solid var(--border2);color:var(--text2);border-radius:6px;padding:4px 10px;font-size:.65rem;font-weight:600;cursor:pointer;font-family:inherit}
-.cp-sub-card{background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:16px;margin-bottom:10px}
-.cp-sub-price{font-size:1.6rem;font-weight:900;color:var(--gold);margin-bottom:4px}
-.cp-sub-label{font-size:.72rem;color:var(--text2);margin-bottom:12px}
-.cp-sub-stats{display:flex;gap:20px}
-.cp-notif-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}
-.cp-notif-ico{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
-.cp-notif-txt{font-size:.8rem;color:var(--text);flex:1;line-height:1.4}
-.cp-notif-time{font-size:.62rem;color:var(--text3)}
-.cp-notif-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0}
 .cp-setting-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer}
 .cp-setting-label{font-size:.87rem;color:var(--text);font-weight:500}
-.cp-setting-arrow{color:var(--text3);font-size:.9rem}
+.creator-profile-modal{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);overflow-y:auto}
+.creator-profile-modal.open{display:block}
+.creator-profile-header{position:sticky;top:0;display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--nav-bg);border-bottom:1px solid var(--nav-border);z-index:10}
+.creator-profile-back{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--gold);font-size:.85rem;font-weight:700;font-family:inherit}
 .modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);align-items:flex-end}
 .modal.open{display:flex}
-.mbox{background:var(--surface);border-radius:20px 20px 0 0;padding:20px;width:100%;max-height:92vh;overflow-y:auto;border-top:1px solid var(--nav-border);animation:sup .3s ease;touch-action:pan-y}
+.mbox{background:var(--surface);border-radius:20px 20px 0 0;padding:20px;width:100%;max-height:92vh;overflow-y:auto;border-top:1px solid var(--nav-border);animation:sup .3s ease}
 @keyframes sup{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .mhandle{width:32px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 18px;cursor:grab}
 .mtitle{font-size:.95rem;font-weight:800;color:var(--text);text-align:center;margin-bottom:18px}
 .cmt-list{display:flex;flex-direction:column;gap:12px;max-height:42vh;overflow-y:auto;margin-bottom:14px}
 .cmt-item{display:flex;gap:9px}
-.cmt-av{width:30px;height:30px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;border:1px solid var(--border);overflow:hidden}
-.cmt-av img{width:100%;height:100%;object-fit:cover}
+.cmt-av{width:30px;height:30px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;border:1px solid var(--border)}
 .cmt-name{font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:2px}
 .cmt-text{font-size:.8rem;color:var(--text2);line-height:1.5}
 .cmt-time{font-size:.62rem;color:var(--text3);margin-top:2px}
 .cmt-input{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border2);border-radius:100px;padding:8px 12px}
 .cmt-input input{background:none;border:none;color:var(--text);font-size:.84rem;flex:1;outline:none;font-family:inherit}
 .cmt-send{background:none;border:none;cursor:pointer;padding:0;display:flex}
-.cmt-send svg{width:18px;height:18px;stroke:var(--gold);stroke-width:2;fill:none}
+.msg-list{display:flex;flex-direction:column;gap:8px;max-height:48vh;overflow-y:auto;margin-bottom:14px;padding:4px 0}
+.msg-wrap{display:flex;flex-direction:column}
+.msg-wrap.mine{align-items:flex-end}
+.msg-wrap.theirs{align-items:flex-start}
+.msg-bubble{max-width:75%;padding:9px 13px;border-radius:14px;font-size:.83rem;line-height:1.5}
+.msg-bubble.mine{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000;border-bottom-right-radius:4px}
+.msg-bubble.theirs{background:var(--card);color:var(--text);border-bottom-left-radius:4px}
+.msg-time{font-size:.58rem;color:var(--text3);margin-top:3px;padding:0 4px}
+.msg-input-row{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border2);border-radius:100px;padding:8px 12px}
+.msg-input-row input{background:none;border:none;color:var(--text);font-size:.84rem;flex:1;outline:none;font-family:inherit}
+.msg-send{background:none;border:none;cursor:pointer;display:flex}
 .fg{margin-bottom:14px}
 .fl{display:block;font-size:.62rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
 .fi{width:100%;background:var(--card);border:1px solid var(--border2);color:var(--text);padding:11px 13px;border-radius:10px;font-size:.87rem;outline:none;font-family:inherit;transition:border-color .2s}
 .fi:focus{border-color:var(--gold)}
 .fi::placeholder{color:var(--text3)}
 textarea.fi{resize:vertical}
-.ferr{display:none;color:#e8192c;font-size:.78rem;padding:8px 12px;background:rgba(232,25,44,.1);border-radius:8px;margin-bottom:10px}
-.upl-prog{display:none;margin-bottom:12px}
-.upl-bar-bg{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin:6px 0}
-.upl-bar{height:100%;width:0;background:linear-gradient(90deg,#c9a84c,#e8c96d);border-radius:2px;transition:width .3s}
-.upl-suc{display:none;text-align:center;padding:18px;background:rgba(201,168,76,.08);border-radius:12px;border:1px solid rgba(201,168,76,.2);margin-bottom:12px}
+.ferr{display:none;color:var(--red);font-size:.78rem;padding:8px 12px;background:rgba(232,25,44,.1);border-radius:8px;margin-bottom:10px}
+.btn-gold{width:100%;background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000;border:none;border-radius:10px;padding:13px;font-size:.9rem;font-weight:800;cursor:pointer;font-family:inherit;margin-top:4px}
+.btn-ghost{width:100%;background:var(--card);color:var(--text);border:1px solid var(--border2);border-radius:10px;padding:12px;font-size:.87rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px}
 .auth-switch{display:flex;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:3px;margin-bottom:18px}
 .auth-sw-btn{flex:1;padding:9px;text-align:center;font-size:.82rem;font-weight:600;cursor:pointer;border-radius:10px;color:var(--text2);background:none;border:none;font-family:inherit}
 .auth-sw-btn.active{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000}
-.btn-gold{width:100%;background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000;border:none;border-radius:10px;padding:13px;font-size:.9rem;font-weight:800;cursor:pointer;font-family:inherit;margin-top:4px}
-.btn-ghost{width:100%;background:var(--card);color:var(--text);border:1px solid var(--border2);border-radius:10px;padding:12px;font-size:.87rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px}
-.menu-item{display:flex;align-items:center;gap:13px;padding:14px 2px;border-bottom:1px solid var(--border);cursor:pointer}
-.menu-item:last-child{border:none}
-.menu-item svg{width:18px;height:18px;stroke:var(--text2);stroke-width:1.5;fill:none;flex-shrink:0}
-.menu-item-label{font-size:.87rem;color:var(--text)}
-.menu-item-arrow{margin-left:auto;color:var(--text3);font-size:.8rem}
-.menu-danger svg{stroke:#e8192c}
-.menu-danger .menu-item-label{color:#e8192c}
-.file-info{display:none;align-items:center;gap:9px;background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:9px 12px;margin-bottom:12px}
-.file-rm{background:none;border:none;cursor:pointer;color:var(--text3);font-size:.9rem;padding:0}
-.toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(8px);z-index:999;background:rgba(201,168,76,.15);backdrop-filter:blur(16px);color:var(--gold);padding:9px 18px;border-radius:100px;font-size:.8rem;font-weight:700;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;border:1px solid rgba(201,168,76,.3)}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-.upl-row{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px;color:var(--text)}
-.upl-pct{font-weight:700;color:var(--gold)}
-.upl-spd{font-size:.67rem;color:var(--text2)}
 .dropzone{border:2px dashed rgba(201,168,76,.3);border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;margin-bottom:14px;transition:all .2s}
-.dropzone:hover,.dropzone.over{border-color:var(--gold);background:var(--gold-dim)}
+.dropzone.over{border-color:var(--gold);background:var(--gold-dim)}
 .dz-ico{font-size:2.2rem;margin-bottom:8px}
 .dz-title{font-weight:700;color:var(--text);margin-bottom:4px}
 .dz-sub{font-size:.76rem;color:var(--text2)}
+.file-info{display:none;align-items:center;gap:9px;background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:9px 12px;margin-bottom:12px}
+.file-rm{background:none;border:none;cursor:pointer;color:var(--text3);font-size:.9rem;padding:0}
 .mono-type{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
 .mono-opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--border2);cursor:pointer;background:var(--card)}
 .mono-opt.selected{border-color:var(--gold);background:var(--gold-dim)}
@@ -249,23 +223,25 @@ textarea.fi{resize:vertical}
 .mono-opt.selected .mono-opt-radio-dot{display:block}
 .mono-opt-label{font-size:.83rem;font-weight:600;color:var(--text)}
 .mono-opt-sub{font-size:.7rem;color:var(--text2);margin-left:auto}
-.msg-list{display:flex;flex-direction:column;gap:10px;max-height:45vh;overflow-y:auto;margin-bottom:14px}
-.msg-bubble{max-width:75%;padding:9px 13px;border-radius:14px;font-size:.83rem;line-height:1.5}
-.msg-bubble.mine{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#000;align-self:flex-end;border-bottom-right-radius:4px}
-.msg-bubble.theirs{background:var(--card);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px}
-.msg-input-row{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border2);border-radius:100px;padding:8px 12px}
-.msg-input-row input{background:none;border:none;color:var(--text);font-size:.84rem;flex:1;outline:none;font-family:inherit}
-.msg-send{background:none;border:none;cursor:pointer;display:flex}
-.msg-send svg{width:18px;height:18px;stroke:var(--gold);stroke-width:2;fill:none}
+.upl-prog{display:none;margin-bottom:12px}
+.upl-bar-bg{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin:6px 0}
+.upl-bar{height:100%;width:0;background:linear-gradient(90deg,#c9a84c,#e8c96d);border-radius:2px;transition:width .3s}
+.upl-suc{display:none;text-align:center;padding:18px;background:rgba(201,168,76,.08);border-radius:12px;border:1px solid rgba(201,168,76,.2);margin-bottom:12px}
+.menu-item{display:flex;align-items:center;gap:13px;padding:14px 2px;border-bottom:1px solid var(--border);cursor:pointer}
+.menu-item:last-child{border:none}
+.menu-item svg{width:18px;height:18px;stroke:var(--text2);stroke-width:1.5;fill:none;flex-shrink:0}
+.menu-item-label{font-size:.87rem;color:var(--text)}
+.menu-item-arrow{margin-left:auto;color:var(--text3)}
+.menu-danger svg{stroke:var(--red)}
+.menu-danger .menu-item-label{color:var(--red)}
+.toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(8px);z-index:999;background:rgba(20,20,20,.95);backdrop-filter:blur(16px);color:#fff;padding:9px 18px;border-radius:100px;font-size:.8rem;font-weight:700;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;border:1px solid rgba(201,168,76,.3)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .load-more{display:flex;align-items:center;justify-content:center;height:100vh;height:100dvh;scroll-snap-align:start}
-.load-more-spinner{width:40px;height:40px;border:3px solid rgba(201,168,76,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
-
-/* CREATOR PROFILE MODAL */
-.creator-profile-modal{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);animation:sup .3s ease}
-.creator-profile-modal.open{display:block}
-.creator-profile-header{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--nav-bg);border-bottom:1px solid var(--nav-border)}
-.creator-profile-back{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--gold);font-size:.85rem;font-weight:700;font-family:inherit}
-.creator-profile-back svg{width:18px;height:18px;stroke:var(--gold);stroke-width:2;fill:none}
+.load-spinner{width:40px;height:40px;border:3px solid rgba(201,168,76,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+.empty-state{height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(201,168,76,.4);text-align:center;padding:20px;scroll-snap-align:start}
+.empty-ico{font-size:3rem;margin-bottom:16px}
+.empty-title{font-size:1rem;font-weight:700;color:rgba(201,168,76,.6);margin-bottom:8px}
+.empty-sub{font-size:.82rem}
 </style>
 </head>
 <body>
@@ -275,14 +251,8 @@ textarea.fi{resize:vertical}
     <div class="feed-top-row1">
       <div class="logo">KREVIO</div>
       <div class="feed-top-icons">
-        <button class="feed-top-btn" id="btn-fullscreen">
-          <i data-lucide="maximize-2"></i>
-          Голям
-        </button>
-        <button class="feed-top-btn" id="btn-rotate">
-          <i data-lucide="rotate-cw"></i>
-          Завърти
-        </button>
+        <button class="feed-top-btn" id="btn-fullscreen"><i data-lucide="maximize-2"></i> Голям</button>
+        <button class="feed-top-btn" id="btn-rotate"><i data-lucide="rotate-cw"></i> Завърти</button>
       </div>
     </div>
     <div class="feed-tabs">
@@ -296,13 +266,7 @@ textarea.fi{resize:vertical}
 
 <div id="page-search" class="page">
   <div class="page-header"><div class="page-title">ТЪРСИ</div></div>
-  <div class="search-box"><i data-lucide="search"></i><input type="text" id="search-inp" placeholder="Търси творец или видео..."></div>
-  <div class="search-tabs">
-    <button class="stab active" id="stab-all">Всички</button>
-    <button class="stab" id="stab-creators">👤 Творци</button>
-    <button class="stab" id="stab-videos">🎬 Видеа</button>
-    <button class="stab" id="stab-premium">💎 Премиум</button>
-  </div>
+  <div class="search-box"><i data-lucide="search"></i><input type="text" id="search-inp" placeholder="Търси творец, видео или #таг..."></div>
   <div id="search-list"></div>
 </div>
 
@@ -322,57 +286,45 @@ textarea.fi{resize:vertical}
 <div id="page-creator" class="page">
   <div class="page-header">
     <div class="page-title">CREATOR ПАНЕЛ</div>
-    <button class="icon-btn" onclick="showPage('profile')"><i data-lucide="x"></i></button>
+    <button class="icon-btn" id="creator-close-btn"><i data-lucide="x"></i></button>
   </div>
   <div class="creator-panel-tabs">
     <button class="cptab active" data-tab="cp-dashboard">📊 Табло</button>
     <button class="cptab" data-tab="cp-content">🎬 Съдържание</button>
-    <button class="cptab" data-tab="cp-audience">👥 Публика</button>
     <button class="cptab" data-tab="cp-subs">💎 Абонаменти</button>
-    <button class="cptab" data-tab="cp-notifs">🔔 Известия</button>
     <button class="cptab" data-tab="cp-settings">⚙️ Настройки</button>
   </div>
   <div id="cp-dashboard" class="cp-section active">
     <div class="cp-stat-grid">
-      <div class="cp-stat"><div class="cp-stat-val">0</div><div class="cp-stat-label">Абонати</div></div>
-      <div class="cp-stat"><div class="cp-stat-val">0</div><div class="cp-stat-label">Общо гледания</div></div>
-      <div class="cp-stat"><div class="cp-stat-val">0</div><div class="cp-stat-label">Последователи</div></div>
-      <div class="cp-stat"><div class="cp-stat-val">0</div><div class="cp-stat-label">Видеа</div></div>
+      <div class="cp-stat"><div class="cp-stat-val" id="cp-val-views">0</div><div class="cp-stat-label">Гледания</div></div>
+      <div class="cp-stat"><div class="cp-stat-val" id="cp-val-followers">0</div><div class="cp-stat-label">Последователи</div></div>
+      <div class="cp-stat"><div class="cp-stat-val" id="cp-val-videos">0</div><div class="cp-stat-label">Видеа</div></div>
+      <div class="cp-stat"><div class="cp-stat-val" id="cp-val-likes">0</div><div class="cp-stat-label">Харесвания</div></div>
     </div>
-    <div class="sec-label" style="padding:0 0 10px">🏆 Най-добро видео</div>
+    <div class="sec-label" style="padding:0 0 8px">🏆 Най-добро видео</div>
     <div id="cp-best-video" style="color:var(--text2);font-size:.83rem">Все още нямаш видеа</div>
   </div>
-  <div id="cp-content" class="cp-section"><div id="cp-videos-list"><div style="color:var(--text2);font-size:.83rem;text-align:center;padding:20px">Зарежда...</div></div></div>
-  <div id="cp-audience" class="cp-section"><div class="sec-label" style="padding:0 0 10px">Топ фенове</div><div id="cp-fans-list"><div style="color:var(--text2);font-size:.83rem;text-align:center;padding:20px">Все още нямаш последователи</div></div></div>
+  <div id="cp-content" class="cp-section"><div id="cp-videos-list"></div></div>
   <div id="cp-subs" class="cp-section">
-    <div class="cp-sub-card">
-      <div class="cp-sub-price">5€ / месец</div>
-      <div class="cp-sub-label">Твоята абонаментна цена</div>
-      <div class="cp-sub-stats">
-        <div><div class="pst-n">0</div><div class="pst-l">Абонати</div></div>
-        <div><div class="pst-n">0€</div><div class="pst-l">Месечно</div></div>
-      </div>
+    <div style="background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:16px;margin-bottom:12px">
+      <div style="font-size:1.6rem;font-weight:900;color:var(--gold)">5€ / месец</div>
+      <div style="font-size:.72rem;color:var(--text2);margin-bottom:12px">Твоята абонаментна цена</div>
     </div>
-    <button class="btn-gold" style="margin-top:10px" onclick="showToast('Скоро!')">✏️ Промени цената</button>
+    <button class="btn-gold" onclick="showToast('Скоро!')">✏️ Промени цената</button>
   </div>
-  <div id="cp-notifs" class="cp-section"><div id="cp-notifs-list"></div></div>
   <div id="cp-settings" class="cp-section">
-    <div class="cp-setting-row" onclick="el('m-edit-profile').classList.add('open');lucide.createIcons()"><span class="cp-setting-label">👤 Профил</span><span class="cp-setting-arrow">›</span></div>
-    <div class="cp-setting-row" onclick="showToast('Скоро!')"><span class="cp-setting-label">💳 Метод на изплащане</span><span class="cp-setting-arrow">›</span></div>
-    <div class="cp-setting-row" onclick="showToast('Скоро!')"><span class="cp-setting-label">🔒 Поверителност</span><span class="cp-setting-arrow">›</span></div>
-    <div class="cp-setting-row" onclick="window.location.href='terms.html'"><span class="cp-setting-label">📄 Условия за ползване</span><span class="cp-setting-arrow">›</span></div>
+    <div class="cp-setting-row" id="cp-set-profile"><span class="cp-setting-label">👤 Редактирай профил</span><span style="color:var(--text3)">›</span></div>
+    <div class="cp-setting-row" id="cp-set-payout"><span class="cp-setting-label">💳 Метод на изплащане</span><span style="color:var(--text3)">›</span></div>
+    <div class="cp-setting-row" id="cp-set-terms"><span class="cp-setting-label">📄 Условия за ползване</span><span style="color:var(--text3)">›</span></div>
   </div>
 </div>
 
-<!-- CREATOR PROFILE СТРАНИЦА -->
 <div id="creator-profile-modal" class="creator-profile-modal">
   <div class="creator-profile-header">
-    <button class="creator-profile-back" id="creator-profile-back-btn">
-      <i data-lucide="arrow-left"></i> Назад
-    </button>
+    <button class="creator-profile-back" id="creator-profile-back-btn"><i data-lucide="arrow-left"></i> Назад</button>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);letter-spacing:2px" id="creator-profile-title">ПРОФИЛ</div>
   </div>
-  <div id="creator-profile-body" style="overflow-y:auto;height:calc(100% - 56px);padding-bottom:20px"></div>
+  <div id="creator-profile-body" style="padding-bottom:30px"></div>
 </div>
 
 <nav class="botnav">
@@ -384,30 +336,21 @@ textarea.fi{resize:vertical}
 </nav>
 
 <div class="modal" id="m-comments">
-  <div class="mbox" id="mbox-comments">
-    <div class="mhandle" id="handle-comments"></div>
-    <div class="mtitle">Коментари</div>
-    <div class="cmt-list" id="cmt-list"></div>
-    <div class="cmt-input"><input type="text" id="cmt-inp" placeholder="Добави коментар..."><button class="cmt-send" id="cmt-send-btn"><i data-lucide="send"></i></button></div>
-  </div>
+  <div class="mbox"><div class="mhandle" id="handle-comments"></div><div class="mtitle">Коментари</div><div class="cmt-list" id="cmt-list"></div><div class="cmt-input"><input type="text" id="cmt-inp" placeholder="Добави коментар..."><button class="cmt-send" id="cmt-send-btn"><i data-lucide="send" style="width:18px;height:18px;stroke:var(--gold);stroke-width:2;fill:none"></i></button></div></div>
+</div>
+
+<div class="modal" id="m-msg">
+  <div class="mbox"><div class="mhandle" id="handle-msg"></div><div class="mtitle" id="msg-title">Съобщение</div><div class="msg-list" id="msg-list"></div><div class="msg-input-row"><input type="text" id="msg-inp" placeholder="Напиши съобщение..."><button class="msg-send" id="msg-send-btn"><i data-lucide="send" style="width:18px;height:18px;stroke:var(--gold);stroke-width:2;fill:none"></i></button></div></div>
 </div>
 
 <div class="modal" id="m-upload">
-  <div class="mbox" id="mbox-upload">
+  <div class="mbox">
     <div class="mhandle" id="handle-upload"></div>
     <div class="mtitle">Качи видео</div>
-    <div class="dropzone" id="upl-dz">
-      <input type="file" id="upl-inp" style="display:none" accept="video/*">
-      <div class="dz-ico">🎬</div><div class="dz-title">Избери видео</div><div class="dz-sub">MP4, MOV — до 4GB</div>
-    </div>
-    <div class="file-info" id="upl-fi">
-      <span>🎬</span>
-      <div style="flex:1;min-width:0"><div id="upl-fi-name" style="font-weight:600;font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)"></div><div id="upl-fi-size" style="font-size:.67rem;color:var(--text2)"></div></div>
-      <button class="file-rm" id="upl-fi-rm">✕</button>
-    </div>
+    <div class="dropzone" id="upl-dz"><input type="file" id="upl-inp" style="display:none" accept="video/*"><div class="dz-ico">🎬</div><div class="dz-title">Избери видео</div><div class="dz-sub">MP4, MOV — до 4GB</div></div>
+    <div class="file-info" id="upl-fi"><span>🎬</span><div style="flex:1;min-width:0"><div id="upl-fi-name" style="font-weight:600;font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)"></div><div id="upl-fi-size" style="font-size:.67rem;color:var(--text2)"></div></div><button class="file-rm" id="upl-fi-rm">✕</button></div>
     <div class="fg"><label class="fl">Заглавие *</label><input type="text" class="fi" id="upl-title" placeholder="Заглавие на видеото"></div>
-    <div class="fg"><label class="fl">Описание</label><textarea class="fi" id="upl-desc" rows="2" placeholder="Разкажи на зрителите..."></textarea></div>
-    <div class="fg"><label class="fl">💡 Какво получават феновете?</label><input type="text" class="fi" id="upl-value" placeholder="Ексклузивен поглед зад кулисите..."></div>
+    <div class="fg"><label class="fl">Описание и тагове</label><textarea class="fi" id="upl-desc" rows="3" placeholder="Разкажи... използвай #тагове"></textarea></div>
     <div class="fg">
       <label class="fl">💰 Монетизация</label>
       <div class="mono-type">
@@ -416,26 +359,16 @@ textarea.fi{resize:vertical}
         <div class="mono-opt" data-val="subscribers"><div class="mono-opt-radio"><div class="mono-opt-radio-dot"></div></div><span class="mono-opt-label">💎 Само абонати</span><span class="mono-opt-sub">месечно</span></div>
       </div>
     </div>
-    <div class="upl-prog" id="upl-prog">
-      <div class="upl-row"><span>Качване...</span><span class="upl-pct" id="upl-pct">0%</span></div>
-      <div class="upl-bar-bg"><div class="upl-bar" id="upl-bar"></div></div>
-      <div class="upl-spd" id="upl-spd"></div>
-    </div>
+    <div class="upl-prog" id="upl-prog"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px;color:var(--text)"><span>Качване...</span><span id="upl-pct" style="color:var(--gold);font-weight:700">0%</span></div><div class="upl-bar-bg"><div class="upl-bar" id="upl-bar"></div></div><div id="upl-spd" style="font-size:.67rem;color:var(--text2)"></div></div>
     <div class="upl-suc" id="upl-suc"><div style="font-size:1.8rem;margin-bottom:6px">✅</div><div style="font-weight:700;color:var(--gold)">Качено успешно!</div></div>
-    <div id="upl-act">
-      <button class="btn-gold" id="upl-go-btn">🚀 Публикувай</button>
-      <button class="btn-ghost" id="upl-cancel-btn">Откажи</button>
-    </div>
+    <div id="upl-act"><button class="btn-gold" id="upl-go-btn">🚀 Публикувай</button><button class="btn-ghost" id="upl-cancel-btn">Откажи</button></div>
   </div>
 </div>
 
 <div class="modal" id="m-auth">
-  <div class="mbox" id="mbox-auth">
+  <div class="mbox">
     <div class="mhandle" id="handle-auth"></div>
-    <div class="auth-switch">
-      <button class="auth-sw-btn active" id="sw-login">Вход</button>
-      <button class="auth-sw-btn" id="sw-register">Регистрация</button>
-    </div>
+    <div class="auth-switch"><button class="auth-sw-btn active" id="sw-login">Вход</button><button class="auth-sw-btn" id="sw-register">Регистрация</button></div>
     <div id="auth-login">
       <div class="fg"><label class="fl">Имейл</label><input type="email" class="fi" id="l-email" placeholder="email@example.com"></div>
       <div class="fg"><label class="fl">Парола</label><input type="password" class="fi" id="l-pass" placeholder="Паролата ти"></div>
@@ -453,21 +386,14 @@ textarea.fi{resize:vertical}
 </div>
 
 <div class="modal" id="m-edit-profile">
-  <div class="mbox" id="mbox-edit">
-    <div class="mhandle" id="handle-edit"></div>
-    <div class="mtitle">Редактирай профил</div>
-    <div class="fg"><label class="fl">Потребителско ime</label><input type="text" class="fi" id="edit-username" placeholder="viktor_bg"></div>
-    <div class="fg"><label class="fl">Биография</label><textarea class="fi" id="edit-bio" rows="3" placeholder="Разкажи за себе си..."></textarea></div>
-    <button class="btn-gold" id="edit-save-btn">Запази</button>
-    <button class="btn-ghost" id="edit-cancel-btn">Откажи</button>
-  </div>
+  <div class="mbox"><div class="mhandle" id="handle-edit"></div><div class="mtitle">Редактирай профил</div><div class="fg"><label class="fl">Показвано Име</label><input type="text" class="fi" id="edit-name" placeholder="Виктор Александров"></div><div class="fg"><label class="fl">Биография</label><textarea class="fi" id="edit-bio" rows="3" placeholder="Разкажи за себе си..."></textarea></div><button class="btn-gold" id="edit-save-btn">Запази</button><button class="btn-ghost" id="edit-cancel-btn">Откажи</button></div>
 </div>
 
 <div class="modal" id="m-menu">
-  <div class="mbox" id="mbox-menu">
+  <div class="mbox">
     <div class="mhandle" id="handle-menu"></div>
-    <div class="menu-item" id="m-theme"><i data-lucide="sun"></i><span class="menu-item-label" id="m-theme-label">Светла тема</span><span class="menu-item-arrow">›</span></div>
     <div class="menu-item" id="m-creator-panel"><i data-lucide="layout-dashboard"></i><span class="menu-item-label">Creator Панел</span><span class="menu-item-arrow">›</span></div>
+    <div class="menu-item" id="m-theme"><i data-lucide="sun"></i><span class="menu-item-label" id="m-theme-label">Светла тема</span><span class="menu-item-arrow">›</span></div>
     <div class="menu-item" id="m-terms"><i data-lucide="file-text"></i><span class="menu-item-label">Условия за ползване</span><span class="menu-item-arrow">›</span></div>
     <div class="menu-item" id="m-privacy"><i data-lucide="shield"></i><span class="menu-item-label">Поверителност</span><span class="menu-item-arrow">›</span></div>
     <div class="menu-item" id="m-contact"><i data-lucide="mail"></i><span class="menu-item-label">Контакт</span><span class="menu-item-arrow">›</span></div>
@@ -476,484 +402,683 @@ textarea.fi{resize:vertical}
   </div>
 </div>
 
-<div class="modal" id="m-msg">
-  <div class="mbox" id="mbox-msg">
-    <div class="mhandle" id="handle-msg"></div>
-    <div class="mtitle" id="msg-title">Съобщение</div>
-    <div class="msg-list" id="msg-list">
-      <div class="msg-bubble theirs">Здравей! 👋</div>
-      <div class="msg-bubble mine">Здравей! Харесвам твоите видеа!</div>
-    </div>
-    <div class="msg-input-row">
-      <input type="text" id="msg-inp" placeholder="Напиши съобщение...">
-      <button class="msg-send" id="msg-send-btn"><i data-lucide="send"></i></button>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-var SB_URL="https://ucsogdvswugpynaqymtg.supabase.co";
-var SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc29nZHZzd3VncHluYXF5bXRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NzM2NTEsImV4cCI6MjA5MjM0OTY1MX0.pGjks7ghLR6tDyK0RlIPP57xIvbDomx-jelXHO8fEKI";
-var BACKEND="https://krevio-backend-production.up.railway.app";
-var sb=null,ME=null,uplFile=null,uplXhr=null,isDark=true,audioUnlocked=false,currentVideoId=null,uplAccess="free",isFullscreen=false,isLandscape=false,followingSet={};
-var feedBatchSize=5,feedLoading=false,feedHasMore=true,feedOffset=0;
-var inboxMessages=[];
-var profileCache={};
+(function(){
+'use strict';
+window.onerror=function(msg,url,line){console.error('❌',msg,'line:',line);};
 
-function fmt(n){if(n>=1000000)return(n/1000000).toFixed(1)+"M";if(n>=1000)return(n/1000).toFixed(1)+"K";return n||0;}
-function fmtBytes(b){if(b<1048576)return(b/1024).toFixed(1)+" KB";if(b<1073741824)return(b/1048576).toFixed(1)+" MB";return(b/1073741824).toFixed(2)+" GB";}
-function fmtTime(ts){if(!ts)return"";var d=new Date(ts),now=new Date(),diff=Math.floor((now-d)/1000);if(diff<60)return diff+"с";if(diff<3600)return Math.floor(diff/60)+"мин";if(diff<86400)return Math.floor(diff/3600)+"ч";return Math.floor(diff/86400)+"д";}
-function showToast(msg){var t=document.getElementById("toast");if(!t)return;t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},3000);}
+var STATE={
+  sb:null,user:null,
+  uploadFile:null,uploadXhr:null,
+  isDark:true,audioUnlocked:false,
+  currentVideoId:null,uploadAccess:'free',
+  isFullscreen:false,isLandscape:false,
+  following:{},profileCache:{},profileCacheKeys:[],
+  viewedVideos:{},
+  currentTab:'trending',
+  currentMsgUserId:null,
+  msgSubscription:null,notifSubscription:null,
+  lastMsgTime:0,msgCount:0,
+  shownVideoIds:[],
+  feed:{batchSize:5,loading:false,hasMore:true,offset:0}
+};
+window.STATE=STATE;
+
+var CONFIG={
+  SB_URL:'https://ucsogdvswugpynaqymtg.supabase.co',
+  SB_ANON:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc29nZHZzd3VncHluYXF5bXRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NzM2NTEsImV4cCI6MjA5MjM0OTY1MX0.pGjks7ghLR6tDyK0RlIPP57xIvbDomx-jelXHO8fEKI',
+  BACKEND:'https://krevio-backend-production.up.railway.app',
+  CACHE_LIMIT:100,MSG_COOLDOWN:3000,MSG_LIMIT:20,VIEW_MS:3000
+};
+
+function fmt(n){if(n>=1000000)return(n/1000000).toFixed(1)+'M';if(n>=1000)return(n/1000).toFixed(1)+'K';return n||0;}
+function fmtBytes(b){if(b<1048576)return(b/1024).toFixed(1)+' KB';if(b<1073741824)return(b/1048576).toFixed(1)+' MB';return(b/1073741824).toFixed(2)+' GB';}
+function fmtTime(ts){if(!ts)return'';var d=new Date(ts),now=new Date(),s=Math.floor((now-d)/1000);if(s<60)return s+'с';if(s<3600)return Math.floor(s/60)+'мин';if(s<86400)return Math.floor(s/3600)+'ч';return Math.floor(s/86400)+'д';}
 function el(id){return document.getElementById(id);}
 function mk(tag,cls){var e=document.createElement(tag);if(cls)e.className=cls;return e;}
-function icon(name,size){size=size||24;var i=document.createElement("i");i.setAttribute("data-lucide",name);i.style.cssText="width:"+size+"px;height:"+size+"px";return i;}
-
-function bindSwipeDismiss(handleId,modalId){
-  var handle=el(handleId);var modal=el(modalId);if(!handle||!modal)return;
-  var startY=0,startTime=0;
-  handle.addEventListener("touchstart",function(e){startY=e.touches[0].clientY;startTime=Date.now();},{passive:true});
-  handle.addEventListener("touchend",function(e){var dy=e.changedTouches[0].clientY-startY;var dt=Date.now()-startTime;if(dy>60&&dt<400)modal.classList.remove("open");},{passive:true});
-}
-
-// ═══════════════════════════════
-// FULLSCREEN + ЗАВЪРТАНЕ
-// ═══════════════════════════════
-function toggleFullscreen(){
-  isFullscreen=!isFullscreen;
-  document.body.classList.toggle("fullscreen-mode",isFullscreen);
-  var btn=el("btn-fullscreen");
-  if(btn){
-    btn.innerHTML=isFullscreen
-      ? '<i data-lucide="minimize-2"></i> Малък'
-      : '<i data-lucide="maximize-2"></i> Голям';
-    lucide.createIcons();
-  }
-}
-
-function toggleLandscape(){
-  isLandscape=!isLandscape;
-  document.querySelectorAll(".v-player").forEach(function(vid){
-    vid.classList.toggle("landscape",isLandscape);
-  });
-  var btn=el("btn-rotate");
-  if(btn){
-    btn.innerHTML=isLandscape
-      ? '<i data-lucide="rotate-ccw"></i> Изправи'
-      : '<i data-lucide="rotate-cw"></i> Завърти';
-    lucide.createIcons();
-  }
-  showToast(isLandscape?"↔ Хоризонтален режим":"↕ Вертикален режим");
-}
-
-// ═══════════════════════════════
-// ЗАРЕЖДАНЕ НА ПРОФИЛ ОТ CACHE
-// ═══════════════════════════════
-async function getProfile(userId){
-  if(profileCache[userId])return profileCache[userId];
-  if(!sb)return null;
-  try{
-    var r=await sb.from("profiles").select("*").eq("id",userId).single();
-    if(r.data){profileCache[userId]=r.data;return r.data;}
-  }catch(e){}
-  return null;
-}
-
-// ═══════════════════════════════
-// FOLLOW СИСТЕМА
-// ═══════════════════════════════
-async function toggleFollow(targetUserId,followBtn){
-  if(!ME){el("m-auth").classList.add("open");lucide.createIcons();return;}
-  if(ME.id===targetUserId){showToast("Не можеш да следваш себе си!");return;}
-  var isFollowing=followingSet[targetUserId]||false;
-  if(isFollowing){
-    try{await sb.from("follows").delete().eq("follower_id",ME.id).eq("following_id",targetUserId);followingSet[targetUserId]=false;if(followBtn){followBtn.textContent="Следвай";followBtn.classList.remove("following");}showToast("Спря да следваш");}
-    catch(e){showToast("Грешка!");}
-  } else {
-    try{await sb.from("follows").insert({follower_id:ME.id,following_id:targetUserId});followingSet[targetUserId]=true;if(followBtn){followBtn.textContent="✓ Следваш";followBtn.classList.add("following");}showToast("Следваш! Можеш да пратиш съобщение 💬");}
-    catch(e){showToast("Грешка!");}
-  }
-}
-
-async function loadFollowingSet(){
-  if(!sb||!ME)return;
-  try{var r=await sb.from("follows").select("following_id").eq("follower_id",ME.id);if(r.data)r.data.forEach(function(f){followingSet[f.following_id]=true;});}catch(e){}
-}
-
-// ═══════════════════════════════
-// ПРОФИЛ НА ТВОРЕЦ
-// ═══════════════════════════════
-async function openCreatorProfile(userId){
-  if(ME&&userId===ME.id){showPage("profile");return;}
-  var modal=el("creator-profile-modal");
-  var body=el("creator-profile-body");
-  var titleEl=el("creator-profile-title");
-  if(!modal||!body)return;
-  body.innerHTML="<div style='padding:40px;text-align:center;color:var(--text2)'>Зарежда...</div>";
-  modal.classList.add("open");
-  lucide.createIcons();
-  var profile=await getProfile(userId);
-  if(!profile){body.innerHTML="<div style='padding:40px;text-align:center;color:var(--text2)'>Профилът не е намерен</div>";return;}
-  if(titleEl)titleEl.textContent=(profile.username||"ПРОФИЛ").toUpperCase();
-  var videos=[];
-  try{var rv=await sb.from("videos").select("*").eq("user_id",userId).order("created_at",{ascending:false}).limit(12);videos=rv.data||[];}catch(e){}
-  var followersCount=0;
-  try{var rf=await sb.from("follows").select("id",{count:"exact"}).eq("following_id",userId);followersCount=rf.count||0;}catch(e){}
-  var isFollowing=followingSet[userId]||false;
-
-  body.innerHTML="";
-  var banner=mk("div","p-banner");banner.appendChild(mk("div","p-banner-gradient"));body.appendChild(banner);
-  var hero=mk("div","p-hero");
-  var avWrap=mk("div","p-avatar-wrap");avWrap.style.cursor="default";
-  if(profile.avatar_url){var avImg=document.createElement("img");avImg.src=profile.avatar_url+"?t="+Date.now();avWrap.appendChild(avImg);}
-  else avWrap.textContent="👤";
-  var nm=mk("div","p-name");nm.textContent=profile.full_name||profile.username||"Потребител";
-  var hd=mk("div","p-handle");hd.textContent="@"+(profile.username||"user");
-  var bio=mk("p","p-bio");bio.textContent=profile.bio||"";
-  var stats=mk("div","p-stats");
-  [{n:videos.length,l:"Видеа"},{n:followersCount,l:"Фена"}].forEach(function(s){var st=mk("div");var sn=mk("div","pst-n");sn.textContent=s.n;var sl=mk("div","pst-l");sl.textContent=s.l;st.appendChild(sn);st.appendChild(sl);stats.appendChild(st);});
-  var actionBtns=mk("div","p-action-btns");
-  var followBtn=mk("button","p-follow-btn");followBtn.textContent=isFollowing?"✓ Следваш":"Следвай";
-  if(isFollowing)followBtn.classList.add("following");
-  followBtn.onclick=function(){toggleFollow(userId,followBtn);};
-  var subBtn=mk("button","p-sub-btn");subBtn.textContent="Абонирай";subBtn.onclick=function(){showToast("Скоро!");};
-  actionBtns.appendChild(followBtn);actionBtns.appendChild(subBtn);
-  hero.appendChild(avWrap);hero.appendChild(nm);hero.appendChild(hd);hero.appendChild(stats);if(profile.bio)hero.appendChild(bio);hero.appendChild(actionBtns);body.appendChild(hero);
-
-  // Видеата на потребителя
-  var lbl=mk("div","sec-label");lbl.textContent="Видеа";body.appendChild(lbl);
-  var grid=mk("div","vgrid");
-  if(videos.length>0){
-    videos.forEach(function(v){
-      var cell=mk("div","vg-cell");var vidEl=document.createElement("video");vidEl.src=v.file_url;vidEl.preload="none";vidEl.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover";cell.appendChild(vidEl);
-      var ov=mk("div","vg-overlay");cell.appendChild(ov);
-      var info=mk("div","vg-info");var views=mk("div","vg-views");views.textContent="👁 "+fmt(v.views||0);info.appendChild(views);
-      if(v.access_level&&v.access_level!=="free"){var badge=mk("div","vg-badge");badge.textContent="🔒";info.appendChild(badge);}
-      cell.appendChild(info);cell.onclick=function(){showToast("▶ "+v.title);};grid.appendChild(cell);
-    });
-  } else {
-    grid.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>Все още няма видеа</div>";
-  }
-  body.appendChild(grid);
-  lucide.createIcons();
-}
-
-window.addEventListener("load",function(){
-  lucide.createIcons();
-  if(typeof supabase!=="undefined"){
-    sb=supabase.createClient(SB_URL,SB_ANON);
-    sb.auth.getSession().then(function(r){
-      if(r.data&&r.data.session){
-        var u=r.data.session.user;
-        ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};
-        loadProfile().then(function(){loadFollowingSet().then(function(){renderProfile();renderFeed();});});
-      } else {renderFeed();}
-    });
-    sb.auth.onAuthStateChange(function(event,session){
-      if(session){var u=session.user;ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};loadProfile().then(function(){loadFollowingSet().then(function(){renderProfile();});});}
-      else{ME=null;followingSet={};renderProfile();}
-    });
-  } else {renderFeed();}
-  bindNav();bindModals();bindAuth();bindUpload();bindMenu();bindEditProfile();bindMonoType();bindFeedTabs();bindCreatorPanel();
-  bindSwipeDismiss("handle-comments","m-comments");bindSwipeDismiss("handle-upload","m-upload");bindSwipeDismiss("handle-auth","m-auth");bindSwipeDismiss("handle-edit","m-edit-profile");bindSwipeDismiss("handle-menu","m-menu");bindSwipeDismiss("handle-msg","m-msg");
-  renderSearch();renderInbox();
-  el("btn-fullscreen").onclick=toggleFullscreen;
-  el("btn-rotate").onclick=toggleLandscape;
-  el("creator-profile-back-btn").onclick=function(){el("creator-profile-modal").classList.remove("open");};
-  el("msg-send-btn").onclick=function(){
-    var inp=el("msg-inp");if(!inp||!inp.value.trim())return;
-    var list=el("msg-list");var bubble=mk("div","msg-bubble mine");bubble.textContent=inp.value.trim();list.appendChild(bubble);
-    var msgTitle=el("msg-title");var recipient=msgTitle?msgTitle.textContent.replace("Съобщение до ",""):"@creator";
-    addInboxMessage("Ти → "+recipient,inp.value.trim());
-    inp.value="";list.scrollTop=list.scrollHeight;
-  };
-  updateInboxBadge();
-});
-
-function updateInboxBadge(){var badge=el("inbox-badge");if(!badge)return;var count=inboxMessages.filter(function(m){return m.unread;}).length;if(count>0){badge.textContent=count;badge.style.display="flex";}else badge.style.display="none";}
-function addInboxMessage(from,text){inboxMessages.unshift({ico:"💬",text:"Съобщение от "+from+": "+text,time:"Сега",unread:true,isMsg:true});updateInboxBadge();showToast("💬 Ново съобщение от "+from+"!");}
-function markAllRead(){inboxMessages.forEach(function(m){m.unread=false;});updateInboxBadge();}
-
-async function loadProfile(){
-  if(!sb||!ME)return;
-  try{var r=await sb.from("profiles").select("*").eq("id",ME.id).single();if(r.data){ME.avatar=r.data.avatar_url?r.data.avatar_url+"?t="+Date.now():"";ME.bio=r.data.bio||"";ME.username=r.data.username||ME.name;profileCache[ME.id]=r.data;}}catch(e){}
-}
-
-function toggleTheme(){isDark=!isDark;document.body.classList.toggle("light",!isDark);localStorage.setItem("krevio-theme",isDark?"dark":"light");lucide.createIcons();}
+function ico(name,size){var i=document.createElement('i');i.setAttribute('data-lucide',name);size=size||24;i.style.cssText='width:'+size+'px;height:'+size+'px';return i;}
+function showToast(msg){var t=el('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},3000);}
+function openModal(id){var m=el(id);if(m){m.classList.add('open');if(window.lucide)window.lucide.createIcons();}}
+function closeModal(id){var m=el(id);if(m)m.classList.remove('open');}
+function bindSwipe(hid,mid){var h=el(hid),m=el(mid);if(!h||!m)return;var y0=0,t0=0;h.addEventListener('touchstart',function(e){y0=e.touches[0].clientY;t0=Date.now();},{passive:true});h.addEventListener('touchend',function(e){if(e.changedTouches[0].clientY-y0>60&&Date.now()-t0<400)m.classList.remove('open');},{passive:true});}
+function parseTags(text){if(!text)return[];var m=text.match(/#[\wа-яА-ЯёЁ]+/g);return m?m.map(function(t){return t.toLowerCase();}):[]; }
 
 function showPage(page){
-  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
-  document.querySelectorAll(".bn").forEach(function(b){b.classList.remove("active");});
-  var pg=el("page-"+page);if(pg)pg.classList.add("active");
-  var bn=el("bn-"+page);if(bn)bn.classList.add("active");
-  if(page==="profile")renderProfile();
-  if(page==="search")renderSearch();
-  if(page==="inbox"){renderInbox();markAllRead();}
-  if(page==="creator")loadCreatorPanel();
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.bn').forEach(function(b){b.classList.remove('active');});
+  var pg=el('page-'+page);if(pg)pg.classList.add('active');
+  var bn=el('bn-'+page);if(bn)bn.classList.add('active');
+  if(page==='profile')renderProfile();
+  if(page==='search')renderSearch();
+  if(page==='inbox'){renderInbox();markNotifsRead();}
+  if(page==='creator')loadCreatorPanel();
 }
+function toggleFullscreen(){STATE.isFullscreen=!STATE.isFullscreen;document.body.classList.toggle('fullscreen-mode',STATE.isFullscreen);var b=el('btn-fullscreen');if(b){b.innerHTML=STATE.isFullscreen?'<i data-lucide="minimize-2"></i> Малък':'<i data-lucide="maximize-2"></i> Голям';if(window.lucide)window.lucide.createIcons();}}
+function toggleLandscape(){STATE.isLandscape=!STATE.isLandscape;document.querySelectorAll('.v-player').forEach(function(v){v.classList.toggle('landscape',STATE.isLandscape);});var b=el('btn-rotate');if(b){b.innerHTML=STATE.isLandscape?'<i data-lucide="rotate-ccw"></i> Изправи':'<i data-lucide="rotate-cw"></i> Завърти';if(window.lucide)window.lucide.createIcons();}showToast(STATE.isLandscape?'↔ Хоризонтален режим':'↕ Вертикален режим');}
 
-function bindNav(){
-  el("bn-feed").onclick=function(){showPage("feed");};el("bn-search").onclick=function(){showPage("search");};
-  el("bn-upload").onclick=openUpload;el("bn-inbox").onclick=function(){showPage("inbox");};el("bn-profile").onclick=function(){showPage("profile");};
+async function getProfile(uid){
+  if(STATE.profileCache[uid])return STATE.profileCache[uid];
+  if(!STATE.sb)return null;
+  try{var r=await STATE.sb.from('profiles').select('*').eq('id',uid).single();if(r.data){if(STATE.profileCacheKeys.length>=CONFIG.CACHE_LIMIT){delete STATE.profileCache[STATE.profileCacheKeys.shift()];}STATE.profileCache[uid]=r.data;STATE.profileCacheKeys.push(uid);return r.data;}}catch(e){}
+  return null;
 }
-function bindModals(){
-  ["m-comments","m-upload","m-auth","m-menu","m-edit-profile","m-msg"].forEach(function(id){var m=el(id);if(!m)return;m.addEventListener("click",function(e){if(e.target===m)m.classList.remove("open");});});
-}
-function bindFeedTabs(){
-  ["trending","following","premium"].forEach(function(t){var btn=el("tab-"+t);if(!btn)return;btn.onclick=function(){document.querySelectorAll(".feed-tab").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");resetFeed();renderFeed();};});
-}
-function bindMonoType(){document.querySelectorAll(".mono-opt").forEach(function(opt){opt.onclick=function(){document.querySelectorAll(".mono-opt").forEach(function(o){o.classList.remove("selected");});opt.classList.add("selected");uplAccess=opt.dataset.val;};});}
-function bindCreatorPanel(){
-  document.querySelectorAll(".cptab").forEach(function(tab){tab.onclick=function(){document.querySelectorAll(".cptab").forEach(function(t){t.classList.remove("active");});tab.classList.add("active");document.querySelectorAll(".cp-section").forEach(function(s){s.classList.remove("active");});var sec=el(tab.dataset.tab);if(sec)sec.classList.add("active");};});
-}
-
-async function loadCreatorPanel(){
-  if(!ME||!sb)return;
+async function toggleFollow(toId,btn){
+  if(!STATE.user){openModal('m-auth');return;}
+  if(STATE.user.id===toId){showToast('Не можеш да следваш себе си!');return;}
+  var isF=STATE.following[toId]||false;
   try{
-    var rv=await sb.from("videos").select("*").eq("user_id",ME.id).order("created_at",{ascending:false});var videos=rv.data||[];
-    el("cp-dashboard").querySelector(".cp-stat-grid").children[1].querySelector(".cp-stat-val").textContent=fmt(videos.reduce(function(a,v){return a+(v.views||0);},0));
-    el("cp-dashboard").querySelector(".cp-stat-grid").children[3].querySelector(".cp-stat-val").textContent=videos.length;
-    var rf=await sb.from("follows").select("id",{count:"exact"}).eq("following_id",ME.id);
-    el("cp-dashboard").querySelector(".cp-stat-grid").children[2].querySelector(".cp-stat-val").textContent=fmt(rf.count||0);
-    if(videos.length>0){var best=videos.reduce(function(a,b){return(b.views||0)>(a.views||0)?b:a;});el("cp-best-video").innerHTML="<div style='font-weight:700;color:var(--text);margin-bottom:4px'>"+best.title+"</div><div style='font-size:.75rem;color:var(--text2)'>👁 "+fmt(best.views||0)+" гледания</div>";}
-    var list=el("cp-videos-list");list.innerHTML="";
-    if(videos.length===0){list.innerHTML="<div style='color:var(--text2);font-size:.83rem;text-align:center;padding:20px'>Все още нямаш видеа</div>";return;}
-    videos.forEach(function(v){
-      var row=mk("div","cp-video-row");var thumb=mk("div","cp-video-thumb");var vidEl=document.createElement("video");vidEl.src=v.file_url;vidEl.preload="none";vidEl.style.cssText="width:100%;height:100%;object-fit:cover";thumb.appendChild(vidEl);
-      var info=mk("div","cp-video-info");var title=mk("div","cp-video-title");title.textContent=v.title||"Без заглавие";var meta=mk("div","cp-video-meta");meta.textContent="👁 "+fmt(v.views||0);
-      var actions=mk("div","cp-video-actions");var editBtn=mk("button","cp-vid-btn");editBtn.textContent="✏️ Редактирай";editBtn.onclick=function(){showToast("Скоро!");};
-      var delBtn=mk("button","cp-vid-btn");delBtn.textContent="🗑 Изтрий";delBtn.onclick=async function(){if(confirm("Изтрий видеото?")){try{await sb.from("videos").delete().eq("id",v.id);loadCreatorPanel();showToast("Изтрито!");}catch(e){showToast("Грешка!");}}};
-      actions.appendChild(editBtn);actions.appendChild(delBtn);info.appendChild(title);info.appendChild(meta);info.appendChild(actions);
-      var badge=mk("div","cp-video-badge "+(v.access_level==="free"?"free":"paid"));badge.textContent=v.access_level==="free"?"Безплатно":"Премиум";
-      row.appendChild(thumb);row.appendChild(info);row.appendChild(badge);list.appendChild(row);
+    if(isF){await STATE.sb.from('follows').delete().eq('follower_id',STATE.user.id).eq('following_id',toId);STATE.following[toId]=false;if(btn){btn.textContent='Следвай';btn.classList.remove('following');}showToast('Спря да следваш');}
+    else{await STATE.sb.from('follows').insert({follower_id:STATE.user.id,following_id:toId});STATE.following[toId]=true;if(btn){btn.textContent='✓ Следваш';btn.classList.add('following');}showToast('Следваш! 💬');sendNotif(toId,'follow','@'+(STATE.user.name||STATE.user.email.split('@')[0])+' те последва',null);}
+  }catch(e){showToast('Грешка!');}
+}
+async function loadFollowing(){if(!STATE.sb||!STATE.user)return;try{var r=await STATE.sb.from('follows').select('following_id').eq('follower_id',STATE.user.id);if(r.data)r.data.forEach(function(f){STATE.following[f.following_id]=true;});}catch(e){}}
+
+async function sendNotif(toUserId,type,text,videoId){
+  if(!STATE.sb||!STATE.user||toUserId===STATE.user.id)return;
+  try{await STATE.sb.from('notifications').insert({user_id:toUserId,from_user_id:STATE.user.id,type:type,text:text,video_id:videoId||null,read:false});}catch(e){}
+}
+function subscribeNotifs(){
+  if(!STATE.sb||!STATE.user)return;
+  if(STATE.notifSubscription){STATE.notifSubscription.unsubscribe();STATE.notifSubscription=null;}
+  STATE.notifSubscription=STATE.sb.channel('notifs-'+STATE.user.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'notifications',filter:'user_id=eq.'+STATE.user.id},function(payload){updateNotifBadge();showToast('🔔 '+payload.new.text);}).subscribe();
+}
+async function updateNotifBadge(){
+  var badge=el('inbox-badge');if(!badge)return;
+  if(!STATE.sb||!STATE.user){badge.classList.remove('show');return;}
+  try{var r=await STATE.sb.from('notifications').select('id',{count:'exact'}).eq('user_id',STATE.user.id).eq('read',false);var cnt=r.count||0;badge.textContent=cnt;if(cnt>0)badge.classList.add('show');else badge.classList.remove('show');}catch(e){}
+}
+async function markNotifsRead(){
+  if(!STATE.sb||!STATE.user)return;
+  try{await STATE.sb.from('notifications').update({read:true}).eq('user_id',STATE.user.id).eq('read',false);}catch(e){}
+  var badge=el('inbox-badge');if(badge)badge.classList.remove('show');
+}
+async function renderInbox(){
+  var wrap=el('inbox-list');if(!wrap)return;
+  wrap.innerHTML="<div style='padding:20px;text-align:center;color:var(--text2)'>Зарежда...</div>";
+  if(!STATE.sb||!STATE.user){wrap.innerHTML="<div style='padding:40px;text-align:center;color:var(--text2)'>Влез за да видиш известията</div>";return;}
+  try{
+    var r=await STATE.sb.from('notifications').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(50);
+    wrap.innerHTML='';var data=r.data||[];
+    if(data.length===0){wrap.innerHTML="<div style='padding:40px;text-align:center;color:var(--text2)'>Нямаш известия все още</div>";return;}
+    data.forEach(function(n){
+      var item=mk('div','notif-item'+(n.read?'':' unread'));
+      var icons={like:'❤️',comment:'💬',follow:'👤',message:'📩',purchase:'💎'};
+      var av=mk('div','notif-av');av.textContent=icons[n.type]||'🔔';
+      var txt=mk('div','notif-txt');txt.textContent=n.text;
+      var time=mk('div','notif-time');time.textContent=fmtTime(n.created_at)+' назад';
+      item.appendChild(av);item.appendChild(txt);item.appendChild(time);
+      if(!n.read){var dot=mk('div','notif-dot');item.appendChild(dot);}
+      item.onclick=async function(){
+        try{await STATE.sb.from('notifications').update({read:true}).eq('id',n.id);}catch(e){}
+        item.classList.remove('unread');var dot2=item.querySelector('.notif-dot');if(dot2)dot2.remove();
+        if(n.type==='follow'&&n.from_user_id){openCreatorProfile(n.from_user_id);}
+        else if(n.type==='message'&&n.from_user_id){var profile=await getProfile(n.from_user_id);openMessages(n.from_user_id,profile?(profile.name||'Потребител'):'Потребител');}
+        else if((n.type==='like'||n.type==='comment')&&n.video_id){openComments(n.video_id);}
+        else if(n.type==='purchase'&&n.from_user_id){openCreatorProfile(n.from_user_id);}
+      };
+      wrap.appendChild(item);
     });
-    var notifsList=el("cp-notifs-list");notifsList.innerHTML="";
-    [{ico:"👤",text:"Нов последовател се присъедини",time:"2 мин",unread:true},{ico:"🎬",text:"Твоето видео набира популярност",time:"1 ч",unread:true},{ico:"💎",text:"Нов абонат",time:"вчера",unread:false}].forEach(function(n){var row=mk("div","cp-notif-row");var ico=mk("div","cp-notif-ico");ico.textContent=n.ico;var txt=mk("div","cp-notif-txt");txt.textContent=n.text;var time=mk("div","cp-notif-time");time.textContent=n.time;row.appendChild(ico);row.appendChild(txt);row.appendChild(time);if(n.unread){var dot=mk("div","cp-notif-dot");row.appendChild(dot);}notifsList.appendChild(row);});
-  }catch(e){console.log(e);}
+  }catch(e){wrap.innerHTML="<div style='padding:20px;text-align:center;color:var(--text2)'>Грешка при зареждане</div>";}
 }
 
-function resetFeed(){feedOffset=0;feedLoading=false;feedHasMore=true;}
+async function openMessages(toUserId,toName){
+  STATE.currentMsgUserId=toUserId;
+  var titleEl=el('msg-title');if(titleEl)titleEl.textContent='💬 '+toName;
+  var list=el('msg-list');if(list)list.innerHTML="<div style='padding:20px;text-align:center;color:var(--text2)'>Зарежда...</div>";
+  openModal('m-msg');await loadMessages(toUserId);subscribeMsgs(toUserId);
+}
+async function loadMessages(toUserId){
+  var list=el('msg-list');if(!list||!STATE.sb||!STATE.user)return;
+  try{
+    var r=await STATE.sb.from('messages').select('*').or('from_user_id.eq.'+STATE.user.id+',to_user_id.eq.'+STATE.user.id).order('created_at',{ascending:true}).limit(100);
+    var msgs=(r.data||[]).filter(function(m){return(m.from_user_id===STATE.user.id&&m.to_user_id===toUserId)||(m.from_user_id===toUserId&&m.to_user_id===STATE.user.id);});
+    list.innerHTML='';
+    if(msgs.length===0){list.innerHTML="<div style='padding:20px;text-align:center;color:var(--text2)'>Кажи здравей! 👋</div>";return;}
+    msgs.forEach(function(m){appendMsg(m,false);});list.scrollTop=list.scrollHeight;
+    try{await STATE.sb.from('messages').update({read:true}).eq('to_user_id',STATE.user.id).eq('from_user_id',toUserId);}catch(e){}
+  }catch(e){list.innerHTML="<div style='padding:20px;text-align:center;color:var(--text2)'>Грешка</div>";}
+}
+function appendMsg(msg,scroll){
+  var list=el('msg-list');if(!list||!STATE.user)return;
+  var empty=list.querySelector('div[style*="text-align:center"]');if(empty)empty.remove();
+  var isMine=msg.from_user_id===STATE.user.id;
+  var wrap=mk('div','msg-wrap '+(isMine?'mine':'theirs'));
+  var bubble=mk('div','msg-bubble '+(isMine?'mine':'theirs'));bubble.textContent=msg.text;
+  var time=mk('div','msg-time');time.textContent=msg.created_at?fmtTime(msg.created_at)+' назад':'Сега';
+  wrap.appendChild(bubble);wrap.appendChild(time);list.appendChild(wrap);
+  if(scroll!==false)list.scrollTop=list.scrollHeight;
+}
+function subscribeMsgs(toUserId){
+  if(STATE.msgSubscription){STATE.msgSubscription.unsubscribe();STATE.msgSubscription=null;}
+  if(!STATE.sb||!STATE.user)return;
+  STATE.msgSubscription=STATE.sb.channel('msgs-'+STATE.user.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'to_user_id=eq.'+STATE.user.id},function(payload){var msg=payload.new;if(msg.from_user_id===toUserId){appendMsg(msg,true);}else{updateNotifBadge();showToast('💬 Ново съобщение!');}}).subscribe();
+}
+async function sendMsg(text){
+  if(!STATE.sb||!STATE.user||!STATE.currentMsgUserId)return false;
+  try{await STATE.sb.from('messages').insert({from_user_id:STATE.user.id,to_user_id:STATE.currentMsgUserId,text:text,read:false});sendNotif(STATE.currentMsgUserId,'message','@'+(STATE.user.name||STATE.user.email.split('@')[0])+' ти прати съобщение',null);return true;}
+  catch(e){return false;}
+}
+
+function startViewTimer(videoId,tags){
+  if(STATE.viewedVideos[videoId]||STATE.viewedVideos['_t_'+videoId])return;
+  STATE.viewedVideos['_t_'+videoId]=setTimeout(async function(){
+    if(!STATE.sb)return;
+    try{
+      var cur=await STATE.sb.from('videos').select('views').eq('id',videoId).single();
+      var nv=(cur.data?cur.data.views||0:0)+1;
+      await STATE.sb.from('videos').update({views:nv}).eq('id',videoId);
+      STATE.viewedVideos[videoId]=true;
+      if(STATE.user&&tags&&tags.length>0){
+        try{await STATE.sb.from('watch_history').upsert({user_id:STATE.user.id,video_id:videoId,watched_seconds:3,tags:tags},{onConflict:'user_id,video_id'});}catch(e){}
+      }
+    }catch(e){}
+  },CONFIG.VIEW_MS);
+}
+function stopViewTimer(videoId){if(STATE.viewedVideos['_t_'+videoId]){clearTimeout(STATE.viewedVideos['_t_'+videoId]);delete STATE.viewedVideos['_t_'+videoId];}}
+
+function resetFeed(){STATE.feed.offset=0;STATE.feed.loading=false;STATE.feed.hasMore=true;STATE.shownVideoIds=[];}
+
+function cleanupVideos(curIdx){
+  document.querySelectorAll('.video-item').forEach(function(item,idx){
+    var vid=item.querySelector('.v-player');if(!vid)return;
+    if(idx<curIdx-2||idx>curIdx+6){if(vid.src){vid.pause();vid._src=vid._src||vid.src;vid.src='';vid.load();}}
+    else{if(!vid.src&&vid._src)vid.src=vid._src;}
+  });
+}
 
 async function renderFeed(){
-  var wrap=el("feed-wrap");if(!wrap)return;wrap.innerHTML="";resetFeed();await loadMoreVideos();
-  var sentinel=mk("div","load-more");sentinel.id="feed-sentinel";var spinner=mk("div","load-more-spinner");sentinel.appendChild(spinner);wrap.appendChild(sentinel);
-  var obs=new IntersectionObserver(function(entries){if(entries[0].isIntersecting&&!feedLoading&&feedHasMore)loadMoreVideos();},{threshold:0.1});
-  obs.observe(sentinel);lucide.createIcons();
+  var wrap=el('feed-wrap');if(!wrap)return;
+  document.querySelectorAll('.video-item').forEach(function(it){if(it._obs){it._obs.disconnect();it._obs=null;}var vid=it.querySelector('.v-player');if(vid){vid.pause();vid.src='';vid.load();}});
+  resetFeed();wrap.innerHTML='';await loadMoreVideos();
+  var sentinel=mk('div','load-more');sentinel.id='sentinel';sentinel.appendChild(mk('div','load-spinner'));wrap.appendChild(sentinel);
+  var sObs=new IntersectionObserver(function(entries){if(entries[0].isIntersecting&&!STATE.feed.loading&&STATE.feed.hasMore)loadMoreVideos();},{threshold:0.1});
+  sObs.observe(sentinel);if(window.lucide)window.lucide.createIcons();
 }
 
 async function loadMoreVideos(){
-  if(feedLoading||!feedHasMore)return;feedLoading=true;
-  var wrap=el("feed-wrap");if(!wrap){feedLoading=false;return;}var sentinel=el("feed-sentinel");
+  if(STATE.feed.loading||!STATE.feed.hasMore)return;
+  STATE.feed.loading=true;
+  var wrap=el('feed-wrap');if(!wrap){STATE.feed.loading=false;return;}
+  var sentinel=el('sentinel');
   var videos=[];
-  if(sb){try{var r=await sb.from("videos").select("*").order("created_at",{ascending:false}).range(feedOffset,feedOffset+feedBatchSize-1);if(r.data)videos=r.data;if(r.data&&r.data.length<feedBatchSize)feedHasMore=false;}catch(e){feedLoading=false;return;}}
-  if(feedOffset===0&&videos.length===0){
-    var empty=mk("div");empty.style.cssText="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(201,168,76,.4);text-align:center;padding:20px";
-    empty.innerHTML="<div style='font-size:3rem;margin-bottom:16px'>🎬</div><div style='font-size:1rem;font-weight:700;margin-bottom:8px;color:rgba(201,168,76,.6)'>Все още няма видеа</div><div style='font-size:.82rem'>Бъди първият, който качи!</div>";
-    wrap.insertBefore(empty,sentinel);feedLoading=false;return;
+  if(STATE.sb){
+    try{
+      if(STATE.currentTab==='following'){
+        var fids=Object.keys(STATE.following).filter(function(k){return STATE.following[k];});
+        if(fids.length===0){
+          if(STATE.feed.offset===0){var e=mk('div','empty-state');e.innerHTML='<div class="empty-ico">👥</div><div class="empty-title">Не следваш никого</div>';if(sentinel)wrap.insertBefore(e,sentinel);else wrap.appendChild(e);}
+          STATE.feed.loading=false;STATE.feed.hasMore=false;return;
+        }
+        var r1=await STATE.sb.from('videos').select('*').in('user_id',fids).limit(STATE.feed.batchSize+10);
+        videos=(r1.data||[]).filter(function(v){return!STATE.shownVideoIds.includes(v.id);}).sort(function(){return Math.random()-.5;}).slice(0,STATE.feed.batchSize);
+      }else if(STATE.currentTab==='premium'){
+        var r2=await STATE.sb.from('videos').select('*').neq('access_level','free').limit(STATE.feed.batchSize+10);
+        videos=(r2.data||[]).filter(function(v){return!STATE.shownVideoIds.includes(v.id);}).sort(function(){return Math.random()-.5;}).slice(0,STATE.feed.batchSize);
+      }else{
+        var r3=await STATE.sb.from('videos').select('*').limit(STATE.feed.batchSize+10);
+        videos=(r3.data||[]).filter(function(v){return!STATE.shownVideoIds.includes(v.id);}).sort(function(){return Math.random()-.5;}).slice(0,STATE.feed.batchSize);
+      }
+      if(videos.length<STATE.feed.batchSize)STATE.feed.hasMore=false;
+      videos.forEach(function(v){STATE.shownVideoIds.push(v.id);});
+    }catch(e){console.error('loadMoreVideos:',e);STATE.feed.loading=false;return;}
   }
-  var ads=[{company:"Техномаркет",text:"Лаптопи от 599 лв!"},{company:"Kaufland BG",text:"Промоции тази седмица!"},{company:"Виваком",text:"Интернет 1Gbps — 25 лв/мес"},{company:"Банка ДСК",text:"Кредит до 50,000 лв онлайн"}];
 
-  // Зареждаме профилите паралелно
-  var userIds=[...new Set(videos.map(function(v){return v.user_id;}))];
-  await Promise.all(userIds.map(function(uid){return getProfile(uid);}));
+  if(STATE.feed.offset===0&&videos.length===0){
+    var es=mk('div','empty-state');es.innerHTML='<div class="empty-ico">🎬</div><div class="empty-title">Все още няма видеа</div>';
+    if(sentinel)wrap.insertBefore(es,sentinel);else wrap.appendChild(es);
+    STATE.feed.loading=false;return;
+  }
 
+  var uids=[...new Set(videos.map(function(v){return v.user_id;}))];
+  await Promise.all(uids.map(function(uid){return getProfile(uid);}));
+
+  var ads=[{company:'Техномаркет',text:'Лаптопи от 599 лв!'},{company:'Kaufland BG',text:'Промоции тази седмица!'},{company:'Виваком',text:'1Gbps — 25 лв/мес'},{company:'Банка ДСК',text:'Кредит до 50,000 лв онлайн'}];
   videos.forEach(function(v,i){
-    var card=buildVideo(v,feedOffset+i);if(sentinel)wrap.insertBefore(card,sentinel);else wrap.appendChild(card);
-    if((feedOffset+i+1)%4===0){var adCard=buildAd(Math.floor((feedOffset+i)/4)%ads.length);if(sentinel)wrap.insertBefore(adCard,sentinel);else wrap.appendChild(adCard);}
+    var idx=STATE.feed.offset+i;
+    var card=buildCard(v,idx);
+    if(sentinel)wrap.insertBefore(card,sentinel);else wrap.appendChild(card);
+    if(STATE.currentTab==='trending'&&(idx+1)%4===0){
+      var ad=buildAd(Math.floor(idx/4)%ads.length,ads);
+      if(sentinel)wrap.insertBefore(ad,sentinel);else wrap.appendChild(ad);
+    }
   });
-  feedOffset+=videos.length;if(!feedHasMore&&sentinel)sentinel.style.display="none";feedLoading=false;lucide.createIcons();
+  STATE.feed.offset+=videos.length;
+  if(!STATE.feed.hasMore&&sentinel)sentinel.style.display='none';
+  STATE.feed.loading=false;
+  if(window.lucide)window.lucide.createIcons();
 }
 
-function buildVideo(v,i){
-  var profile=profileCache[v.user_id]||null;
-  var creatorName=profile?(profile.full_name||profile.username||"Творец"):(v.creator_name||"Творец");
-  var creatorHandle=profile?("@"+(profile.username||"creator")):("@"+(v.creator_handle||"creator"));
-  var creatorAvatar=profile?profile.avatar_url:null;
+function buildCard(v,i){
+  var profile=STATE.profileCache[v.user_id]||null;
+  var cName=profile?(profile.name||'Потребител'):(v.creator_name||'Потребител');
+  var cAvatar=profile?profile.avatar_url:null;
+  var isPaid=v.access_level&&v.access_level!=='free';
+  var tags=parseTags(v.description);
 
-  var item=mk("div","video-item");
-  var vid=document.createElement("video");vid.className="v-player"+(isLandscape?" landscape":"");vid.src=v.file_url;vid.loop=true;vid.muted=true;vid.playsInline=true;vid.preload="none";
+  var item=mk('div','video-item');
+  var vid=document.createElement('video');
+  vid.className='v-player'+(STATE.isLandscape?' landscape':'');
+  vid.src=v.file_url;vid.loop=true;vid.muted=true;vid.playsInline=true;vid.preload='none';
   item.appendChild(vid);
-  var loading=mk("div","v-loading");loading.id="loading-"+i;loading.appendChild(mk("div","v-spinner"));item.appendChild(loading);
-  var playOv=mk("div","v-play-overlay");playOv.id="playov-"+i;
-  var circle=mk("div","v-play-circle");circle.innerHTML="<svg viewBox='0 0 24 24' style='width:24px;height:24px;stroke:#c9a84c;stroke-width:1.5;fill:none;margin-left:3px'><polygon points='6,3 20,12 6,21' fill='#c9a84c'/></svg>";
-  playOv.appendChild(circle);item.appendChild(playOv);
-  var prog=mk("div","v-progress");var fill=mk("div","v-progress-fill");fill.id="prog-"+i;prog.appendChild(fill);item.appendChild(prog);
-  vid.addEventListener("loadeddata",function(){var l=el("loading-"+i);if(l)l.style.display="none";});
-  vid.addEventListener("timeupdate",function(){var f=el("prog-"+i);if(f&&vid.duration)f.style.width=(vid.currentTime/vid.duration*100)+"%";});
-  vid.addEventListener("click",function(){
-    if(!audioUnlocked){audioUnlocked=true;vid.muted=false;document.querySelectorAll(".v-player").forEach(function(vv){vv.muted=false;});return;}
-    if(isFullscreen){toggleFullscreen();return;}
-    if(vid.paused){vid.play();var po=el("playov-"+i);if(po){po.classList.add("show");setTimeout(function(){po.classList.remove("show");},600);}}
-    else{vid.pause();var po=el("playov-"+i);if(po)po.classList.add("show");}
+
+  var loadDiv=mk('div','v-loading');loadDiv.appendChild(mk('div','v-spinner'));item.appendChild(loadDiv);
+  vid.addEventListener('loadeddata',function(){loadDiv.style.display='none';});
+
+  var playOv=mk('div','v-play-overlay');
+  var pc=mk('div','v-play-circle');pc.innerHTML="<svg viewBox='0 0 24 24' style='width:24px;height:24px;fill:#c9a84c;margin-left:3px'><polygon points='6,3 20,12 6,21'/></svg>";
+  playOv.appendChild(pc);item.appendChild(playOv);
+
+  var prog=mk('div','v-progress');var fill=mk('div','v-progress-fill');prog.appendChild(fill);item.appendChild(prog);
+  vid.addEventListener('timeupdate',function(){if(vid.duration)fill.style.width=(vid.currentTime/vid.duration*100)+'%';});
+
+  vid.addEventListener('click',function(){
+    if(!STATE.audioUnlocked){STATE.audioUnlocked=true;vid.muted=false;document.querySelectorAll('.v-player').forEach(function(vv){vv.muted=false;});return;}
+    if(STATE.isFullscreen){toggleFullscreen();return;}
+    if(vid.paused){vid.play().catch(function(){vid.muted=true;});playOv.classList.add('show');setTimeout(function(){playOv.classList.remove('show');},600);}
+    else{vid.pause();playOv.classList.add('show');}
   });
-  prog.addEventListener("click",function(e){var rect=prog.getBoundingClientRect();vid.currentTime=((e.clientX-rect.left)/rect.width)*vid.duration;});
+  prog.addEventListener('click',function(e){var rect=prog.getBoundingClientRect();vid.currentTime=((e.clientX-rect.left)/rect.width)*vid.duration;});
+
   var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){currentVideoId=v.id;if(vid.preload==="none")vid.preload="auto";vid.muted=!audioUnlocked;vid.play().catch(function(){vid.muted=true;vid.play().catch(function(){});});}
-      else{vid.pause();vid.currentTime=0;}
-    });
+    if(entries[0].isIntersecting){
+      STATE.currentVideoId=v.id;
+      if(!vid.src&&vid._src)vid.src=vid._src;
+      vid.preload='auto';vid.muted=!STATE.audioUnlocked;
+      vid.play().catch(function(){vid.muted=true;vid.play().catch(function(){});});
+      startViewTimer(v.id,tags);
+      var all=document.querySelectorAll('.video-item');
+      cleanupVideos(Array.from(all).indexOf(item));
+    }else{vid.pause();vid.currentTime=0;stopViewTimer(v.id);}
   },{threshold:0.8});
-  obs.observe(item);
-  item.appendChild(mk("div","v-gradient"));
+  obs.observe(item);item._obs=obs;
+  item.appendChild(mk('div','v-gradient'));
 
-  if(v.access_level&&v.access_level!=="free"){
-    var lkOv=mk("div","locked-ov");var badge=mk("div","locked-badge");badge.textContent="💎 ПРЕМИУМ СЪДЪРЖАНИЕ";lkOv.appendChild(badge);
-    var lkT=mk("div","locked-title");lkT.textContent=v.title||"Ексклузивно видео";lkOv.appendChild(lkT);
-    var lkP=mk("div","locked-price");lkP.textContent=v.access_level==="fan"?"2.50€":v.access_level==="studio"?"5€":"12€";lkOv.appendChild(lkP);
-    var lkS=mk("div","locked-sub");lkS.textContent="еднократно плащане";lkOv.appendChild(lkS);
-    var lkBtns=mk("div","locked-btns");var lkPrev=mk("button","locked-preview");lkPrev.textContent="▶ Преглед 5s";lkPrev.onclick=function(){showToast("Скоро!");};
-    var lkUnl=mk("button","locked-unlock");lkUnl.textContent="💰 Отключи";lkUnl.onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};
-    lkBtns.appendChild(lkPrev);lkBtns.appendChild(lkUnl);lkOv.appendChild(lkBtns);item.appendChild(lkOv);
+  if(isPaid){
+    var lk=mk('div','locked-ov');
+    var lb=mk('div','locked-badge');lb.textContent='💎 ПРЕМИУМ СЪДЪРЖАНИЕ';lk.appendChild(lb);
+    var lt=mk('div','locked-title');lt.textContent=v.title||'Ексклузивно видео';lk.appendChild(lt);
+    var lp=mk('div','locked-price');lp.textContent=v.access_level==='fan'?'2.50€':v.access_level==='studio'?'5€':'12€';lk.appendChild(lp);
+    var ls=mk('div','locked-sub');ls.textContent='еднократно плащане';lk.appendChild(ls);
+    var lbtns=mk('div','locked-btns');
+    var lprev=mk('button','locked-preview');lprev.textContent='▶ Преглед 5s';lprev.onclick=function(){showToast('Скоро!');};
+    var lunl=mk('button','locked-unlock');lunl.textContent='💰 Отключи';lunl.onclick=function(){openModal('m-auth');};
+    lbtns.appendChild(lprev);lbtns.appendChild(lunl);lk.appendChild(lbtns);item.appendChild(lk);
   }
 
-  var infoZone=mk("div","v-info-zone");
-  var creatorBar=mk("div","v-creator-bar");
+  var info=mk('div','v-info-zone');
+  var cbar=mk('div','v-creator-bar');
+  var av=mk('div','v-avatar');
+  if(cAvatar){var ai=document.createElement('img');ai.src=cAvatar+'?t=1';ai.onerror=function(){av.textContent='🎬';try{av.removeChild(ai);}catch(e){}};av.appendChild(ai);}
+  else av.textContent='🎬';
+  av.onclick=function(){openCreatorProfile(v.user_id);};
 
-  // АВАТАР — с реална снимка
-  var cAv=mk("div","v-avatar");
-  if(creatorAvatar){
-    var avImg=document.createElement("img");
-    avImg.src=creatorAvatar+"?t=1";
-    avImg.onerror=function(){cAv.textContent="🎬";};
-    cAv.appendChild(avImg);
-  } else {
-    cAv.textContent="🎬";
+  var cinfo=mk('div','v-creator-info');
+  var cn=mk('div','v-creator-name');cn.textContent=cName;
+  var cacts=mk('div','v-creator-actions');
+  if(!STATE.user||v.user_id!==STATE.user.id){
+    var fb=mk('button','v-follow-btn');var isF=STATE.following[v.user_id]||false;
+    fb.textContent=isF?'✓ Следваш':'Следвай';if(isF)fb.classList.add('following');
+    fb.onclick=function(e){e.stopPropagation();toggleFollow(v.user_id,fb);};cacts.appendChild(fb);
   }
-  cAv.onclick=function(){openCreatorProfile(v.user_id);};
+  var sub=mk('button','v-sub-btn');sub.textContent='💎 Абонирай';if(isPaid)sub.classList.add('visible');
+  sub.onclick=function(){if(!STATE.user){openModal('m-auth');return;}showToast('Скоро!');};cacts.appendChild(sub);
+  cinfo.appendChild(cn);cinfo.appendChild(cacts);
+  cbar.appendChild(av);cbar.appendChild(cinfo);info.appendChild(cbar);
 
-  var cInfo=mk("div","v-creator-info");
-  var cName=mk("div","v-creator-name");cName.textContent=creatorName;
-  var cHandle=mk("div","v-creator-handle");cHandle.textContent=creatorHandle;
-
-  // БУТОНИ СЛЕДВАЙ + АБОНИРАЙ под името
-  var cActions=mk("div","v-creator-actions");
-  if(!ME||v.user_id!==ME.id){
-    var followBtn=mk("button","v-follow-btn");
-    var isFollowing=followingSet[v.user_id]||false;
-    followBtn.textContent=isFollowing?"✓ Следваш":"Следвай";
-    if(isFollowing)followBtn.classList.add("following");
-    followBtn.onclick=function(e){e.stopPropagation();toggleFollow(v.user_id,followBtn);};
-    cActions.appendChild(followBtn);
-  }
-  var subBtn=mk("button","v-sub-btn");subBtn.textContent="Абонирай";
-  subBtn.onclick=function(){if(!ME){el("m-auth").classList.add("open");lucide.createIcons();return;}showToast("Скоро!");};
-  cActions.appendChild(subBtn);
-
-  cInfo.appendChild(cName);cInfo.appendChild(cHandle);cInfo.appendChild(cActions);
-  creatorBar.appendChild(cAv);creatorBar.appendChild(cInfo);
-  infoZone.appendChild(creatorBar);
-
-  // ЗАГЛАВИЕ + ОПИСАНИЕ
   if(v.title||v.description){
-    var textBlock=mk("div","v-text-block");var expanded=false;
-    if(v.title){var titleEl=mk("div","v-title-text");titleEl.textContent=v.title;textBlock.appendChild(titleEl);}
-    if(v.description){var descEl=mk("div","v-desc-text");descEl.textContent=v.description;textBlock.appendChild(descEl);}
-    textBlock.onclick=function(){expanded=!expanded;textBlock.querySelectorAll(".v-title-text,.v-desc-text").forEach(function(e){e.classList.toggle("expanded",expanded);});};
-    infoZone.appendChild(textBlock);
+    var tb=mk('div','v-text-block');var exp=false;
+    if(v.title){var ti=mk('div','v-title-text');ti.textContent=v.title;tb.appendChild(ti);}
+    if(v.description){var descClean=v.description.replace(/#[\wа-яА-ЯёЁ]+/g,'').trim();if(descClean){var de=mk('div','v-desc-text');de.textContent=descClean;tb.appendChild(de);}}
+    tb.onclick=function(){exp=!exp;tb.querySelectorAll('.v-title-text,.v-desc-text').forEach(function(e){e.classList.toggle('expanded',exp);});};
+    info.appendChild(tb);
+  }
+  if(tags.length>0){
+    var tagsDiv=mk('div','v-tags');
+    tags.forEach(function(tag){var t=mk('span','v-tag');t.textContent=tag;t.onclick=function(e){e.stopPropagation();searchByTag(tag);};tagsDiv.appendChild(t);});
+    info.appendChild(tagsDiv);
   }
 
-  var tags=mk("div","v-tags");var t1=mk("span","v-tag");t1.textContent="#krevio";tags.appendChild(t1);infoZone.appendChild(tags);
+  var abar=mk('div','v-action-bar');
+  var likeBtn=mk('button','v-act');var likeIco=ico('heart',20);var likeCnt=mk('span');likeCnt.textContent='0';likeBtn.appendChild(likeIco);likeBtn.appendChild(likeCnt);
+  likeBtn.onclick=async function(){
+    if(!STATE.user){showToast('Влез за да харесаш!');return;}
+    var isLiked=likeBtn.classList.contains('liked');
+    if(isLiked){likeBtn.classList.remove('liked');try{await STATE.sb.from('likes').delete().eq('video_id',v.id).eq('user_id',STATE.user.id);}catch(e){}}
+    else{likeBtn.classList.add('liked');try{await STATE.sb.from('likes').insert({video_id:v.id,user_id:STATE.user.id});sendNotif(v.user_id,'like','@'+(STATE.user.name||STATE.user.email.split('@')[0])+' хареса "'+v.title+'"',v.id);}catch(e){likeBtn.classList.remove('liked');}}
+    loadLikeCount(v.id,likeCnt);
+  };
+  abar.appendChild(likeBtn);loadLikeCount(v.id,likeCnt,likeBtn);
 
-  // ACTION BAR
-  var actionBar=mk("div","v-action-bar");
-  var likeBtn=mk("button","v-act");var likeIco=icon("heart",20);var likeCnt=mk("span");likeCnt.textContent="0";likeBtn.appendChild(likeIco);likeBtn.appendChild(likeCnt);
-  likeBtn.onclick=async function(){if(!ME){showToast("Влез за да харесаш!");return;}var isLiked=likeBtn.classList.contains("liked");if(isLiked){likeBtn.classList.remove("liked");try{await sb.from("likes").delete().eq("video_id",v.id).eq("user_id",ME.id);}catch(e){}}else{likeBtn.classList.add("liked");try{await sb.from("likes").insert({video_id:v.id,user_id:ME.id});}catch(e){}}loadLikeCount(v.id,likeCnt);};
-  actionBar.appendChild(likeBtn);loadLikeCount(v.id,likeCnt,likeBtn);
+  var cmtBtn=mk('button','v-act');var cmtIco=ico('message-circle',20);var cmtCnt=mk('span');cmtCnt.id='cc-'+v.id;cmtCnt.textContent='0';
+  cmtBtn.appendChild(cmtIco);cmtBtn.appendChild(cmtCnt);cmtBtn.onclick=function(){openComments(v.id);};
+  abar.appendChild(cmtBtn);loadCommentCount(v.id,cmtCnt);
 
-  var cmtBtn=mk("button","v-act");var cmtIco=icon("message-circle",20);var cmtCnt=mk("span");cmtCnt.id="cmt-cnt-"+v.id;cmtCnt.textContent="0";cmtBtn.appendChild(cmtIco);cmtBtn.appendChild(cmtCnt);cmtBtn.onclick=function(){openComments(v.id);};actionBar.appendChild(cmtBtn);loadCommentCount(v.id,cmtCnt);
+  var saveBtn=mk('button','v-act');saveBtn.appendChild(ico('bookmark',20));
+  saveBtn.onclick=async function(){
+    if(!STATE.user){showToast('Влез за да запазиш!');return;}
+    var isSaved=saveBtn.classList.contains('saved');
+    if(isSaved){saveBtn.classList.remove('saved');showToast('Премахнато');try{await STATE.sb.from('saves').delete().eq('video_id',v.id).eq('user_id',STATE.user.id);}catch(e){}}
+    else{saveBtn.classList.add('saved');showToast('Запазено!');try{await STATE.sb.from('saves').insert({video_id:v.id,user_id:STATE.user.id});}catch(e){saveBtn.classList.remove('saved');}}
+  };
+  abar.appendChild(saveBtn);loadSaveState(v.id,saveBtn);
 
-  var saveBtn=mk("button","v-act");var saveIco=icon("bookmark",20);saveBtn.appendChild(saveIco);
-  saveBtn.onclick=async function(){if(!ME){showToast("Влез за да запазиш!");return;}var isSaved=saveBtn.classList.contains("saved");if(isSaved){saveBtn.classList.remove("saved");showToast("Премахнато");try{await sb.from("saves").delete().eq("video_id",v.id).eq("user_id",ME.id);}catch(e){}}else{saveBtn.classList.add("saved");showToast("Запазено!");try{await sb.from("saves").insert({video_id:v.id,user_id:ME.id});}catch(e){}}};
-  actionBar.appendChild(saveBtn);loadSaveState(v.id,saveBtn);
+  var msgBtn=mk('button','v-act');msgBtn.appendChild(ico('message-square',20));
+  msgBtn.onclick=function(){if(!STATE.user){showToast('Влез за да пишеш!');return;}if(!STATE.following[v.user_id]){showToast('Последвай за да пишеш!');return;}openMessages(v.user_id,cName);};
+  abar.appendChild(msgBtn);
 
-  var msgBtn=mk("button","v-act");var msgIco=icon("message-square",20);msgBtn.appendChild(msgIco);
-  msgBtn.onclick=function(){if(!ME){showToast("Влез за да пишеш!");return;}if(!followingSet[v.user_id]){showToast("Последвай за да пишеш съобщение!");return;}el("msg-title").textContent="Съобщение до "+creatorHandle;el("m-msg").classList.add("open");lucide.createIcons();};
-  actionBar.appendChild(msgBtn);
+  var shareBtn=mk('button','v-act');shareBtn.appendChild(ico('share-2',20));
+  shareBtn.onclick=function(){if(navigator.share){navigator.share({title:v.title,url:v.file_url});}else if(navigator.clipboard){navigator.clipboard.writeText(v.file_url).then(function(){showToast('🔗 Копирано!');});}else{showToast('🔗 Копирано!');}};
+  abar.appendChild(shareBtn);
 
-  var shareBtn=mk("button","v-act");var shareIco=icon("share-2",20);shareBtn.appendChild(shareIco);
-  shareBtn.onclick=function(){if(navigator.share)navigator.share({title:v.title,url:window.location.href});else showToast("Копирано!");};
-  actionBar.appendChild(shareBtn);
-
-  if(v.access_level&&v.access_level!=="free"){var unlockBtn=mk("button","v-act-unlock");unlockBtn.innerHTML="<i data-lucide='lock' style='width:16px;height:16px'></i><span>Отключи</span>";unlockBtn.onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};actionBar.appendChild(unlockBtn);}
-  infoZone.appendChild(actionBar);item.appendChild(infoZone);
+  if(isPaid){var unlBtn=mk('button','v-act-unlock');unlBtn.innerHTML="<i data-lucide='lock' style='width:16px;height:16px;stroke:#000;stroke-width:2;fill:none'></i><span>Отключи</span>";unlBtn.onclick=function(){openModal('m-auth');};abar.appendChild(unlBtn);}
+  info.appendChild(abar);item.appendChild(info);
   return item;
 }
 
-async function loadLikeCount(videoId,cntEl,btn){if(!sb)return;try{var r=await sb.from("likes").select("id",{count:"exact"}).eq("video_id",videoId);if(cntEl)cntEl.textContent=fmt(r.count||0);if(btn&&ME){var myLike=await sb.from("likes").select("id").eq("video_id",videoId).eq("user_id",ME.id).maybeSingle();if(myLike.data)btn.classList.add("liked");else btn.classList.remove("liked");}}catch(e){}}
-async function loadCommentCount(videoId,cntEl){if(!sb)return;try{var r=await sb.from("comments").select("id",{count:"exact"}).eq("video_id",videoId);if(cntEl)cntEl.textContent=fmt(r.count||0);}catch(e){}}
-async function loadSaveState(videoId,btn){if(!sb||!ME||!btn)return;try{var r=await sb.from("saves").select("id").eq("video_id",videoId).eq("user_id",ME.id).maybeSingle();if(r.data)btn.classList.add("saved");}catch(e){}}
-
-function buildAd(idx){
-  var ads=[{company:"Техномаркет",text:"Лаптопи от 599 лв!"},{company:"Kaufland BG",text:"Промоции тази седмица!"},{company:"Виваком",text:"Интернет 1Gbps — 25 лв/мес"},{company:"Банка ДСК",text:"Кредит до 50,000 лв онлайн"}];
-  var ad=ads[idx%ads.length];var item=mk("div","video-item");item.style.background="linear-gradient(160deg,#0a0800,#1a1400,#0a0800)";item.appendChild(mk("div","v-gradient"));
-  var center=mk("div");center.style.cssText="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;text-align:center;padding:24px";
-  var clabel=mk("div");clabel.style.cssText="font-size:.62rem;color:rgba(201,168,76,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;border:1px solid rgba(201,168,76,.2);padding:3px 10px;border-radius:100px";clabel.textContent="Спонсорирано";
-  var cname=mk("div");cname.style.cssText="font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#c9a84c,#e8c96d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px";cname.textContent=ad.company;
-  var ctext=mk("div");ctext.style.cssText="font-size:.9rem;color:rgba(255,255,255,.65)";ctext.textContent=ad.text;
-  center.appendChild(clabel);center.appendChild(cname);center.appendChild(ctext);item.appendChild(center);return item;
+function buildAd(idx,ads){
+  var ad=ads[idx%ads.length];
+  var item=mk('div','ad-item');
+  item.style.background='linear-gradient(160deg,#0a0800,#1a1400,#0a0800)';
+  var c=mk('div');c.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;text-align:center;padding:24px';
+  c.innerHTML="<div style='font-size:.62rem;color:rgba(201,168,76,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;border:1px solid rgba(201,168,76,.2);padding:3px 10px;border-radius:100px'>Спонсорирано</div><div style='font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#c9a84c,#e8c96d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px'>"+ad.company+"</div><div style='font-size:.9rem;color:rgba(255,255,255,.65)'>"+ad.text+"</div>";
+  item.appendChild(c);return item;
 }
 
-async function openComments(videoId){currentVideoId=videoId;var list=el("cmt-list");if(!list)return;list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Зарежда...</div>";el("m-comments").classList.add("open");lucide.createIcons();await loadComments(videoId);}
-async function loadComments(videoId){var list=el("cmt-list");if(!list||!sb)return;try{var r=await sb.from("comments").select("*").eq("video_id",videoId).order("created_at",{ascending:true}).limit(50);list.innerHTML="";if(!r.data||r.data.length===0){list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Няма коментари. Бъди първи!</div>";return;}r.data.forEach(function(c){var item=mk("div","cmt-item");var av=mk("div","cmt-av");av.textContent="👤";var body=mk("div");var nm=mk("div","cmt-name");nm.textContent=c.username||"Потребител";var tx=mk("div","cmt-text");tx.textContent=c.text;var tm=mk("div","cmt-time");tm.textContent=fmtTime(c.created_at)+" назад";body.appendChild(nm);body.appendChild(tx);body.appendChild(tm);item.appendChild(av);item.appendChild(body);list.appendChild(item);});var cnt=el("cmt-cnt-"+videoId);if(cnt)cnt.textContent=r.data.length;}catch(e){list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Грешка</div>";}}
-el("cmt-send-btn")&&(el("cmt-send-btn").onclick=async function(){var inp=el("cmt-inp");if(!inp||!inp.value.trim())return;if(!ME){showToast("Влез за да коментираш!");return;}if(!sb||!currentVideoId)return;var text=inp.value.trim();inp.value="";try{await sb.from("comments").insert({video_id:currentVideoId,user_id:ME.id,username:ME.username||ME.name,text:text});await loadComments(currentVideoId);}catch(e){showToast("Грешка!");}});
+function buildVideoGrid(videos,emptyMsg){
+  var grid=mk('div','vgrid');
+  if(videos&&videos.length>0){
+    videos.forEach(function(v){
+      var cell=mk('div','vg-cell');
+      if(v.thumbnail_url){var img=document.createElement('img');img.src=v.thumbnail_url;cell.appendChild(img);}
+      else{var ve=document.createElement('video');ve.src=v.file_url;ve.preload='metadata';ve.muted=true;ve.playsInline=true;ve.addEventListener('loadedmetadata',function(){ve.currentTime=1;});cell.appendChild(ve);}
+      cell.appendChild(mk('div','vg-overlay'));
+      var info=mk('div','vg-info');var vw=mk('div','vg-views');vw.textContent='👁 '+fmt(v.views||0);info.appendChild(vw);
+      if(v.access_level&&v.access_level!=='free'){var vb=mk('div','vg-badge');vb.textContent='🔒';info.appendChild(vb);}
+      cell.appendChild(info);cell.onclick=function(){showToast('▶ '+v.title);};grid.appendChild(cell);
+    });
+  }else{grid.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>"+emptyMsg+"</div>";}
+  return grid;
+}
 
-async function renderSearch(){var wrap=el("search-list");if(!wrap||!sb)return;wrap.innerHTML="";try{var r=await sb.from("profiles").select("*").limit(20);renderResults(r.data||[],[]);}catch(e){}var inp=el("search-inp");if(inp){inp.oninput=async function(){var q=this.value.trim();if(!q){var r=await sb.from("profiles").select("*").limit(20);renderResults(r.data||[],[]);return;}var rp=await sb.from("profiles").select("*").or("username.ilike.%"+q+"%,full_name.ilike.%"+q+"%").limit(10);var rv=await sb.from("videos").select("*").ilike("title","%"+q+"%").limit(10);renderResults(rp.data||[],rv.data||[]);};}}
-function renderResults(profiles,videos){var wrap=el("search-list");if(!wrap)return;wrap.innerHTML="";var has=false;if(profiles&&profiles.length>0){has=true;var lbl=mk("div","sec-label");lbl.textContent="Творци";wrap.appendChild(lbl);profiles.forEach(function(c){var row=mk("div","creator-row");var av=mk("div","cr-avatar");if(c.avatar_url){var img=document.createElement("img");img.src=c.avatar_url;av.appendChild(img);}else av.textContent="👤";var info=mk("div");info.style.flex="1";var nm=mk("div","cr-name");nm.textContent=c.full_name||c.username||"Потребител";var hd=mk("div","cr-handle");hd.textContent="@"+(c.username||"user");info.appendChild(nm);info.appendChild(hd);var badge=mk("div","cr-badge");badge.textContent=(c.followers_count||0)+" фена";row.appendChild(av);row.appendChild(info);row.appendChild(badge);row.onclick=function(){openCreatorProfile(c.id);};wrap.appendChild(row);});}if(videos&&videos.length>0){has=true;var lbl2=mk("div","sec-label");lbl2.textContent="Видеа";wrap.appendChild(lbl2);videos.forEach(function(v){var row=mk("div","creator-row");var av=mk("div","cr-avatar");av.textContent="🎬";var info=mk("div");info.style.flex="1";var nm=mk("div","cr-name");nm.textContent=v.title;info.appendChild(nm);row.appendChild(av);row.appendChild(info);row.onclick=function(){showToast("▶ "+v.title);};wrap.appendChild(row);});}if(!has)wrap.innerHTML="<div style='text-align:center;padding:30px;color:var(--text2)'>Няма намерени резултати</div>";}
+async function loadLikeCount(videoId,cntEl,btn){if(!STATE.sb)return;try{var r=await STATE.sb.from('likes').select('id',{count:'exact'}).eq('video_id',videoId);if(cntEl)cntEl.textContent=fmt(r.count||0);if(btn&&STATE.user){var my=await STATE.sb.from('likes').select('id').eq('video_id',videoId).eq('user_id',STATE.user.id).maybeSingle();if(my.data)btn.classList.add('liked');}}catch(e){}}
+async function loadCommentCount(videoId,cntEl){if(!STATE.sb)return;try{var r=await STATE.sb.from('comments').select('id',{count:'exact'}).eq('video_id',videoId);if(cntEl)cntEl.textContent=fmt(r.count||0);}catch(e){}}
+async function loadSaveState(videoId,btn){if(!STATE.sb||!STATE.user||!btn)return;try{var r=await STATE.sb.from('saves').select('id').eq('video_id',videoId).eq('user_id',STATE.user.id).maybeSingle();if(r.data)btn.classList.add('saved');}catch(e){}}
 
-function renderInbox(){var wrap=el("inbox-list");if(!wrap)return;wrap.innerHTML="";var systemNotifs=[{ico:"❤️",text:"Някой хареса твоето видео",time:"2 мин",unread:true},{ico:"💬",text:"Нов коментар на твоето видео",time:"1 ч",unread:true},{ico:"💎",text:"Някой купи твоето съдържание",time:"3 ч",unread:true},{ico:"👤",text:"Нов последовател",time:"вчера",unread:false},{ico:"⭐",text:"Добре дошъл в Krevio!",time:"2 дни",unread:false}];var allNotifs=inboxMessages.concat(systemNotifs);allNotifs.forEach(function(n){var item=mk("div","notif-item");var av=mk("div","notif-av");av.textContent=n.ico;var txt=mk("div","notif-txt");txt.textContent=n.text;var time=mk("div","notif-time");time.textContent=n.time;item.appendChild(av);item.appendChild(txt);item.appendChild(time);if(n.unread){var dot=mk("div","notif-dot");item.appendChild(dot);}if(n.isMsg){item.onclick=function(){el("m-msg").classList.add("open");lucide.createIcons();};}wrap.appendChild(item);});}
+async function openComments(videoId){STATE.currentVideoId=videoId;var list=el('cmt-list');if(!list)return;list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Зарежда...</div>";openModal('m-comments');await loadComments(videoId);}
+async function loadComments(videoId){
+  var list=el('cmt-list');if(!list||!STATE.sb)return;
+  try{var r=await STATE.sb.from('comments').select('*').eq('video_id',videoId).order('created_at',{ascending:true}).limit(50);list.innerHTML='';if(!r.data||r.data.length===0){list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Няма коментари. Бъди първи!</div>";return;}r.data.forEach(function(c){var item=mk('div','cmt-item');var av=mk('div','cmt-av');av.textContent='👤';var body=mk('div');var nm=mk('div','cmt-name');nm.textContent=c.username||'Потребител';var tx=mk('div','cmt-text');tx.textContent=c.text;var tm=mk('div','cmt-time');tm.textContent=fmtTime(c.created_at)+' назад';body.appendChild(nm);body.appendChild(tx);body.appendChild(tm);item.appendChild(av);item.appendChild(body);list.appendChild(item);});var cnt=el('cc-'+videoId);if(cnt)cnt.textContent=r.data.length;}catch(e){list.innerHTML="<div style='text-align:center;padding:20px;color:var(--text2)'>Грешка</div>";}
+}
+async function sendComment(){
+  var inp=el('cmt-inp');if(!inp||!inp.value.trim())return;if(!STATE.user){showToast('Влез за да коментираш!');return;}if(!STATE.sb||!STATE.currentVideoId)return;
+  var text=inp.value.trim();inp.value='';
+  try{await STATE.sb.from('comments').insert({video_id:STATE.currentVideoId,user_id:STATE.user.id,username:STATE.user.name||STATE.user.email.split('@')[0],text:text});await loadComments(STATE.currentVideoId);try{var vr=await STATE.sb.from('videos').select('user_id,title').eq('id',STATE.currentVideoId).single();if(vr.data)sendNotif(vr.data.user_id,'comment','@'+(STATE.user.name||STATE.user.email.split('@')[0])+' коментира "'+vr.data.title+'"',STATE.currentVideoId);}catch(e){}}
+  catch(e){showToast('Грешка!');}
+}
+
+function searchByTag(tag){showPage('search');var inp=el('search-inp');if(inp){inp.value=tag;inp.dispatchEvent(new Event('input'));}}
+async function renderSearch(){
+  var wrap=el('search-list');if(!wrap||!STATE.sb)return;
+  try{var r=await STATE.sb.from('profiles').select('*').limit(20);renderSearchResults(r.data||[],[]);}catch(e){}
+  var inp=el('search-inp');if(!inp)return;
+  inp.oninput=async function(){
+    var q=this.value.trim();
+    if(!q){try{var r=await STATE.sb.from('profiles').select('*').limit(20);renderSearchResults(r.data||[],[]);}catch(e){}return;}
+    try{var rp=await STATE.sb.from('profiles').select('*').or('name.ilike.%'+q+'%').limit(10);var rv=await STATE.sb.from('videos').select('*').or('title.ilike.%'+q+'%,description.ilike.%'+q+'%').limit(15);renderSearchResults(rp.data||[],rv.data||[]);}catch(e){}
+  };
+}
+function renderSearchResults(profiles,videos){
+  var wrap=el('search-list');if(!wrap)return;wrap.innerHTML='';var has=false;
+  if(profiles&&profiles.length>0){has=true;var lbl=mk('div','sec-label');lbl.textContent='Творци';wrap.appendChild(lbl);profiles.forEach(function(c){var row=mk('div','creator-row');var av=mk('div','cr-avatar');if(c.avatar_url){var img=document.createElement('img');img.src=c.avatar_url;av.appendChild(img);}else av.textContent='👤';var inf=mk('div');inf.style.flex='1';var nm=mk('div','cr-name');nm.textContent=c.name||'Потребител';inf.appendChild(nm);row.appendChild(av);row.appendChild(inf);row.onclick=function(){openCreatorProfile(c.id);};wrap.appendChild(row);});}
+  if(videos&&videos.length>0){has=true;var lbl2=mk('div','sec-label');lbl2.textContent='Видеа';wrap.appendChild(lbl2);videos.forEach(function(v){var row=mk('div','creator-row');var av=mk('div','cr-avatar');av.textContent='🎬';var inf=mk('div');inf.style.flex='1';var nm=mk('div','cr-name');nm.textContent=v.title;inf.appendChild(nm);row.appendChild(av);row.appendChild(inf);row.onclick=function(){showToast('▶ '+v.title);};wrap.appendChild(row);});}
+  if(!has)wrap.innerHTML="<div style='padding:30px;text-align:center;color:var(--text2)'>Няма резултати</div>";
+}
+
+async function openCreatorProfile(userId){
+  if(STATE.user&&userId===STATE.user.id){showPage('profile');return;}
+  var modal=el('creator-profile-modal'),body=el('creator-profile-body'),titleEl=el('creator-profile-title');
+  if(!modal||!body)return;
+  body.innerHTML="<div style='padding:40px;text-align:center;color:var(--text2)'>Зарежда...</div>";
+  modal.classList.add('open');if(window.lucide)window.lucide.createIcons();
+  var profile=await getProfile(userId);
+  if(!profile){body.innerHTML="<div style='padding:40px;text-align:center;color:var(--text2)'>Профилът не е намерен</div>";return;}
+  if(titleEl)titleEl.textContent=(profile.name||'ПРОФИЛ').toUpperCase();
+  var videos=[];try{var rv=await STATE.sb.from('videos').select('*').eq('user_id',userId).order('created_at',{ascending:false}).limit(12);videos=rv.data||[];}catch(e){}
+  var followersCount=0;try{var rf=await STATE.sb.from('follows').select('id',{count:'exact'}).eq('following_id',userId);followersCount=rf.count||0;}catch(e){}
+  var isF=STATE.following[userId]||false;
+  body.innerHTML='';
+  var banner=mk('div','p-banner');banner.appendChild(mk('div','p-banner-gradient'));body.appendChild(banner);
+  var hero=mk('div','p-hero');
+  var avW=mk('div','p-avatar-wrap');avW.style.cursor='default';
+  if(profile.avatar_url){var ai=document.createElement('img');ai.src=profile.avatar_url+'?t='+Date.now();avW.appendChild(ai);}else avW.textContent='👤';
+  var nm=mk('div','p-name');nm.textContent=profile.name||'Потребител';
+  var hd=mk('div','p-handle');hd.textContent='@'+(profile.name||'user').toLowerCase().replace(/\s+/g,'_');
+  var stats=mk('div','p-stats');
+  [{n:videos.length,l:'Видеа'},{n:followersCount,l:'Фена'}].forEach(function(s){var st=mk('div');var sn=mk('div','pst-n');sn.textContent=s.n;var sl=mk('div','pst-l');sl.textContent=s.l;st.appendChild(sn);st.appendChild(sl);stats.appendChild(st);});
+  var btns=mk('div','p-action-btns');
+  var fb=mk('button','p-edit-btn');fb.textContent=isF?'✓ Следваш':'Следвай';if(isF)fb.classList.add('following');fb.onclick=function(){toggleFollow(userId,fb);};
+  var sb2=mk('button','p-creator-btn');sb2.textContent='Абонирай';sb2.onclick=function(){showToast('Скоро!');};
+  btns.appendChild(fb);btns.appendChild(sb2);
+  hero.appendChild(avW);hero.appendChild(nm);hero.appendChild(hd);hero.appendChild(stats);
+  if(profile.bio){var bio=mk('p','p-bio');bio.textContent=profile.bio;hero.appendChild(bio);}
+  hero.appendChild(btns);body.appendChild(hero);
+  var lbl=mk('div','sec-label');lbl.textContent='Видеа';body.appendChild(lbl);
+  body.appendChild(buildVideoGrid(videos,'Все още няма видеа'));
+  if(window.lucide)window.lucide.createIcons();
+}
 
 async function renderProfile(){
-  var wrap=el("profile-body");if(!wrap)return;wrap.innerHTML="";
-  if(!ME){var loginMsg=mk("div");loginMsg.style.cssText="padding:60px 20px;text-align:center";loginMsg.innerHTML="<div style='font-size:3rem;margin-bottom:16px'>👤</div><div style='font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--text)'>Влез в акаунта си</div><div style='font-size:.82rem;color:var(--text2);margin-bottom:20px'>За да видиш профила си</div>";var loginBtn=mk("button","btn-gold");loginBtn.style.cssText="width:auto;padding:12px 32px;margin:0 auto;display:block";loginBtn.textContent="Вход / Регистрация";loginBtn.onclick=function(){el("m-auth").classList.add("open");lucide.createIcons();};loginMsg.appendChild(loginBtn);wrap.appendChild(loginMsg);lucide.createIcons();return;}
-  var banner=mk("div","p-banner");banner.appendChild(mk("div","p-banner-gradient"));wrap.appendChild(banner);
-  var hero=mk("div","p-hero");
-  var avWrap=mk("div","p-avatar-wrap");
-  if(ME.avatar){var avImg=document.createElement("img");avImg.src=ME.avatar;avWrap.appendChild(avImg);}else{avWrap.textContent="👤";}
-  var avEdit=mk("div","p-avatar-edit");avEdit.textContent="✏️ Смени";avWrap.appendChild(avEdit);
-  avWrap.onclick=function(){var inp=document.getElementById("upl-avatar-inp");if(inp)inp.click();};
-  if(!document.getElementById("upl-avatar-inp")){var avatarInp=document.createElement("input");avatarInp.type="file";avatarInp.accept="image/*";avatarInp.id="upl-avatar-inp";avatarInp.style.display="none";avatarInp.onchange=async function(){if(!this.files||!this.files[0])return;showToast("Качване...");var file=this.files[0];var ext=file.name.split(".").pop();var path="avatars/"+ME.id+"."+ext;try{var up=await sb.storage.from("avatars").upload(path,file,{upsert:true,cacheControl:"0"});if(up.error)throw up.error;var url=sb.storage.from("avatars").getPublicUrl(path).data.publicUrl;var upd=await sb.from("profiles").update({avatar_url:url}).eq("id",ME.id);if(upd.error)throw upd.error;ME.avatar=url+"?t="+Date.now();showToast("✅ Снимката е сменена!");renderProfile();}catch(e){showToast("Грешка: "+e.message);}};document.body.appendChild(avatarInp);}
-  var nm=mk("div","p-name");nm.textContent=ME.username||ME.name;
-  var hd=mk("div","p-handle");hd.textContent="@"+(ME.username||ME.name).toLowerCase().replace(/\s+/g,"_");
-  var bio=mk("p","p-bio");bio.textContent=ME.bio||"Добави биография";
-  var stats=mk("div","p-stats");
-  var myVideosCount=0,followersCount=0,followingCount=0;
-  if(sb){try{var rv=await sb.from("videos").select("id",{count:"exact"}).eq("user_id",ME.id);myVideosCount=rv.count||0;}catch(e){}try{var rf=await sb.from("follows").select("id",{count:"exact"}).eq("following_id",ME.id);followersCount=rf.count||0;}catch(e){}try{var rfo=await sb.from("follows").select("id",{count:"exact"}).eq("follower_id",ME.id);followingCount=rfo.count||0;}catch(e){}}
-  [{n:myVideosCount,l:"Видеа"},{n:followersCount,l:"Фена"},{n:followingCount,l:"Следва"}].forEach(function(s){var st=mk("div");var sn=mk("div","pst-n");sn.textContent=s.n;var sl=mk("div","pst-l");sl.textContent=s.l;st.appendChild(sn);st.appendChild(sl);stats.appendChild(st);});
-  var actionBtns=mk("div","p-action-btns");
-  var editBtn=mk("button","p-follow-btn");editBtn.textContent="✏️ Редактирай";editBtn.onclick=function(){el("edit-username").value=ME.username||ME.name;el("edit-bio").value=ME.bio||"";el("m-edit-profile").classList.add("open");lucide.createIcons();};
-  var creatorBtn=mk("button","p-sub-btn");creatorBtn.textContent="🎬 Creator Панел";creatorBtn.onclick=function(){showPage("creator");};
-  actionBtns.appendChild(editBtn);actionBtns.appendChild(creatorBtn);
-  hero.appendChild(avWrap);hero.appendChild(nm);hero.appendChild(hd);hero.appendChild(stats);hero.appendChild(bio);hero.appendChild(actionBtns);wrap.appendChild(hero);
-  var tabs=mk("div","p-tabs");var t1=mk("button","p-tab active");t1.textContent="📹 Видеа";var t2=mk("button","p-tab");t2.textContent="❤️ Харесани";var t3=mk("button","p-tab");t3.textContent="🔖 Запазени";var t4=mk("button","p-tab");t4.textContent="💎 Премиум";
-  tabs.appendChild(t1);tabs.appendChild(t2);tabs.appendChild(t3);tabs.appendChild(t4);wrap.appendChild(tabs);
-  async function buildGrid(videos,emptyMsg){var grid=mk("div","vgrid");if(videos&&videos.length>0){videos.forEach(function(v){var cell=mk("div","vg-cell");var vidEl=document.createElement("video");vidEl.src=v.file_url;vidEl.preload="none";vidEl.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover";cell.appendChild(vidEl);var ov=mk("div","vg-overlay");cell.appendChild(ov);var info=mk("div","vg-info");var views=mk("div","vg-views");views.textContent="👁 "+fmt(v.views||0);info.appendChild(views);if(v.access_level&&v.access_level!=="free"){var badge=mk("div","vg-badge");badge.textContent="🔒";info.appendChild(badge);}cell.appendChild(info);cell.onclick=function(){showToast("▶ "+v.title);};grid.appendChild(cell);});}else{grid.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>"+emptyMsg+"</div>";}return grid;}
-  var myVideos=[];if(sb){try{var rv2=await sb.from("videos").select("*").eq("user_id",ME.id).order("created_at",{ascending:false}).limit(12);myVideos=rv2.data||[];}catch(e){}}
-  var grid1=await buildGrid(myVideos,"Все още нямаш видеа");grid1.id="ptab-my";wrap.appendChild(grid1);
-  var likedVideos=[];if(sb&&ME){try{var rl=await sb.from("likes").select("video_id").eq("user_id",ME.id);var lids=(rl.data||[]).map(function(l){return l.video_id;});if(lids.length>0){var rlv=await sb.from("videos").select("*").in("id",lids);likedVideos=rlv.data||[];}}catch(e){}}
-  var grid2=await buildGrid(likedVideos,"Все още не си харесал видеа");grid2.id="ptab-liked";grid2.style.display="none";wrap.appendChild(grid2);
-  var savedVideos=[];if(sb&&ME){try{var rs=await sb.from("saves").select("video_id").eq("user_id",ME.id);var sids=(rs.data||[]).map(function(s){return s.video_id;});if(sids.length>0){var rsv=await sb.from("videos").select("*").in("id",sids);savedVideos=rsv.data||[];}}catch(e){}}
-  var grid3=await buildGrid(savedVideos,"Все още нямаш запазени видеа");grid3.id="ptab-saved";grid3.style.display="none";wrap.appendChild(grid3);
-  var premiumVideos=myVideos.filter(function(v){return v.access_level&&v.access_level!=="free";});
-  var grid4=await buildGrid(premiumVideos,"Нямаш премиум съдържание");grid4.id="ptab-premium";grid4.style.display="none";wrap.appendChild(grid4);
-  t1.onclick=function(){[t1,t2,t3,t4].forEach(function(t){t.classList.remove("active");});t1.classList.add("active");el("ptab-my").style.display="grid";el("ptab-liked").style.display="none";el("ptab-saved").style.display="none";el("ptab-premium").style.display="none";};
-  t2.onclick=function(){[t1,t2,t3,t4].forEach(function(t){t.classList.remove("active");});t2.classList.add("active");el("ptab-my").style.display="none";el("ptab-liked").style.display="grid";el("ptab-saved").style.display="none";el("ptab-premium").style.display="none";};
-  t3.onclick=function(){[t1,t2,t3,t4].forEach(function(t){t.classList.remove("active");});t3.classList.add("active");el("ptab-my").style.display="none";el("ptab-liked").style.display="none";el("ptab-saved").style.display="grid";el("ptab-premium").style.display="none";};
-  t4.onclick=function(){[t1,t2,t3,t4].forEach(function(t){t.classList.remove("active");});t4.classList.add("active");el("ptab-my").style.display="none";el("ptab-liked").style.display="none";el("ptab-saved").style.display="none";el("ptab-premium").style.display="grid";};
-  lucide.createIcons();
+  var wrap=el('profile-body');if(!wrap)return;wrap.innerHTML='';
+  if(!STATE.user){
+    var lm=mk('div');lm.style.cssText='padding:60px 20px;text-align:center';lm.innerHTML="<div style='font-size:3rem;margin-bottom:16px'>👤</div><div style='font-size:1rem;font-weight:700;margin-bottom:8px'>Влез в акаунта си</div><div style='font-size:.82rem;color:var(--text2);margin-bottom:20px'>За да видиш профила си</div>";
+    var lb2=mk('button','btn-gold');lb2.style.cssText='width:auto;padding:12px 32px;margin:0 auto;display:block';lb2.textContent='Вход / Регистрация';lb2.onclick=function(){openModal('m-auth');};
+    lm.appendChild(lb2);wrap.appendChild(lm);if(window.lucide)window.lucide.createIcons();return;
+  }
+  var banner=mk('div','p-banner');banner.appendChild(mk('div','p-banner-gradient'));wrap.appendChild(banner);
+  var hero=mk('div','p-hero');
+  var avW=mk('div','p-avatar-wrap');
+  if(STATE.user.avatar){var ai=document.createElement('img');ai.src=STATE.user.avatar;avW.appendChild(ai);}else avW.textContent='👤';
+  var avE=mk('div','p-avatar-edit');avE.textContent='✏️ Смени';avW.appendChild(avE);
+  avW.onclick=function(){var inp=el('upl-avatar-inp');if(inp)inp.click();};
+  if(!el('upl-avatar-inp')){
+    var ai2=document.createElement('input');ai2.type='file';ai2.accept='image/*';ai2.id='upl-avatar-inp';ai2.style.display='none';
+    ai2.onchange=async function(){if(!this.files||!this.files[0])return;showToast('Качване...');var file=this.files[0];var ext=file.name.split('.').pop();var path='avatars/'+STATE.user.id+'.'+ext;try{var up=await STATE.sb.storage.from('avatars').upload(path,file,{upsert:true,cacheControl:'0'});if(up.error)throw up.error;var url=STATE.sb.storage.from('avatars').getPublicUrl(path).data.publicUrl;await STATE.sb.from('profiles').update({avatar_url:url}).eq('id',STATE.user.id);STATE.user.avatar=url+'?t='+Date.now();showToast('✅ Снимката е сменена!');renderProfile();}catch(e){showToast('Грешка: '+e.message);}};
+    document.body.appendChild(ai2);
+  }
+  var nm=mk('div','p-name');nm.textContent=STATE.user.name||STATE.user.email.split('@')[0];
+  var hd=mk('div','p-handle');hd.textContent='@'+(STATE.user.name||STATE.user.email.split('@')[0]).toLowerCase().replace(/\s+/g,'_');
+  var bio=mk('p','p-bio');bio.textContent=STATE.user.bio||'Добави биография';
+  var stats=mk('div','p-stats');var vc=0,fc=0,foc=0;
+  if(STATE.sb){try{var vr=await STATE.sb.from('videos').select('id',{count:'exact'}).eq('user_id',STATE.user.id);vc=vr.count||0;}catch(e){}try{var fr=await STATE.sb.from('follows').select('id',{count:'exact'}).eq('following_id',STATE.user.id);fc=fr.count||0;}catch(e){}try{var fo=await STATE.sb.from('follows').select('id',{count:'exact'}).eq('follower_id',STATE.user.id);foc=fo.count||0;}catch(e){}}
+  [{n:vc,l:'Видеа'},{n:fc,l:'Фена'},{n:foc,l:'Следва'}].forEach(function(s){var st=mk('div');var sn=mk('div','pst-n');sn.textContent=s.n;var sl=mk('div','pst-l');sl.textContent=s.l;st.appendChild(sn);st.appendChild(sl);stats.appendChild(st);});
+  var btns=mk('div','p-action-btns');
+  var eb=mk('button','p-edit-btn');eb.textContent='✏️ Редактирай';eb.onclick=function(){var en=el('edit-name');var ebi=el('edit-bio');if(en)en.value=STATE.user.name||'';if(ebi)ebi.value=STATE.user.bio||'';openModal('m-edit-profile');};
+  var cb=mk('button','p-creator-btn');cb.textContent='🎬 Creator Панел';cb.onclick=function(){showPage('creator');};
+  btns.appendChild(eb);btns.appendChild(cb);
+  hero.appendChild(avW);hero.appendChild(nm);hero.appendChild(hd);hero.appendChild(stats);hero.appendChild(bio);hero.appendChild(btns);wrap.appendChild(hero);
+  var tabs=mk('div','p-tabs');var tabBtns=[];var grids=[];
+  ['📹 Видеа','❤️ Харесани','🔖 Запазени','💎 Премиум'].forEach(function(t,idx){var tb=mk('button','p-tab'+(idx===0?' active':''));tb.textContent=t;tabs.appendChild(tb);tabBtns.push(tb);});
+  wrap.appendChild(tabs);
+  var myVids=[];if(STATE.sb){try{var mv=await STATE.sb.from('videos').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(12);myVids=mv.data||[];}catch(e){}}
+  var likedVids=[];if(STATE.sb){try{var lv=await STATE.sb.from('likes').select('video_id').eq('user_id',STATE.user.id);var lids=(lv.data||[]).map(function(l){return l.video_id;});if(lids.length){var lvv=await STATE.sb.from('videos').select('*').in('id',lids);likedVids=lvv.data||[];}}catch(e){}}
+  var savedVids=[];if(STATE.sb){try{var sv=await STATE.sb.from('saves').select('video_id').eq('user_id',STATE.user.id);var sids=(sv.data||[]).map(function(s){return s.video_id;});if(sids.length){var svv=await STATE.sb.from('videos').select('*').in('id',sids);savedVids=svv.data||[];}}catch(e){}}
+  var premVids=myVids.filter(function(v){return v.access_level&&v.access_level!=='free';});
+  [myVids,likedVids,savedVids,premVids].forEach(function(vids,idx){var msgs=['Все още нямаш видеа','Не си харесал видеа','Нямаш запазени','Нямаш премиум съдържание'];var g=buildVideoGrid(vids,msgs[idx]);g.style.display=idx===0?'grid':'none';wrap.appendChild(g);grids.push(g);});
+  tabBtns.forEach(function(tb,idx){tb.onclick=function(){tabBtns.forEach(function(t){t.classList.remove('active');});tb.classList.add('active');grids.forEach(function(g,gi){g.style.display=gi===idx?'grid':'none';});};});
+  if(window.lucide)window.lucide.createIcons();
 }
 
-function bindEditProfile(){el("edit-cancel-btn").onclick=function(){el("m-edit-profile").classList.remove("open");};el("edit-save-btn").onclick=async function(){var username=el("edit-username").value.trim();var bio=el("edit-bio").value.trim();if(!username){showToast("Въведи потребителско ime!");return;}if(!sb||!ME)return;try{await sb.from("profiles").update({username:username,bio:bio}).eq("id",ME.id);ME.username=username;ME.bio=bio;el("m-edit-profile").classList.remove("open");showToast("✅ Профилът е обновен!");renderProfile();}catch(e){showToast("Грешка!");}}}
-function bindAuth(){el("sw-login").onclick=function(){switchAuth("login");};el("sw-register").onclick=function(){switchAuth("register");};el("l-btn").onclick=doLogin;el("r-btn").onclick=doRegister;}
-function switchAuth(type){el("sw-login").classList.toggle("active",type==="login");el("sw-register").classList.toggle("active",type==="register");el("auth-login").style.display=type==="login"?"":"none";el("auth-register").style.display=type==="register"?"":"none";}
-async function doLogin(){var email=el("l-email").value.trim();var pass=el("l-pass").value;var err=el("l-err");var btn=el("l-btn");if(!email||!pass){err.textContent="Попълни имейл и парола.";err.style.display="block";return;}btn.textContent="Влизане...";btn.disabled=true;if(sb){var r=await sb.auth.signInWithPassword({email:email,password:pass});if(r.error){err.textContent=r.error.message.includes("Email not confirmed")?"Потвърди имейла си първо!":"Грешни имейл или парола.";err.style.display="block";btn.textContent="Вход →";btn.disabled=false;return;}var u=r.data.user;ME={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split("@")[0]};await loadProfile();await loadFollowingSet();renderProfile();renderFeed();}el("m-auth").classList.remove("open");btn.textContent="Вход →";btn.disabled=false;showToast("👋 Добре дошъл, "+(ME.username||ME.name)+"!");}
-async function doRegister(){var name=el("r-name").value.trim();var email=el("r-email").value.trim();var pass=el("r-pass").value;var err=el("r-err");var btn=el("r-btn");if(!name||!email||!pass){err.textContent="Попълни всички полета.";err.style.display="block";return;}if(pass.length<8){err.textContent="Паролата трябва да е поне 8 символа.";err.style.display="block";return;}btn.textContent="Регистрация...";btn.disabled=true;if(sb){var r=await sb.auth.signUp({email:email,password:pass,options:{data:{name:name}}});if(r.error){err.textContent=r.error.message;err.style.display="block";btn.textContent="Създай акаунт →";btn.disabled=false;return;}if(r.data&&r.data.user){var username=name.toLowerCase().replace(/\s+/g,"_");await sb.from("profiles").insert({id:r.data.user.id,username:username,full_name:name,bio:"",avatar_url:"",});}}el("m-auth").classList.remove("open");btn.textContent="Създай акаунт →";btn.disabled=false;showToast("🎉 Провери имейла си за потвърждение!");}
-function openUpload(){if(!ME){el("m-auth").classList.add("open");lucide.createIcons();return;}resetUpload();el("m-upload").classList.add("open");lucide.createIcons();}
-function bindUpload(){el("upl-dz").onclick=function(){el("upl-inp").click();};el("upl-inp").onchange=function(){if(this.files&&this.files[0])setFile(this.files[0]);};el("upl-fi-rm").onclick=resetUpload;el("upl-go-btn").onclick=startUpload;el("upl-cancel-btn").onclick=function(){if(uplXhr){uplXhr.abort();uplXhr=null;}el("m-upload").classList.remove("open");resetUpload();};el("upl-dz").ondragover=function(e){e.preventDefault();this.classList.add("over");};el("upl-dz").ondragleave=function(){this.classList.remove("over");};el("upl-dz").ondrop=function(e){e.preventDefault();this.classList.remove("over");if(e.dataTransfer&&e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);};}
-function setFile(f){uplFile=f;el("upl-dz").style.display="none";el("upl-fi").style.display="flex";el("upl-fi-name").textContent=f.name;el("upl-fi-size").textContent=fmtBytes(f.size);}
-function resetUpload(){uplFile=null;uplAccess="free";el("upl-inp").value="";el("upl-dz").style.display="block";el("upl-fi").style.display="none";el("upl-prog").style.display="none";el("upl-suc").style.display="none";el("upl-act").style.display="block";el("upl-bar").style.width="0";el("upl-title").value="";el("upl-desc").value="";el("upl-value").value="";document.querySelectorAll(".mono-opt").forEach(function(o,i){o.classList.toggle("selected",i===0);});}
-async function startUpload(){if(!uplFile){showToast("Избери видео!");return;}var tit=el("upl-title");if(!tit.value.trim()){showToast("Въведи заглавие!");return;}var token="";if(sb){try{var s=await sb.auth.getSession();if(s.data&&s.data.session)token=s.data.session.access_token;}catch(e){}}if(!token){showToast("Влез в акаунта!");return;}el("upl-act").style.display="none";el("upl-prog").style.display="block";try{var accessMap={free:"free",paid:"fan",subscribers:"studio"};var pr=await fetch(BACKEND+"/presign",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({fileName:uplFile.name,mimeType:uplFile.type,title:tit.value.trim(),description:el("upl-desc").value,access:accessMap[uplAccess]||"free"})});var pd=await pr.json();if(!pr.ok){el("upl-act").style.display="block";showToast("❌ "+(pd.error||"Грешка"));return;}var t0=Date.now();uplXhr=new XMLHttpRequest();uplXhr.open("PUT",pd.uploadUrl,true);uplXhr.setRequestHeader("Content-Type",uplFile.type);uplXhr.upload.onprogress=function(e){if(!e.lengthComputable)return;var p=Math.round(e.loaded/e.total*100);el("upl-bar").style.width=p+"%";el("upl-pct").textContent=p+"%";var s=Math.max(0.1,(Date.now()-t0)/1000);el("upl-spd").textContent=fmtBytes(e.loaded)+" / "+fmtBytes(e.total)+" — "+((e.loaded/1048576)/s).toFixed(1)+" MB/s";};uplXhr.onload=function(){uplXhr=null;if(this.status===200){el("upl-prog").style.display="none";el("upl-suc").style.display="block";showToast("✅ Качено успешно!");setTimeout(function(){renderFeed();},2000);}else{el("upl-act").style.display="block";showToast("❌ Грешка: "+this.status);}};uplXhr.onerror=function(){uplXhr=null;el("upl-act").style.display="block";showToast("❌ Мрежова грешка.");};uplXhr.send(uplFile);}catch(err){el("upl-act").style.display="block";showToast("❌ "+err.message);}}
-function bindMenu(){el("menu-open-btn").onclick=function(){el("m-menu").classList.add("open");lucide.createIcons();};el("m-theme").onclick=function(){toggleTheme();el("m-menu").classList.remove("open");};el("m-creator-panel").onclick=function(){el("m-menu").classList.remove("open");showPage("creator");};el("m-terms").onclick=function(){window.location.href="terms.html";};el("m-privacy").onclick=function(){window.location.href="privacy.html";};el("m-contact").onclick=function(){window.location.href="contact.html";};el("m-about").onclick=function(){window.location.href="about.html";};el("m-logout").onclick=async function(){if(sb)await sb.auth.signOut();ME=null;followingSet={};profileCache={};el("m-menu").classList.remove("open");showToast("👋 Излязохте.");renderProfile();};}
+async function loadCreatorPanel(){
+  if(!STATE.user||!STATE.sb)return;
+  try{
+    var rv=await STATE.sb.from('videos').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false});var videos=rv.data||[];
+    var tv=el('cp-val-views');if(tv)tv.textContent=fmt(videos.reduce(function(a,v){return a+(v.views||0);},0));
+    var tvid=el('cp-val-videos');if(tvid)tvid.textContent=videos.length;
+    var rf=await STATE.sb.from('follows').select('id',{count:'exact'}).eq('following_id',STATE.user.id);var tf=el('cp-val-followers');if(tf)tf.textContent=fmt(rf.count||0);
+    if(videos.length>0){var rl=await STATE.sb.from('likes').select('id',{count:'exact'}).in('video_id',videos.map(function(v){return v.id;}));var tl=el('cp-val-likes');if(tl)tl.textContent=fmt(rl.count||0);}
+    if(videos.length>0){var best=videos.reduce(function(a,b){return(b.views||0)>(a.views||0)?b:a;});var be=el('cp-best-video');if(be)be.innerHTML="<div style='font-weight:700;color:var(--text);margin-bottom:4px'>"+best.title+"</div><div style='font-size:.75rem;color:var(--text2)'>👁 "+fmt(best.views||0)+" гледания</div>";}
+    var list=el('cp-videos-list');if(!list)return;list.innerHTML='';
+    if(videos.length===0){list.innerHTML="<div style='color:var(--text2);font-size:.83rem;text-align:center;padding:20px'>Все още нямаш видеа</div>";return;}
+    videos.forEach(function(v){
+      var row=mk('div','cp-video-row');
+      var thumb=mk('div','cp-video-thumb');
+      if(v.thumbnail_url){var ti2=document.createElement('img');ti2.src=v.thumbnail_url;thumb.appendChild(ti2);}
+      else{var ve=document.createElement('video');ve.src=v.file_url;ve.preload='metadata';ve.muted=true;ve.addEventListener('loadedmetadata',function(){ve.currentTime=1;});thumb.appendChild(ve);}
+      var inf=mk('div','cp-video-info');var ti=mk('div','cp-video-title');ti.textContent=v.title||'Без заглавие';var me=mk('div','cp-video-meta');me.textContent='👁 '+fmt(v.views||0);
+      var acts=mk('div','cp-video-actions');var db=mk('button','cp-vid-btn');db.textContent='🗑 Изтрий';
+      db.onclick=async function(){if(confirm('Изтрий?')){try{await STATE.sb.from('videos').delete().eq('id',v.id);loadCreatorPanel();showToast('Изтрито!');}catch(e){showToast('Грешка!');}}}; 
+      acts.appendChild(db);inf.appendChild(ti);inf.appendChild(me);inf.appendChild(acts);
+      var badge=mk('div','cp-video-badge '+(v.access_level==='free'?'free':'paid'));badge.textContent=v.access_level==='free'?'Безплатно':'Премиум';
+      row.appendChild(thumb);row.appendChild(inf);row.appendChild(badge);list.appendChild(row);
+    });
+  }catch(e){console.error('loadCreatorPanel:',e);}
+}
+
+function switchAuth(type){var sl=el('sw-login'),sr=el('sw-register'),al=el('auth-login'),ar=el('auth-register');if(sl)sl.classList.toggle('active',type==='login');if(sr)sr.classList.toggle('active',type==='register');if(al)al.style.display=type==='login'?'':'none';if(ar)ar.style.display=type==='register'?'':'none';}
+async function doLogin(){
+  var em=el('l-email'),ps=el('l-pass'),er=el('l-err'),bn=el('l-btn');if(!em||!ps)return;var email=em.value.trim(),pass=ps.value;
+  if(!email||!pass){if(er){er.textContent='Попълни имейл и парола.';er.style.display='block';}return;}
+  if(bn){bn.textContent='Влизане...';bn.disabled=true;}
+  try{var r=await STATE.sb.auth.signInWithPassword({email:email,password:pass});if(r.error){if(er){er.textContent=r.error.message.includes('Email not confirmed')?'Потвърди имейла си първо!':'Грешни данни.';er.style.display='block';}if(bn){bn.textContent='Вход →';bn.disabled=false;}return;}closeModal('m-auth');if(bn){bn.textContent='Вход →';bn.disabled=false;}showToast('👋 Добре дошъл!');renderFeed();}catch(e){if(bn){bn.textContent='Вход →';bn.disabled=false;}}
+}
+async function doRegister(){
+  var nm=el('r-name'),em=el('r-email'),ps=el('r-pass'),er=el('r-err'),bn=el('r-btn');if(!nm||!em||!ps)return;var name=nm.value.trim(),email=em.value.trim(),pass=ps.value;
+  if(!name||!email||!pass){if(er){er.textContent='Попълни всички полета.';er.style.display='block';}return;}if(pass.length<8){if(er){er.textContent='Паролата трябва да е поне 8 символа.';er.style.display='block';}return;}
+  if(bn){bn.textContent='Регистрация...';bn.disabled=true;}
+  try{var r=await STATE.sb.auth.signUp({email:email,password:pass,options:{data:{name:name}}});if(r.error){if(er){er.textContent=r.error.message;er.style.display='block';}if(bn){bn.textContent='Създай акаунт →';bn.disabled=false;}return;}if(r.data&&r.data.user){try{await STATE.sb.from('profiles').insert({id:r.data.user.id,name:name,bio:'',avatar_url:''});}catch(e){}}closeModal('m-auth');if(bn){bn.textContent='Създай акаунт →';bn.disabled=false;}showToast('🎉 Провери имейла си!');}catch(e){if(bn){bn.textContent='Създай акаунт →';bn.disabled=false;}}
+}
+async function doLogout(){
+  if(STATE.sb)await STATE.sb.auth.signOut();STATE.user=null;STATE.following={};STATE.profileCache={};STATE.profileCacheKeys=[];STATE.msgCount=0;
+  if(STATE.msgSubscription){STATE.msgSubscription.unsubscribe();STATE.msgSubscription=null;}if(STATE.notifSubscription){STATE.notifSubscription.unsubscribe();STATE.notifSubscription=null;}
+  closeModal('m-menu');showToast('👋 Излязохте.');renderProfile();
+}
+async function saveProfile(){
+  var ne=el('edit-name'),be=el('edit-bio');if(!ne)return;var name=ne.value.trim(),bio=be?be.value.trim():'';
+  if(!name){showToast('Въведи ime!');return;}
+  try{await STATE.sb.from('profiles').update({name:name,bio:bio}).eq('id',STATE.user.id);STATE.user.name=name;STATE.user.bio=bio;closeModal('m-edit-profile');showToast('✅ Профилът е обновен!');renderProfile();}catch(e){showToast('Грешка!');}
+}
+function toggleTheme(){STATE.isDark=!STATE.isDark;document.body.classList.toggle('light',!STATE.isDark);localStorage.setItem('krevio-theme',STATE.isDark?'dark':'light');var lbl=el('m-theme-label');if(lbl)lbl.textContent=STATE.isDark?'Светла тема':'Тъмна тема';if(window.lucide)window.lucide.createIcons();}
+
+function openUpload(){if(!STATE.user){openModal('m-auth');return;}resetUpload();openModal('m-upload');}
+function bindUpload(){
+  var dz=el('upl-dz'),inp=el('upl-inp');
+  if(dz&&inp){dz.onclick=function(){inp.click();};inp.onchange=function(){if(this.files&&this.files[0])setFile(this.files[0]);};dz.ondragover=function(e){e.preventDefault();dz.classList.add('over');};dz.ondragleave=function(){dz.classList.remove('over');};dz.ondrop=function(e){e.preventDefault();dz.classList.remove('over');if(e.dataTransfer&&e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);};}
+  var rm=el('upl-fi-rm');if(rm)rm.onclick=resetUpload;
+  var go=el('upl-go-btn');if(go)go.onclick=startUpload;
+  var cancel=el('upl-cancel-btn');if(cancel)cancel.onclick=function(){if(STATE.uploadXhr){STATE.uploadXhr.abort();STATE.uploadXhr=null;}closeModal('m-upload');resetUpload();};
+}
+function setFile(f){STATE.uploadFile=f;var dz=el('upl-dz');if(dz)dz.style.display='none';var fi=el('upl-fi');if(fi)fi.style.display='flex';var fn=el('upl-fi-name');if(fn)fn.textContent=f.name;var fs=el('upl-fi-size');if(fs)fs.textContent=fmtBytes(f.size);}
+function resetUpload(){STATE.uploadFile=null;STATE.uploadAccess='free';var inp=el('upl-inp');if(inp)inp.value='';var dz=el('upl-dz');if(dz)dz.style.display='block';var fi=el('upl-fi');if(fi)fi.style.display='none';var prog=el('upl-prog');if(prog)prog.style.display='none';var suc=el('upl-suc');if(suc)suc.style.display='none';var act=el('upl-act');if(act)act.style.display='block';var bar=el('upl-bar');if(bar)bar.style.width='0';var ti=el('upl-title');if(ti)ti.value='';var de=el('upl-desc');if(de)de.value='';document.querySelectorAll('.mono-opt').forEach(function(o,i){o.classList.toggle('selected',i===0);});}
+
+async function startUpload(){
+  if(!STATE.uploadFile){showToast('Избери видео!');return;}
+  var ti=el('upl-title');if(!ti||!ti.value.trim()){showToast('Въведи заглавие!');return;}
+  var token='';try{var s=await STATE.sb.auth.getSession();if(s.data&&s.data.session)token=s.data.session.access_token;}catch(e){}
+  if(!token){showToast('Влез в акаунта!');return;}
+  var act=el('upl-act');var prog=el('upl-prog');
+  if(act)act.style.display='none';if(prog)prog.style.display='block';
+  try{
+    var amap={free:'free',paid:'fan',subscribers:'studio'};
+    var de=el('upl-desc');
+    var formData=new FormData();
+    formData.append('video',STATE.uploadFile);
+    formData.append('title',ti.value.trim());
+    formData.append('description',de?de.value:'');
+    formData.append('access',amap[STATE.uploadAccess]||'free');
+    var xhr=new XMLHttpRequest();STATE.uploadXhr=xhr;
+    xhr.open('POST',CONFIG.BACKEND+'/upload',true);
+    xhr.setRequestHeader('Authorization','Bearer '+token);
+    xhr.upload.onprogress=function(e){
+      if(!e.lengthComputable)return;
+      var p=Math.round(e.loaded/e.total*100);
+      var b=el('upl-bar');var pc=el('upl-pct');
+      if(b)b.style.width=p+'%';if(pc)pc.textContent=p+'%';
+    };
+    xhr.onload=function(){
+      STATE.uploadXhr=null;var suc=el('upl-suc');
+      if(this.status===200){
+        if(prog)prog.style.display='none';if(suc)suc.style.display='block';
+        showToast('✅ Качено успешно!');
+        setTimeout(function(){closeModal('m-upload');resetUpload();renderFeed();},2000);
+      }else{if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ Грешка: '+this.status);}
+    };
+    xhr.onerror=function(){STATE.uploadXhr=null;if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ Мрежова грешка');};
+    xhr.send(formData);
+  }catch(err){if(act)act.style.display='block';if(prog)prog.style.display='none';showToast('❌ '+err.message);}
+}
+
+window.addEventListener('load',async function(){
+  if(window.lucide)window.lucide.createIcons();
+  var saved=localStorage.getItem('krevio-theme');if(saved==='light'){STATE.isDark=false;document.body.classList.add('light');}
+  if(typeof supabase!=='undefined'){
+    STATE.sb=supabase.createClient(CONFIG.SB_URL,CONFIG.SB_ANON);
+    var sess=await STATE.sb.auth.getSession();
+    if(sess.data&&sess.data.session){await initUser(sess.data.session.user);renderFeed();}else{renderFeed();}
+    STATE.sb.auth.onAuthStateChange(async function(event,session){
+      if(session){await initUser(session.user);}
+      else{STATE.user=null;STATE.following={};STATE.profileCache={};STATE.profileCacheKeys=[];if(STATE.msgSubscription){STATE.msgSubscription.unsubscribe();STATE.msgSubscription=null;}if(STATE.notifSubscription){STATE.notifSubscription.unsubscribe();STATE.notifSubscription=null;}renderProfile();updateNotifBadge();}
+    });
+  }else{renderFeed();}
+  bindAll();
+});
+
+async function initUser(u){
+  STATE.user={id:u.id,email:u.email,name:u.user_metadata.name||u.email.split('@')[0],avatar:'',bio:''};
+  await loadMyProfile();await loadFollowing();subscribeNotifs();updateNotifBadge();renderProfile();
+}
+async function loadMyProfile(){
+  if(!STATE.sb||!STATE.user)return;
+  try{var r=await STATE.sb.from('profiles').select('*').eq('id',STATE.user.id).single();if(r.data){STATE.user.avatar=r.data.avatar_url?r.data.avatar_url+'?t='+Date.now():'';STATE.user.bio=r.data.bio||'';STATE.user.name=r.data.name||STATE.user.name;STATE.profileCache[STATE.user.id]=r.data;if(!STATE.profileCacheKeys.includes(STATE.user.id))STATE.profileCacheKeys.push(STATE.user.id);}}catch(e){}
+}
+
+function bindAll(){
+  var bf=el('bn-feed');if(bf)bf.onclick=function(){showPage('feed');};
+  var bs=el('bn-search');if(bs)bs.onclick=function(){showPage('search');};
+  var bu=el('bn-upload');if(bu)bu.onclick=openUpload;
+  var bi=el('bn-inbox');if(bi)bi.onclick=function(){showPage('inbox');};
+  var bp=el('bn-profile');if(bp)bp.onclick=function(){showPage('profile');};
+  var fsBtn=el('btn-fullscreen');if(fsBtn)fsBtn.onclick=toggleFullscreen;
+  var rotBtn=el('btn-rotate');if(rotBtn)rotBtn.onclick=toggleLandscape;
+  ['trending','following','premium'].forEach(function(t){var btn=el('tab-'+t);if(!btn)return;btn.onclick=function(){document.querySelectorAll('.feed-tab').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');STATE.currentTab=t;resetFeed();renderFeed();};});
+  ['m-comments','m-upload','m-auth','m-menu','m-edit-profile'].forEach(function(id){var m=el(id);if(!m)return;m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('open');});});
+  var mMsg=el('m-msg');if(mMsg)mMsg.addEventListener('click',function(e){if(e.target===mMsg){mMsg.classList.remove('open');if(STATE.msgSubscription){STATE.msgSubscription.unsubscribe();STATE.msgSubscription=null;}}});
+  ['comments','upload','auth','edit','menu','msg'].forEach(function(id){bindSwipe('handle-'+id,'m-'+(id==='edit'?'edit-profile':id));});
+  document.querySelectorAll('.cptab').forEach(function(tab){tab.onclick=function(){document.querySelectorAll('.cptab').forEach(function(t){t.classList.remove('active');});tab.classList.add('active');document.querySelectorAll('.cp-section').forEach(function(s){s.classList.remove('active');});var sec=el(tab.dataset.tab);if(sec)sec.classList.add('active');};});
+  var csp=el('cp-set-profile');if(csp)csp.onclick=function(){openModal('m-edit-profile');};
+  var cso=el('cp-set-payout');if(cso)cso.onclick=function(){showToast('Скоро!');};
+  var cst=el('cp-set-terms');if(cst)cst.onclick=function(){window.location.href='terms.html';};
+  var ccb=el('creator-close-btn');if(ccb)ccb.onclick=function(){showPage('profile');};
+  var cpb=el('creator-profile-back-btn');if(cpb)cpb.onclick=function(){el('creator-profile-modal').classList.remove('open');};
+  var swl=el('sw-login');if(swl)swl.onclick=function(){switchAuth('login');};
+  var swr=el('sw-register');if(swr)swr.onclick=function(){switchAuth('register');};
+  var lb=el('l-btn');if(lb)lb.onclick=doLogin;
+  var rb=el('r-btn');if(rb)rb.onclick=doRegister;
+  bindUpload();
+  var esb=el('edit-save-btn');if(esb)esb.onclick=saveProfile;
+  var ecb=el('edit-cancel-btn');if(ecb)ecb.onclick=function(){closeModal('m-edit-profile');};
+  var mob=el('menu-open-btn');if(mob)mob.onclick=function(){openModal('m-menu');};
+  var mth=el('m-theme');if(mth)mth.onclick=function(){toggleTheme();closeModal('m-menu');};
+  var mcp=el('m-creator-panel');if(mcp)mcp.onclick=function(){closeModal('m-menu');showPage('creator');};
+  var mtr=el('m-terms');if(mtr)mtr.onclick=function(){window.location.href='terms.html';};
+  var mpr=el('m-privacy');if(mpr)mpr.onclick=function(){window.location.href='privacy.html';};
+  var mco=el('m-contact');if(mco)mco.onclick=function(){window.location.href='contact.html';};
+  var mab=el('m-about');if(mab)mab.onclick=function(){window.location.href='about.html';};
+  var mlo=el('m-logout');if(mlo)mlo.onclick=doLogout;
+  var csb=el('cmt-send-btn');if(csb)csb.onclick=sendComment;
+  var msb=el('msg-send-btn');
+  if(msb)msb.onclick=async function(){
+    var inp=el('msg-inp');if(!inp||!inp.value.trim())return;var now=Date.now();
+    if(now-STATE.lastMsgTime<CONFIG.MSG_COOLDOWN){showToast('Изчакай малко!');return;}if(STATE.msgCount>=CONFIG.MSG_LIMIT){showToast('Достигна лимита!');return;}
+    var text=inp.value.trim();inp.value='';
+    appendMsg({from_user_id:STATE.user.id,to_user_id:STATE.currentMsgUserId,text:text,created_at:new Date().toISOString()},true);
+    var ok=await sendMsg(text);if(!ok)showToast('Грешка при изпращане!');STATE.lastMsgTime=now;STATE.msgCount++;
+  };
+  document.querySelectorAll('.mono-opt').forEach(function(opt){opt.onclick=function(){document.querySelectorAll('.mono-opt').forEach(function(o){o.classList.remove('selected');});opt.classList.add('selected');STATE.uploadAccess=opt.dataset.val;};});
+}
+
+})();
 </script>
 </body>
 </html>
