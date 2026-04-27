@@ -359,7 +359,7 @@ textarea.fi{resize:vertical}
         <div class="mono-opt" data-val="subscribers"><div class="mono-opt-radio"><div class="mono-opt-radio-dot"></div></div><span class="mono-opt-label">💎 Само абонати</span><span class="mono-opt-sub">месечно</span></div>
       </div>
     </div>
-    <div class="upl-prog" id="upl-prog"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px;color:var(--text)"><span>Качване...</span><span id="upl-pct" style="color:var(--gold);font-weight:700">0%</span></div><div class="upl-bar-bg"><div class="upl-bar" id="upl-bar"></div></div><div id="upl-spd" style="font-size:.67rem;color:var(--text2)"></div></div>
+    <div class="upl-prog" id="upl-prog"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px;color:var(--text)"><span>Качване...</span><span id="upl-pct" style="color:var(--gold);font-weight:700">0%</span></div><div class="upl-bar-bg"><div class="upl-bar" id="upl-bar"></div></div></div>
     <div class="upl-suc" id="upl-suc"><div style="font-size:1.8rem;margin-bottom:6px">✅</div><div style="font-weight:700;color:var(--gold)">Качено успешно!</div></div>
     <div id="upl-act"><button class="btn-gold" id="upl-go-btn">🚀 Публикувай</button><button class="btn-ghost" id="upl-cancel-btn">Откажи</button></div>
   </div>
@@ -422,7 +422,7 @@ var STATE={
   msgSubscription:null,notifSubscription:null,
   lastMsgTime:0,msgCount:0,
   shownVideoIds:[],
-  feed:{batchSize:5,loading:false,hasMore:true,offset:0}
+  feed:{batchSize:10,loading:false,hasMore:true,offset:0}
 };
 window.STATE=STATE;
 
@@ -617,8 +617,10 @@ async function loadMoreVideos(){
         var r2=await STATE.sb.from('videos').select('*').neq('access_level','free').limit(STATE.feed.batchSize+10);
         videos=(r2.data||[]).filter(function(v){return!STATE.shownVideoIds.includes(v.id);}).sort(function(){return Math.random()-.5;}).slice(0,STATE.feed.batchSize);
       }else{
-        var r3=await STATE.sb.from('videos').select('*').limit(STATE.feed.batchSize+10);
-        videos=(r3.data||[]).filter(function(v){return!STATE.shownVideoIds.includes(v.id);}).sort(function(){return Math.random()-.5;}).slice(0,STATE.feed.batchSize);
+        var q=STATE.user?
+          await STATE.sb.from('videos').select('*').neq('user_id',STATE.user.id).limit(STATE.feed.batchSize+10):
+          await STATE.sb.from('videos').select('*').limit(STATE.feed.batchSize+10);
+        videos=(q.data||[]).filter(function(v){return!STATE.shownVideoIds.includes(v.id);}).sort(function(){return Math.random()-.5;}).slice(0,STATE.feed.batchSize);
       }
       if(videos.length<STATE.feed.batchSize)STATE.feed.hasMore=false;
       videos.forEach(function(v){STATE.shownVideoIds.push(v.id);});
@@ -691,7 +693,7 @@ function buildCard(v,i){
       var all=document.querySelectorAll('.video-item');
       cleanupVideos(Array.from(all).indexOf(item));
     }else{vid.pause();vid.currentTime=0;stopViewTimer(v.id);}
-  },{threshold:0.8});
+  },{threshold:0.5});
   obs.observe(item);item._obs=obs;
   item.appendChild(mk('div','v-gradient'));
 
@@ -786,7 +788,7 @@ function buildAd(idx,ads){
   item.appendChild(c);return item;
 }
 
-function buildVideoGrid(videos,emptyMsg){
+function buildVideoGrid(videos,emptyMsg,clickable){
   var grid=mk('div','vgrid');
   if(videos&&videos.length>0){
     videos.forEach(function(v){
@@ -796,7 +798,21 @@ function buildVideoGrid(videos,emptyMsg){
       cell.appendChild(mk('div','vg-overlay'));
       var info=mk('div','vg-info');var vw=mk('div','vg-views');vw.textContent='👁 '+fmt(v.views||0);info.appendChild(vw);
       if(v.access_level&&v.access_level!=='free'){var vb=mk('div','vg-badge');vb.textContent='🔒';info.appendChild(vb);}
-      cell.appendChild(info);cell.onclick=function(){showToast('▶ '+v.title);};grid.appendChild(cell);
+      cell.appendChild(info);
+      cell.onclick=function(){
+        showPage('feed');
+        STATE.currentTab='trending';
+        resetFeed();
+        var wrap=el('feed-wrap');
+        if(wrap){
+          wrap.innerHTML='';
+          var card=buildCard(v,0);
+          wrap.appendChild(card);
+          var sentinel=mk('div','load-more');sentinel.id='sentinel';sentinel.style.display='none';wrap.appendChild(sentinel);
+          if(window.lucide)window.lucide.createIcons();
+        }
+      };
+      grid.appendChild(cell);
     });
   }else{grid.innerHTML="<div style='grid-column:1/-1;padding:30px;text-align:center;color:var(--text2)'>"+emptyMsg+"</div>";}
   return grid;
@@ -967,7 +983,7 @@ function bindUpload(){
   if(dz&&inp){dz.onclick=function(){inp.click();};inp.onchange=function(){if(this.files&&this.files[0])setFile(this.files[0]);};dz.ondragover=function(e){e.preventDefault();dz.classList.add('over');};dz.ondragleave=function(){dz.classList.remove('over');};dz.ondrop=function(e){e.preventDefault();dz.classList.remove('over');if(e.dataTransfer&&e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);};}
   var rm=el('upl-fi-rm');if(rm)rm.onclick=resetUpload;
   var go=el('upl-go-btn');if(go)go.onclick=startUpload;
-  var cancel=el('upl-cancel-btn');if(cancel)cancel.onclick=function(){if(STATE.uploadXhr){STATE.uploadXhr.abort();STATE.uploadXhr=null;}closeModal('m-upload');resetUpload();};
+  var cancel=el('upl-cancel-btn');if(cancel)cancel.onclick=function(){closeModal('m-upload');resetUpload();};
 }
 function setFile(f){STATE.uploadFile=f;var dz=el('upl-dz');if(dz)dz.style.display='none';var fi=el('upl-fi');if(fi)fi.style.display='flex';var fn=el('upl-fi-name');if(fn)fn.textContent=f.name;var fs=el('upl-fi-size');if(fs)fs.textContent=fmtBytes(f.size);}
 function resetUpload(){STATE.uploadFile=null;STATE.uploadAccess='free';var inp=el('upl-inp');if(inp)inp.value='';var dz=el('upl-dz');if(dz)dz.style.display='block';var fi=el('upl-fi');if(fi)fi.style.display='none';var prog=el('upl-prog');if(prog)prog.style.display='none';var suc=el('upl-suc');if(suc)suc.style.display='none';var act=el('upl-act');if(act)act.style.display='block';var bar=el('upl-bar');if(bar)bar.style.width='0';var ti=el('upl-title');if(ti)ti.value='';var de=el('upl-desc');if(de)de.value='';document.querySelectorAll('.mono-opt').forEach(function(o,i){o.classList.toggle('selected',i===0);});}
@@ -991,10 +1007,7 @@ async function startUpload(){
     formData.append('access',amap[STATE.uploadAccess]||'free');
     formData.append('token',token);
     if(b)b.style.width='30%';if(pc)pc.textContent='Качване...';
-    var resp=await fetch(CONFIG.BACKEND+'/upload',{
-      method:'POST',
-      body:formData
-    });
+    var resp=await fetch(CONFIG.BACKEND+'/upload',{method:'POST',body:formData});
     if(b)b.style.width='90%';
     if(resp.ok){
       if(prog)prog.style.display='none';
@@ -1002,7 +1015,6 @@ async function startUpload(){
       showToast('✅ Качено успешно!');
       setTimeout(function(){closeModal('m-upload');resetUpload();renderFeed();},2000);
     }else{
-      var err=await resp.text();
       if(act)act.style.display='block';if(prog)prog.style.display='none';
       showToast('❌ Грешка: '+resp.status);
     }
