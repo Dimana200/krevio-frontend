@@ -992,10 +992,9 @@ async function startUpload(){
     var b=el('upl-bar');var pc=el('upl-pct');
     if(b)b.style.width='50%';if(pc)pc.textContent='Качване...';
     var uploadResp=await fetch(pd.uploadUrl,{
-      method:'PUT',
-      headers:{'Content-Type':STATE.uploadFile.type},
-      body:STATE.uploadFile
-    });
+  method:'PUT',
+  body:STATE.uploadFile
+});
     if(uploadResp.ok||uploadResp.status===200){
       if(prog)prog.style.display='none';
       var suc=el('upl-suc');if(suc)suc.style.display='block';
