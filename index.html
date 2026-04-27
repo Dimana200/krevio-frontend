@@ -979,6 +979,8 @@ async function startUpload(){
   if(!token){showToast('Влез в акаунта!');return;}
   var act=el('upl-act');var prog=el('upl-prog');
   if(act)act.style.display='none';if(prog)prog.style.display='block';
+  var b=el('upl-bar');var pc=el('upl-pct');
+  if(b)b.style.width='10%';if(pc)pc.textContent='Изпращане...';
   try{
     var amap={free:'free',paid:'fan',subscribers:'studio'};
     var de=el('upl-desc');
@@ -988,39 +990,22 @@ async function startUpload(){
     formData.append('description',de?de.value:'');
     formData.append('access',amap[STATE.uploadAccess]||'free');
     formData.append('token',token);
-    var xhr=new XMLHttpRequest();
-    STATE.uploadXhr=xhr;
-    xhr.open('POST',CONFIG.BACKEND+'/upload',true);
-    xhr.timeout=300000;
-    xhr.upload.onprogress=function(e){
-      if(!e.lengthComputable)return;
-      var p=Math.round(e.loaded/e.total*100);
-      var b=el('upl-bar');var pc=el('upl-pct');
-      if(b)b.style.width=p+'%';if(pc)pc.textContent=p+'%';
-    };
-    xhr.onload=function(){
-      STATE.uploadXhr=null;
-      if(this.status===200){
-        if(prog)prog.style.display='none';
-        var suc=el('upl-suc');if(suc)suc.style.display='block';
-        showToast('✅ Качено успешно!');
-        setTimeout(function(){closeModal('m-upload');resetUpload();renderFeed();},2000);
-      }else{
-        if(act)act.style.display='block';if(prog)prog.style.display='none';
-        showToast('❌ Грешка: '+this.status);
-      }
-    };
-    xhr.onerror=function(){
-      STATE.uploadXhr=null;
+    if(b)b.style.width='30%';if(pc)pc.textContent='Качване...';
+    var resp=await fetch(CONFIG.BACKEND+'/upload',{
+      method:'POST',
+      body:formData
+    });
+    if(b)b.style.width='90%';
+    if(resp.ok){
+      if(prog)prog.style.display='none';
+      var suc=el('upl-suc');if(suc)suc.style.display='block';
+      showToast('✅ Качено успешно!');
+      setTimeout(function(){closeModal('m-upload');resetUpload();renderFeed();},2000);
+    }else{
+      var err=await resp.text();
       if(act)act.style.display='block';if(prog)prog.style.display='none';
-      showToast('❌ Мрежова грешка');
-    };
-    xhr.ontimeout=function(){
-      STATE.uploadXhr=null;
-      if(act)act.style.display='block';if(prog)prog.style.display='none';
-      showToast('❌ Timeout');
-    };
-    xhr.send(formData);
+      showToast('❌ Грешка: '+resp.status);
+    }
   }catch(err){
     if(act)act.style.display='block';if(prog)prog.style.display='none';
     showToast('❌ '+err.message);
